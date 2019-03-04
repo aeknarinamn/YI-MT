@@ -1,0 +1,14 @@
+/node_modules
+/public/storage
+/public/hot
+/storage/*.key
+/.idea
+npm-debug.log
+yarn-error.log
+Homestead.json
+Homestead.yaml
+.env
+.DS_Store
+Desktop.ini
+desktop.ini
+.dropbox

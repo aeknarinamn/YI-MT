@@ -1,0 +1,235 @@
+@media (max-width: 767px) {
+    .logo {
+        width: 15%;
+        margin-left: 7.5px;
+    }
+    .line-logo {
+        width: 24px;
+    }
+    .head-text {
+        margin-top: 60px;
+    }
+    h1 {
+        font-size: 30.1px;
+        text-shadow: 1px 1px 1px #000, -1px 1px 1px #000, 1px -1px 1px #000, -1px -1px 1px #000, 0px 1px 1px #000, 0px -1px 1px #000, -1px 0px 1px #000, 1px 0px 1px #000, 2px 2px 1px #000, -2px 2px 1px #000, 2px -2px 1px #000, -2px -2px 1px #000, 0px 2px 1px #000, 0px -2px 1px #000, -2px 0px 1px #000, 2px 0px 1px #000, 1px 2px 1px #000, -1px 2px 1px #000, 1px -2px 1px #000, -1px -2px 1px #000, 2px 1px 1px #000, -2px 1px 1px #000, 2px -1px 1px #000, -2px -1px 1px #000;
+    }
+    h1.style-2 {
+        font-size: 31.5px;
+        text-shadow: 1px 1px 1px #000, -1px 1px 1px #000, 1px -1px 1px #000, -1px -1px 1px #000, 0px 1px 1px #000, 0px -1px 1px #000, -1px 0px 1px #000, 1px 0px 1px #000, 2px 2px 1px #000, -2px 2px 1px #000, 2px -2px 1px #000, -2px -2px 1px #000, 0px 2px 1px #000, 0px -2px 1px #000, -2px 0px 1px #000, 2px 0px 1px #000, 1px 2px 1px #000, -1px 2px 1px #000, 1px -2px 1px #000, -1px -2px 1px #000, 2px 1px 1px #000, -2px 1px 1px #000, 2px -1px 1px #000, -2px -1px 1px #000;
+    }
+    .winner-2-bg h1.style-2 {
+        font-size: 41.4px;
+        text-shadow: 1px 1px 1px #000, -1px 1px 1px #000, 1px -1px 1px #000, -1px -1px 1px #000, 0px 1px 1px #000, 0px -1px 1px #000, -1px 0px 1px #000, 1px 0px 1px #000, 2px 2px 1px #000, -2px 2px 1px #000, 2px -2px 1px #000, -2px -2px 1px #000, 0px 2px 1px #000, 0px -2px 1px #000, -2px 0px 1px #000, 2px 0px 1px #000, 1px 2px 1px #000, -1px 2px 1px #000, 1px -2px 1px #000, -1px -2px 1px #000, 2px 1px 1px #000, -2px 1px 1px #000, 2px -1px 1px #000, -2px -1px 1px #000;
+    }
+    h1.style-3 {
+        font-size: 28.1px;
+        text-shadow: 1px 1px 1px #000, -1px 1px 1px #000, 1px -1px 1px #000, -1px -1px 1px #000, 0px 1px 1px #000, 0px -1px 1px #000, -1px 0px 1px #000, 1px 0px 1px #000, 2px 2px 1px #000, -2px 2px 1px #000, 2px -2px 1px #000, -2px -2px 1px #000, 0px 2px 1px #000, 0px -2px 1px #000, -2px 0px 1px #000, 2px 0px 1px #000, 1px 2px 1px #000, -1px 2px 1px #000, 1px -2px 1px #000, -1px -2px 1px #000, 2px 1px 1px #000, -2px 1px 1px #000, 2px -1px 1px #000, -2px -1px 1px #000;
+    }
+    .winner-2-bg h1.style-3 {
+        font-size: 26.3px;
+        text-shadow: 1px 1px 1px #000, -1px 1px 1px #000, 1px -1px 1px #000, -1px -1px 1px #000, 0px 1px 1px #000, 0px -1px 1px #000, -1px 0px 1px #000, 1px 0px 1px #000, 2px 2px 1px #000, -2px 2px 1px #000, 2px -2px 1px #000, -2px -2px 1px #000, 0px 2px 1px #000, 0px -2px 1px #000, -2px 0px 1px #000, 2px 0px 1px #000, 1px 2px 1px #000, -1px 2px 1px #000, 1px -2px 1px #000, -1px -2px 1px #000, 2px 1px 1px #000, -2px 1px 1px #000, 2px -1px 1px #000, -2px -1px 1px #000;
+    }
+    h2 {
+        font-size: 24px;
+    }
+    p {
+        font-size: 23.2px;
+    }
+    .code-fill-in-bg p {
+        font-size: 18.6px;
+    }
+    .thank-you-bg p {
+        font-size: 25px;
+    }
+    .winner-bg p,
+    .winner-2-bg p {
+        font-size: 24px;
+    }
+    .winner-bg p.style-2 {
+        font-size: 18px;
+    }
+    .text-bg {
+        max-width: 350px;
+        width: 100%;
+    }
+    .text-bg p {
+        font-size: 15px;
+    }
+    li {
+        font-size: 24px;
+    }
+    li>small {
+        font-size: 15px;
+    }
+    .table {
+        max-width: 367px;
+        width: 100%;
+        margin: auto;
+    }
+    .table th {
+        font-size: 18.2px;
+        line-height: 28px !important;
+    }
+    .table td {
+        font-size: 19.7px;
+        line-height: 2.1;
+    }
+    .form-group {
+        margin-bottom: 15px;
+    }
+    .code-fill-in-bg .form-group {
+        max-width: 350px;
+        width: 100%;
+        margin: 0 auto 20px;
+        position: relative;
+    }
+    .winner-bg .form-group,
+    .winner-2-bg .form-group,
+    .winner-3-bg .form-group {
+        max-width: 367px;
+        width: 100%;
+    }
+    label {
+        font-size: 25.1px;
+    }
+    .winner-bg label,
+    .winner-2-bg label,
+    .winner-3-bg label {
+        font-size: 17px;
+        line-height: 44px;
+    }
+    input[type="text"],
+    input[type="tel"],
+    input[type="email"],
+    input[type="number"],
+    select.form-control {
+        font-size: 25.1px;
+        height: 38px;
+    }
+    .code-fill-in-bg input[type="text"],
+    .code-fill-in-bg input[type="tel"],
+    .code-fill-in-bg input[type="number"] {
+        font-size: 25.1px;
+        height: 38px;
+    }
+    .code-fill-in-bg .true,
+    .code-fill-in-bg .false {
+        top: 5px;
+        right: 8px;
+        width: 31px;
+        height: 32px;
+    }
+    .code-fill-in-bg .false-text {
+        margin-top: 2px;
+        font-size: 14.2px;
+    }
+    .code-fill-in-bg input[type="text"]:disabled,
+    .code-fill-in-bg input[type="tel"]:disabled,
+    .code-fill-in-bg input[type="number"]:disabled {
+        letter-spacing: -1.85px;
+    }
+    .winner-bg input[type="text"],
+    .winner-bg input[type="tel"],
+    .winner-bg input[type="number"],
+    .winner-bg select.form-control,
+    .winner-2-bg input[type="text"],
+    .winner-2-bg input[type="tel"],
+    .winner-2-bg input[type="number"],
+    .winner-2-bg select.form-control,
+    .winner-3-bg input[type="text"],
+    .winner-3-bg input[type="tel"],
+    .winner-3-bg input[type="number"],
+    .winner-3-bg select.form-control {
+        width: 160px;
+        font-size: 18px;
+        line-height: 1.54;
+        letter-spacing: -0.4px;
+        height: 44px;
+    }
+    .winner-bg .input-group,
+    .winner-2-bg .input-group,
+    .winner-3-bg .input-group {
+        width: 160px;
+    }
+    .winner-bg .input-group input,
+    .winner-2-bg .input-group input,
+    .winner-3-bg .input-group input,
+    .winner-bg .input-group select,
+    .winner-2-bg .input-group select,
+    .winner-3-bg .input-group select {
+        width: 125px;
+    }
+    .winner-bg .input-group .input-group-btn button,
+    .winner-2-bg .input-group .input-group-btn button,
+    .winner-3-bg .input-group .input-group-btn button,
+    .winner-bg .input-group-addon,
+    .winner-2-bg .input-group-addon,
+    .winner-3-bg .input-group-addon {
+        width: 35px;
+        height: 44px;
+    }
+    .winner-bg .input-group .input-group-btn button img,
+    .winner-2-bg .input-group .input-group-btn button img,
+    .winner-3-bg .input-group .input-group-btn button img,
+    .winner-bg .input-group-addon img,
+    .winner-2-bg .input-group-addon img,
+    .winner-3-bg .input-group-addon img {
+        width: 75%;
+    }
+    select.form-control {
+        padding: 2px 12px;
+    }
+    .btn-primary {
+        max-width: 350px;
+        width: 100%;
+        height: 44px;
+        font-size: 28.4px;
+        line-height: 28.4px;
+    }
+    .thank-you-bg .btn-primary {
+        width: 165px;
+        height: 37px;
+        font-size: 23.6px;
+        line-height: 25.4px;
+    }
+    .winner-bg .btn-primary,
+    .winner-2-bg .btn-primary,
+    .winner-3-bg .btn-primary {
+        width: 99px;
+        height: 37px;
+        font-size: 23.6px;
+        line-height: 25.4px;
+    }
+    .btn-radio input[type="radio"] {
+        width: 13px;
+        height: 13px;
+    }
+    .btn-radio h4 {
+        font-size: 20.2px;
+    }
+    .btn-radio h4 small {
+        font-size: 15.8px;
+    }
+    .radio-1 input[type="radio"],
+    .radio-2 input[type="radio"],
+    .radio-3 input[type="radio"],
+    .radio-4 input[type="radio"],
+    .radio-5 input[type="radio"] {
+        margin-top: 0;
+    }
+    .radio-1 img {
+        width: 102px;
+    }
+    .radio-2 img {
+        width: 134px;
+    }
+    .radio-3 img {
+        width: 76px;
+    }
+    .radio-4 img {
+        width: 110px;
+    }
+    .radio-5 img {
+        width: 82px;
+    }
+}

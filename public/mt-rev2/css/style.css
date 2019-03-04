@@ -1,0 +1,1668 @@
+
+
+/*.container{
+	width: 768px;
+	margin: 0 auto;
+}*/
+html, body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  background-color: #c3c3c3;
+}
+#container {
+	min-height:100%;
+	position:relative;
+	max-width: 769px;
+	margin:0 auto;
+	background-color: #8ab2f2;
+}
+#header {
+
+	padding:0px;
+}
+#body {
+	padding:0px;
+	padding-bottom: 100px;	/* Height of the footer */
+}
+#footer {
+	position:absolute;
+	bottom:0;
+	width:100%;
+}
+/*.header{
+	height: 400px;
+}*/
+.header img{
+	width: 100%;
+}
+.register{
+	background-color: #8ab2f2;
+    height: 100%;
+}
+
+.card1{
+	background-color: #8ab2f2;
+	max-width: 767px;
+    margin: 0 auto;
+}
+.stamp{
+	background-color: #9aceaa;
+    height: 100%;
+}
+
+.imageprofile{
+	padding-top: 50px;
+}
+.imageprofile img{
+    width: 30%;
+    margin: 0 auto;
+    display: block;
+
+    border: 10px solid #FFF;
+    border-radius: 50%;
+}
+.register .imageprofile{
+	padding-top: 15px;
+	padding-bottom: 15px;
+}
+.linecenter{
+	width: 100%;
+	height: 200px;
+	position: absolute;
+	top: 0;
+	z-index: 99;
+	border-bottom: 10px solid #FFF;
+}
+.content{
+	background-color: #8ab2f2;
+	padding-top: 40px;
+	padding-bottom:  28px;
+}
+
+
+
+.content .text{
+	color: #FFF;
+	text-align: center;
+	margin: 0;
+	font-weight: bold;
+	margin-top: 35px;
+}
+
+.content .text1{
+    font-size: 60px;
+}
+.content .text2{
+    font-size: 33px;
+}
+.content .stamp{
+	width: 100%;
+	margin :0 auto;
+	background-color: #4471c4;
+	margin-top:20px;
+	margin-bottom: 20px;
+	text-align: center;
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+
+.content .stamp ul {
+	display: inline-block;
+    padding-top: 0px;
+    margin: 0;
+    padding-left: 0px;
+    padding-bottom: 0px;
+}
+.content .stamp ul  li{
+	list-style: none;
+	height: 95px;
+	width: 95px;
+	border-radius: 50%;
+	background-color: #cccccc;
+	float: left;
+	margin-right: 8px;
+	margin-left: 8px;
+	margin-top: 10px;
+	margin-bottom: 0px;
+}
+
+
+.content .stamp ul  li.have-stamp{
+	background-image: url('../img/havestamp_bg.png');
+	background-size: 110% 110%;
+}
+.content .stamp ul  li.nohave-stamp{
+	background-image: url('../img/nohavestamp_bg.png');
+}
+
+.content .stamp ul  li.have-stamp img , .content .stamp ul  li.nohave-stamp img {
+    margin: 0 auto;
+    display: block;
+    margin-top: 22px;
+    width: 60px;
+}
+
+
+.row {
+    margin-right: 0px;
+    margin-left: 0px;
+}
+
+
+.footer{
+    background-color: #4471c4;
+    padding-top: 8px;
+    padding-bottom: 5px;
+    width: 100%;
+/*    position: absolute;
+    bottom: 0;*/
+}
+
+.footer .backbutton{
+	text-align: center;
+	display: block;
+}
+
+.footer .backbutton img{
+	width:45%;
+}
+
+
+.clear{
+	clear: both;
+}
+
+#grad {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+#grad:after, #grad:before {
+  content: '';
+  position: absolute;
+  background:
+
+  linear-gradient(90deg, transparent 50%, #89b1f1 50%, #89b1f1),
+  linear-gradient(82deg, transparent 50%, #89b1f1 50%, #89b1f1),
+  linear-gradient(67deg, transparent 50%, #95b9f2 50%, #95b9f2),
+  linear-gradient(52deg, transparent 50%, #89b1f1 50%, #89b1f1),
+  linear-gradient(37deg, transparent 50%, #95b9f2 50%, #95b9f2),
+  linear-gradient(22deg, transparent 50%, #89b1f1 50%, #89b1f1),
+  linear-gradient(7deg, transparent 50%, #95b9f2 50%, #95b9f2),
+  linear-gradient(-8deg, transparent 50%, #89b1f1 50%, #89b1f1),
+  linear-gradient(-23deg, transparent 50%, #95b9f2 50%, #95b9f2),
+  linear-gradient(-38deg, transparent 50%, #89b1f1 50%, #89b1f1),
+  linear-gradient(-53deg, transparent 50%, #95b9f2 50%, #95b9f2),
+  linear-gradient(-68deg, transparent 50%, #89b1f1 50%, #89b1f1),
+  linear-gradient(-83deg, transparent 50%, #95b9f2 50%, #95b9f2),
+  linear-gradient(-90deg, transparent 50%, #89b1f1 50%, #89b1f1);
+
+
+  background-position: 0% 0%;
+  background-size: 200% 100%;
+  height: 100%;
+  width: 50%;
+}
+#grad:before {
+  left: 50%;
+  transform: rotate(180deg);
+}
+
+
+.card2 {
+	background-color: #4471c4;
+	height: 100%;
+}
+.card2 .content{
+	background-color: #4471c4;
+    padding-top: 175px;
+    padding-bottom: 190px;
+}
+.card2 .content .text{
+	color: #FFF;
+	text-align: center;
+	margin: 0;
+	font-weight: bold;
+}
+.card2 .content .text1{
+    font-size: 70px;
+}
+.card2 .content .text2{
+    font-size: 52px;
+}
+.card2 .footer{
+	background-color: #13a677;
+	padding: 10px;
+}
+
+.stamp .header{
+	height: auto;
+}
+.stamp .header img{
+	width: 100%;
+}
+.np{
+	padding: 0px !important;
+}
+.stamp .content{
+	background-color: #9aceaa;
+	background-color: #9aceaa;
+    padding-top: 30px;
+    padding-bottom: 70px;
+
+}
+.stamp .content .text2 {
+    font-size: 35px;
+}
+.stampbutton{
+	text-align: center;
+    margin: 0 auto;
+    display: block;
+    margin-top: 25px;
+}
+.clickbutton{
+	text-align: center;
+    margin: 0 auto;
+    display: block;
+    margin-top: 25px;
+
+}
+
+
+.days{
+    display: -webkit-inline-box;
+    color: #4471c4;
+}
+.boxdays{
+	border: 1px solid #fff;
+    background-color: #FFF;
+    padding: 1px 10px;
+    border-radius: 10px;
+}
+.header_top{
+	height: 85px;
+}
+.register .header {
+    height: 320px;
+}
+/*.register .imageprofile img{
+	width: 300px;
+	height: 300px;
+	margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 95px;
+    border: 10px solid #FFF;
+    border-radius: 50%;
+    z-index: 999;
+}*/
+.register .linecenter{
+	width: 100%;
+	height: 160px;
+	position: absolute;
+	top: 85px;
+	z-index: 99;
+	border-bottom: 10px solid #FFF;
+}
+.backbtn{
+	width: 25%;
+	float: left;
+	padding-top: 15px;
+	padding-left: 30px;
+}
+.backbtn img{
+	width: 32px;
+}
+
+.text_header{
+	width: 50%;
+    float: left;
+    text-align: center;
+    font-size: 40px;
+    padding: 12px;
+    color: #fff;
+}
+.logo{
+	float: right;
+	padding-right: 10px;
+}
+.logo img{
+	width: 80px;
+}
+.register .content{
+	background-color: #8ab2f2;
+	padding: 20px;
+}
+.register .footer{
+	background-color: #4472c4;
+	padding: 10px;
+}
+.formregister{
+	width: 100%;
+    background-color: #8ab2f2;
+    height: 300px;
+    border-radius: 20px;
+    padding: 20px;
+    display: inline-table;
+}
+.formregister .title{
+	font-size: 45px;
+    text-align: center;
+    color: #FFF;
+}
+.formregister .name{
+	font-size: 35px;
+    text-align: center;
+    color: #FFF;
+	margin: 10px 0px;
+}
+.formregister .product_text span{
+	 background-color: #4471c4;
+    padding: 5px 20px;
+    border-radius: 40px;
+
+}
+.formregister .alert_register{
+	text-align: center;
+    font-size: 32px;
+    color: #FFF;
+}
+.formregister .product_text{
+	text-align: center;
+    margin-top: 40px;
+    font-size: 16px;
+    color: #FFF;
+    margin-bottom: 5px;
+}
+
+select {
+  text-align: center;
+  text-align-last: center;
+  /* webkit*/
+}
+option {
+  text-align: left;
+  /* reset to left*/
+}
+.product{
+	width: 95%;
+    height: 50px;
+    margin: 0 auto;
+    display: block;
+    border: 2px solid #4471c4;
+    border-radius: 50px;
+    font-size: 20px;
+    color: #4471c4;
+}
+
+
+select.product {
+    background-image: url(../img/icon_dropdown.png);
+    background-position: right;
+    background-size: 35px;
+    background-repeat: no-repeat;
+    background-position-x: 98%;
+    -webkit-appearance: none;
+    background-color: #FFF;
+    text-align: center;
+}
+.accept{
+    text-align: center;
+    font-size: 25px;
+    font-weight: bold;
+    color: #FFF;
+    margin: 0 auto;
+    display: block;
+    padding-top: 20px;
+}
+.condition{
+	text-align: center;
+    margin-top: 10px;
+    font-size: 22px;
+    font-weight: bold;
+    color: #FFF;
+}
+.condition span{
+	text-decoration: underline;
+	color: #4471c4;
+}
+
+
+
+
+/* Hide the browser's default radio button */
+.container input {
+  position: absolute;
+  opacity: 0;
+}
+.accept input[type=checkbox] {
+	visibility: hidden;
+}
+/* Create a custom radio button */
+.checkmark {
+	position: absolute;
+    height: 30px;
+    width: 30px;
+    background-color: #eee;
+    border-radius: 50%;
+    border: 4px solid #FFF;
+    margin-left: -40px;
+    margin-top: 4px;
+}
+
+/* On mouse-over, add a grey background color */
+/*.container:hover input ~ .checkmark {
+  background-color: #ccc;
+}*/
+
+/* When the radio button is checked, add a blue background */
+ input:checked ~ .checkmark {
+  background-color: #ffb103;
+}
+
+/* Create the indicator (the dot/circle - hidden when not checked) */
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the indicator (dot/circle) when checked */
+ input:checked ~ .checkmark:after {
+  display: block;
+}
+
+/* Style the indicator (dot/circle) */
+ .checkmark:after {
+
+}
+
+
+.content .finish{
+    width: 100%;
+    margin: 0 auto;
+    background-color: #4471c4;
+    height: 330px;
+    border: 5px solid #fff;
+    margin-top: 30px;
+    margin-bottom: 50px;
+    padding: 10px;
+}
+.content .finish .text {
+    color: #fcf200;
+    font-size: 30px;
+    position: relative;
+    top: 40%;
+}
+
+.reward{
+	background-color: #9aceaa;
+    height: 100%;
+}
+.reward .header{
+	max-height: 400px;
+	height: auto;
+}
+.reward .header img {
+    width: 100%;
+}
+.content .reward{
+	width: 100%;
+	margin :0 auto;
+	background-color: #4471c4;
+	margin-top:30px;
+}
+.reward .content{
+	background-color: #9aceaa;
+	background-color: #9aceaa;
+    padding: 0;
+    padding-bottom: 30px;
+}
+.btnpoint{
+	width: 95%;
+    padding: 30px 25px 0px 25px;
+    margin: 0 auto;
+    display: block;
+}
+.btnpoint:active, .btnpoint:hover, .btnpoint:focus, .btnpoint:visited  {
+    border: none !important;
+    outline: none;
+}
+.modal-dialog-point{
+	width: 90%;
+}
+.vertical-alignment-helper {
+    display: table;
+    height: 100%;
+	width: 90%;
+    margin: 0 auto;
+}
+.vertical-align-center {
+    display: table-cell;
+    vertical-align: middle;
+}
+.m-point{
+    background-color: #1b40b2;
+    border: 5px solid #fff;
+    padding: 50px 50px 90px 50px;
+    text-align: center;
+}
+.m-point .t1{
+	font-size: 50px;
+    color: #fcf200;
+}
+.m-point .t2{
+	font-size: 33px;
+    color: #fff;
+}
+.m-point .t3{
+	font-size: 26px;
+    color: #fff;
+    line-height: 2em;
+    margin-bottom: 50px;
+}
+
+.coupon .content{
+	padding-top: 11px;
+	padding-bottom:5px;
+}
+.coupon .content .text1 {
+    font-size: 60px;
+    line-height: 1;
+}
+.coupon  .content .text2 {
+    font-size: 45px;
+}
+.coupon  .content .text3 {
+	width: 500px;
+    text-align: center;
+    margin: 0 auto;
+    background-color: #4472c4;
+    color: #FFF;
+    font-size: 35px;
+    height: 85px;
+    border-radius: 90px;
+    vertical-align: middle;
+    padding: 15px 10px;
+    margin-bottom: 5px;
+}
+.coupon_img{
+	margin: 0 auto;
+	display: block;
+}
+
+.register_u_point{
+	background-color: #8ab2f2;
+    max-width: 769px;
+    margin: 0 auto;
+}
+.register_u_point .header_top{
+	height: 185px;
+	display: inline-flex;
+	width: 100%;
+}
+
+.register_u_point .content {
+    background-color: #8ab2f2;
+    padding: 15px 60px 15px 60px;
+}
+
+.register_u_point  ul {
+    float: left;
+    padding: 13px 0px 0px 15px;
+}
+
+.register_u_point  ul li {
+    list-style: none;
+    height: 140px;
+    width: 140px;
+    border-radius: 50%;
+    background-color: #cccccc;
+    float: left;
+    margin-right: 8px;
+    margin-left: 8px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    background-image: url(../img/havestamp_bg.png);
+    background-size: 110% 110%;
+}
+.register_u_point  ul li img {
+	margin: 0 auto;
+    display: block;
+    margin-top: 30px;
+    width: 90px;
+}
+
+.register_u_point .text_header {
+    width: auto;
+    float: left;
+    text-align: left;
+    font-size: 40px;
+    padding: 12px;
+    color: #fff;
+    margin-top: 30px;
+}
+
+.register_u_point .text_header .text1 {
+	font-size: 39px;
+}
+.register_u_point .text_header .text2 {
+	font-size: 27px;
+}
+
+.register_u_point .exit{
+	width: 30px;
+    height: 30px;
+    position: absolute;
+    top: 25px;
+    right: 15px;
+}
+
+.register_u_point .text_alert{
+	padding: 0 60px;
+    color: #FFF;
+    font-size: 30px;
+    margin: 0;
+    margin-top: 15px;
+}
+.input_register{
+    height: 60px;
+    margin: 0 auto;
+    display: block;
+    border: 3px solid #4471c4;
+    border-radius: 50px;
+    font-size: 20px;
+    color: #4471c4;
+}
+select.input_register {
+    background-image: url(../img/icon_dropdown.png);
+    background-position: right;
+    background-size: 35px;
+    background-repeat: no-repeat;
+    background-position-x: 98%;
+    -webkit-appearance: none;
+}
+.register_u_point .formregister {
+    width: 100%;
+    background-color: #ffffff69;
+    height: 300px;
+    border-radius: 20px;
+    padding: 20px 60px;
+    display: inline-table;
+}
+.register_u_point .formregister label{
+	font-size: 25px;
+    color: #4471c4;
+    margin-left: 15px;
+}
+.register_u_point .formregister .form-group{
+	margin-bottom: 25px;
+}
+.register_u_point .condition {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 22px;
+    font-weight: bold;
+    color: #4471c4;
+}
+.register_u_point .footer {
+	background-color: #4472c4;
+}
+.popup-collect-img{
+	width: 100%;
+}
+.modal-content{
+/*	border: 8px solid #FFFF;*/
+    background-color: transparent;
+    width: 80%;
+    margin: 0 auto;
+    padding: 0;
+    -webkit-box-shadow:none;
+    box-shadow: none;
+    border:none;
+    max-width: 400px;
+}
+.modal-body{
+	padding: 0;
+}
+.stampbutton img{
+	width: 45%;
+}
+button.close {
+    -webkit-appearance: none;
+    padding: 0;
+    cursor: pointer;
+    background: 0 0;
+    border: 0;
+    position: absolute;
+    top: 18px;
+    right: 18px;
+    /* padding: 3px; */
+    background-color: #FFF;
+    opacity: 1;
+    border-radius: 18px;
+    width: 30px;
+    height: 30px;
+    color: #ffcb02;
+    padding-left: 1px;
+    padding-bottom: 2px;
+}
+
+.btn-reward {
+   border: none;
+   border-radius: 50px;
+   width: 80%;
+   background-color: transparent;
+   margin: 0 auto;
+   display: block;
+   margin-top: 8%;
+}
+.btn-reward.black{
+	filter: brightness(50%);
+}
+.btn-reward:active,.btn-reward:focus {
+	outline: none;
+}
+.btn-reward img{
+	width: 100%;
+}
+#modal-reward-6point .modal-content {
+    max-width: 500px;
+    width: 85%;
+}
+#modal-reward-10point .modal-content {
+    max-width: 500px;
+    width: 85%;
+}
+
+.btn-reward-group{
+	position: absolute;
+    bottom: 12%;
+    left: 45%;
+}
+.btn-center{
+	position: relative; 
+	left: -45%;
+}
+.popup-btn-reward{
+	background-color: transparent;
+	border:none;
+	margin-top: 8px;
+
+}
+.popup-btn-reward:active,.popup-btn-reward:focus{
+	outline: none;
+
+}
+.popup-btn-reward img{
+	width: 110%;
+
+}
+.exit_content{
+	width: 80%;
+	margin: 0 auto;
+	margin-top: 30px;
+	margin-bottom: 20px;
+}
+.exit_content img{
+	width: 100%;
+
+}
+.exit-btn{
+	margin:0 auto;
+	display: block;
+	background-color: transparent;
+	border:none;
+	margin-top: 15px;
+
+}
+.exit-btn img{
+	width: 60%;
+
+}
+.exit-btn:active,.exit-btn:focus{
+	outline: none;
+
+}
+.box-thank{
+	width: 95%;
+	margin:0 auto;
+	background-image: url(../img/thankyou.png);
+	background-size: 100%;
+	background-repeat: no-repeat;
+	padding-top: 230px;
+	padding-bottom: 15px;
+	background-size: 100% 100%;
+	margin-top: 30px;
+}
+
+@media(max-width:767px){
+
+	.register_u_point .header_top {
+	    height: 95px;
+	}
+	.register_u_point ul {
+	    padding: 10px 0px 0px 5px;
+	}
+	.register_u_point ul li {
+	    height: 55px;
+	    width: 55px;
+	}
+	.register_u_point ul li img {
+	    margin-top: 10px;
+	    width: 40px;
+	}
+	.register_u_point .text_header {
+	    width: auto;
+	    float: left;
+	    text-align: left;
+	    font-size: 40px;
+	    padding: 0px;
+	    color: #fff;
+	    margin-top: 21px;
+	}
+	.register_u_point .text_header .text1 {
+	    font-size: 18px;
+	}
+	.register_u_point .text_header .text2 {
+	    font-size: 14px;
+	}
+	.register_u_point .exit {
+	    width: 15px;
+	    height: 15px;
+	    position: absolute;
+	    top: 10px;
+	    right: 10px;
+	}
+	.register_u_point .text_alert {
+	    padding: 0 10px;
+	    font-size: 18px;
+	}
+	.register_u_point .content {
+	    background-color: #8ab2f2;
+	    padding: 15px 10px 15px 10px;
+	}
+	.register_u_point .formregister {
+	    padding: 10px 10px;
+	}
+	.register_u_point .formregister label {
+	    font-size: 16px;
+	    color: #4471c4;
+	    margin-left: 0px;
+	}
+	.input_register {
+	    height: 40px;
+	    border: 2px solid #4471c4;
+	}
+	.register_u_point .formregister .form-group {
+	    margin-bottom: 10px;
+	}
+	select.input_register {
+	    background-size: 25px;
+	}
+	.register_u_point .condition {
+	    text-align: center;
+	    margin-top: 10px;
+	    font-size: 16px;
+	    font-weight: bold;
+	    color: #4471c4;
+	}
+	.checkmark {
+	    height: 20px;
+	    width: 20px;
+	    border: 3px solid #FFF;
+	    margin-left: -25px;
+	    margin-top: 2px;
+	}
+	.box-thank {
+	    width: 95%;
+	    padding-top: 170px;
+	    padding-bottom: 10px;
+	}
+	.content .box-thank  .stamp {
+	    width: 90%;
+	}
+	.content .box-thank .stamp ul li {
+	    height: 70px;
+	    width: 70px;
+	}
+	.content .box-thank .stamp ul li.have-stamp img, .content .box-thank .stamp ul li.nohave-stamp img {
+	    margin-top: 14px;
+	    width: 45px ;
+	}
+
+/*	.content .box-thank .stamp ul {
+		width: 240px;
+		padding-left: 0px;
+	}
+	.content  .box-thank .stamp ul li {
+	    height: 38px;
+	    width: 38px;
+
+	}
+
+	.content .box-thank .stamp ul li.first-item {
+	    margin-left: 5px;
+	}
+
+	.content .box-thank .stamp ul li.have-stamp img, .content .stamp ul li.nohave-stamp img {
+	    margin-top: 9px;
+	    width: 25px;
+	}*/
+}
+@media(max-width:600px){
+	.clickbutton img {
+	    width: 50%;
+	}
+
+
+	.content .stamp ul li {
+	    height: 70px;
+	    width: 70px;
+	}
+	.content .stamp ul li.have-stamp img, .content .stamp ul li.nohave-stamp img {
+	    margin-top: 14px;
+	    width: 45px;
+	}
+	.content .stamp ul {
+	   /* width: 280px;*/
+	}
+	
+	.content .text1 {
+	    font-size: 50px;
+	}
+	.content .text2 {
+	    font-size: 40px;
+	}
+	.formregister .alert_register {
+	    text-align: center;
+	    font-size: 30px;
+	    color: #FFF;
+	}
+}
+@media(max-width:580px){
+	.formregister .alert_register {
+	    text-align: center;
+	    font-size: 26px;
+	    color: #FFF;
+	}
+	.coupon .content .text3 {
+	    width: 300px;
+	    font-size: 20px;
+	    height: 50px;
+	    padding: 5px 10px;
+	    margin-top: 10px;
+	    margin-bottom: 15px;
+	}
+	.coupon .content .text3 img {
+		width: 40px;
+	}
+	.coupon .content .text1 {
+		font-size: 35px;
+	    margin-top: 5px;
+	    line-height: initial;
+	}
+	.coupon .content .text2 {
+	    font-size: 26px;
+	}
+	.coupon_img{
+		width: 200px
+	}
+	.m-point {
+	    background-color: #1b40b2;
+	    border: 5px solid #fff;
+	    padding: 30px 5px 30px 5px;
+	    text-align: center;
+	}
+	.m-point .t1 {
+	    font-size: 40px;
+	    color: #fcf200;
+	}
+	.m-point .t2 {
+	    font-size: 22px;
+	    color: #fff;
+	}
+	.m-point .t3 {
+	    font-size: 16px;
+	    color: #fff;
+	    line-height: 2em;
+	    margin-bottom: 20px;
+	}
+	.clickbutton img{
+
+	    width: 100%;
+
+	}
+	.btnpoint {
+	    padding: 20px 0px 0px 0px;
+	}
+	.header_top{
+		height: 42px;
+	}
+	.backbtn {
+	    width: 25%;
+	    float: left;
+	    padding-top: 8px;
+	    padding-left: 15px;
+	}
+	.backbtn img {
+	    width: 15px;
+	}
+	.text_header {
+	    width: 50%;
+	    float: left;
+	    text-align: center;
+	    font-size: 20px;
+	    padding: 5px;
+	    color: #fff;
+	}
+	.logo img {
+	    width: 40px;
+	}
+	.register .imageprofile img {
+
+	    top: 50px;
+	    border: 5px solid #FFF;
+
+	}
+	.register .linecenter {
+		top:40px;
+	    border-bottom: 5px solid #FFF;
+	}
+	.box-thank {
+	    width: 95%;
+	    padding-top: 140px;
+	    padding-bottom: 1px;
+	}
+	.content .box-thank  .stamp {
+	    width: 90%;
+	}
+	.content .box-thank .stamp ul li {
+	    height: 57px;
+	    width: 57px;
+	}
+	.content .box-thank .stamp ul li.have-stamp img, .content .box-thank .stamp ul li.nohave-stamp img {
+	    margin-top: 12px;
+	    width: 40px ;
+	}
+}
+@media(max-width:480px){
+	.formregister .alert_register {
+	    text-align: center;
+	    font-size: 25px;
+	    color: #FFF;
+	}
+	.accept {
+	    font-size: 18px;
+
+	}
+	.formregister .name {
+	    font-size: 45px;
+	}
+	.condition {
+	    font-size: 18px;
+	}
+	.formregister .title {
+	    font-size: 40px;
+	    text-align: center;
+	    color: #FFF;
+	}
+
+	.clickbutton img {
+	    width: 50%;
+	}
+
+
+	.content .stamp ul li {
+	    height: 55px;
+	    width: 55px;
+	}
+	.content .stamp ul li.have-stamp img, .content .stamp ul li.nohave-stamp img {
+	    margin-top: 14px;
+	    width: 35px;
+	}
+	.content .stamp ul {
+	   /* width: 280px;*/
+	}
+
+	.register .header {
+	    height: 200px;
+	}
+
+	.content {
+	    padding-top: 20px;
+	}
+	.imageprofile img {
+	    width: 150px;
+	    height: 150px;
+	    top: 25px;
+	    border: 5px solid #FFF;
+
+	}
+	.linecenter {
+
+	    height: 100px;
+	    border-bottom: 5px solid #FFF;
+	}
+	.content .text1 {
+	    font-size: 40px;
+	}
+	.content .text2 {
+	    font-size: 30px;
+	}
+
+	.box-thank {
+	    width: 95%;
+	    padding-top: 120px;
+	    padding-bottom: 1px;
+	}
+	.content .box-thank  .stamp {
+	    width: 90%;
+	}
+	.content .box-thank .stamp ul li {
+	    height: 50px;
+	    width: 50px;
+	}
+	.content .box-thank .stamp ul li.have-stamp img, .content .box-thank .stamp ul li.nohave-stamp img {
+	    margin-top: 11px;
+	    width: 35px ;
+	}
+}
+
+@media(max-width:414px){
+	.formregister {
+	    padding:5px;
+	}
+	.formregister .title{
+		font-size: 160%;
+
+	}
+	.formregister .name{
+		font-size: 180%;
+
+	}
+
+	.formregister .alert_register{
+	    font-size: 140%;
+	}
+	.formregister .product_text{
+
+	    font-size: 100%;
+	}
+	.accept{
+		font-size: 120%;
+	}
+	.condition{
+		font-size: 120%;
+	}
+	.product{
+		height: 40px;
+    	font-size: 110%;
+    	width: 85%;
+	}
+	.register .imageprofile img {
+	    width: 150px;
+	    height: 150px;
+	    top: 67px;
+	    border: 5px solid #FFF;
+
+	}
+
+
+
+	select.product {
+
+	    background-size: 25px;
+
+	}
+
+	.register .linecenter {
+		top:42px;
+	    height: 100px;
+	    border-bottom: 5px solid #FFF;
+	}
+	.header_top{
+		height: 42px;
+	}
+	.backbtn {
+	    width: 25%;
+	    float: left;
+	    padding-top: 8px;
+	    padding-left: 15px;
+	}
+	.backbtn img {
+	    width: 15px;
+	}
+	.text_header {
+	    width: 50%;
+	    float: left;
+	    text-align: center;
+	    font-size: 20px;
+	    padding: 5px;
+	    color: #fff;
+	}
+	.logo img {
+	    width: 40px;
+	}
+	.stampbutton {
+
+	    margin-top: 12px;
+	}
+
+
+	.clickbutton {
+	    margin-top: 12px;
+	}
+	.clickbutton img{
+		width: 50%;
+	}
+
+	.register .header {
+	    height: 200px;
+	}
+
+	.content {
+	    padding-top: 20px;
+	}
+	.imageprofile img {
+	    width: 150px;
+	    height: 150px;
+	    top: 25px;
+	    border: 5px solid #FFF;
+
+	}
+	.linecenter {
+
+	    height: 100px;
+	    border-bottom: 5px solid #FFF;
+	}
+	.content .text1 {
+	    font-size: 40px
+	}
+	.content .text2 {
+	    font-size: 20px;
+	}
+	.content .stamp {
+	    padding-top: 10px;
+	}
+
+	.content .stamp ul {
+	   /*   padding: 15px 10px 5px 15px;*/
+	   padding-left: 0px;
+	}
+	.content .stamp ul li {
+	    height: 55px;
+	    width: 55px;
+	    margin-right: 5px;
+	    margin-left: 5px;
+	    margin-top: 5px;
+	}
+
+	.content .stamp ul li.have-stamp {
+	    background-image: url(../img/havestamp_bg.png);
+	    background-size: 60px 60px;
+	}
+	.content .stamp ul li.first-item {
+	    margin-left: 5px;
+	}
+
+	.content .stamp ul li.have-stamp img, .content .stamp ul li.nohave-stamp img {
+	    margin-top: 13px;
+	    width: 35px;
+	}
+
+
+	.card2 .content{
+		background-color: #4471c4;
+	    padding-top: 100px;
+	    padding-bottom: 112px;
+	}
+
+	.card2 .content .text1{
+	    font-size: 40px;
+	}
+	.card2 .content .text2{
+	    font-size: 30px;
+	}
+
+	.box-thank {
+	    width: 95%;
+	    padding-top: 120px;
+	    padding-bottom: 1px;
+	}
+	.content .box-thank .stamp {
+	    width: 90%;
+	}
+
+	.content .box-thank .stamp ul {
+		width: 290px;
+		padding-left: 0px;
+	}
+	.content  .box-thank .stamp ul li {
+	    height: 48px;
+	    width: 48px;
+
+	}
+
+	.content .box-thank .stamp ul li.first-item {
+	    margin-left: 5px;
+	}
+
+	.content .box-thank .stamp ul li.have-stamp img, .content .box-thank .stamp ul li.nohave-stamp img {
+	    margin-top: 12px;
+	    width: 28px;
+	}
+}
+
+
+
+@media(max-width:375px){
+
+	.content {
+	    padding-top: 20px;
+	}
+	.imageprofile img {
+	    width: 150px;
+	    height: 150px;
+	    top: 25px;
+	    border: 5px solid #FFF;
+
+	}
+	.linecenter {
+
+	    height: 100px;
+	    border-bottom: 5px solid #FFF;
+	}
+	.content .text1 {
+	    font-size: 40px;
+	}
+	.content .text2 {
+	    font-size: 30px;
+	}
+	.content .stamp {
+	    padding-top: 10px;
+	}
+
+
+	.content .stamp ul {
+		width: 330px;
+		padding-left: 0px;
+	}
+	.content .stamp ul li {
+	    height: 50px;
+	    width: 50px;
+	    margin-right: 5px;
+	    margin-left: 5px;
+	    margin-top: 5px;
+	}
+
+	.content .stamp ul li.have-stamp {
+	    background-image: url(../img/havestamp_bg.png);
+	    background-size: 110% 110%;
+	}
+	.content .stamp ul li.first-item {
+	    margin-left: 5px;
+	}
+
+	.content .stamp ul li.have-stamp img, .content .stamp ul li.nohave-stamp img {
+	    margin-top: 12px;
+	    width: 32px;
+	}
+
+	.box-thank {
+	    width: 95%;
+	    padding-top: 100px;
+	    padding-bottom: 1px;
+	}
+	.content .box-thank .stamp {
+	    width: 85%;
+	}
+
+	.content .box-thank .stamp ul {
+		width: 260px;
+		padding-left: 0px;
+	}
+	.content  .box-thank .stamp ul li {
+	    height: 42px;
+	    width: 42px;
+
+	}
+
+	.content .box-thank .stamp ul li.first-item {
+	    margin-left: 5px;
+	}
+
+	.content .box-thank .stamp ul li.have-stamp img, .content .box-thank .stamp ul li.nohave-stamp img {
+	    margin-top: 11px;
+	    width: 25px;
+	}
+
+	.formregister .title{
+		font-size: 150%;
+
+	}
+	.formregister .name{
+		font-size: 170%;
+
+	}
+
+	.formregister .alert_register{
+	    font-size: 120%;
+	}
+	.formregister .product_text{
+
+	    font-size: 90%;
+	}
+	.accept{
+		font-size: 90%;
+	}
+	.condition{
+		font-size: 90%;
+	}
+	.product{
+		height: 40px;
+    	font-size: 110%;
+    	width: 85%;
+	}
+
+
+}
+
+
+@media(max-width:360px){
+	.coupon .content .text3 {
+	    width: 100%;
+	}
+	.content .stamp ul {
+	    padding: 1px;
+	    width: 327px;
+	}
+
+	.col-lg-1, .col-lg-10, .col-lg-11, .col-lg-12, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-md-1, .col-md-10, .col-md-11, .col-md-12, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-sm-1, .col-sm-10, .col-sm-11, .col-sm-12, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-xs-1, .col-xs-10, .col-xs-11, .col-xs-12, .col-xs-2, .col-xs-3, .col-xs-4, .col-xs-5, .col-xs-6, .col-xs-7, .col-xs-8, .col-xs-9 {
+	    padding-right: 10px;
+	    padding-left: 10px;
+	}
+
+
+	.content .box-thank .stamp ul {
+		width: 250px;
+		padding-left: 0px;
+	}
+	.content  .box-thank .stamp ul li {
+	    height: 39px;
+	    width: 39px;
+
+	}
+
+	.content .box-thank .stamp ul li.first-item {
+	    margin-left: 5px;
+	}
+
+	.content .box-thank .stamp ul li.have-stamp img, .content .box-thank .stamp ul li.nohave-stamp img {
+	    margin-top: 9px;
+	    width: 25px;
+	}
+
+}
+
+
+@media(max-width:320px){
+	.m-point .t2 {
+	    font-size: 20px;
+	    color: #fff;
+	}
+	.content .stamp ul {
+	    padding:0;
+	}
+
+	.col-lg-1, .col-lg-10, .col-lg-11, .col-lg-12, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-md-1, .col-md-10, .col-md-11, .col-md-12, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-sm-1, .col-sm-10, .col-sm-11, .col-sm-12, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-xs-1, .col-xs-10, .col-xs-11, .col-xs-12, .col-xs-2, .col-xs-3, .col-xs-4, .col-xs-5, .col-xs-6, .col-xs-7, .col-xs-8, .col-xs-9 {
+	    padding-right: 15px;
+	    padding-left: 15px;
+	}
+	.card2 .content .text1{
+	    font-size: 30px;
+	}
+	.card2 .content .text2{
+	    font-size: 20px;
+	}
+
+	.content .stamp ul li {
+	    height: 46px;
+	    width: 46px;
+	}
+	.content .stamp ul li.have-stamp img, .content .stamp ul li.nohave-stamp img {
+	    margin-top: 10px;
+	    width: 31px;
+	}
+	.content .stamp ul {
+	    width: 280px;
+	}
+
+
+	.box-thank {
+	    width: 95%;
+	    padding-top: 90px;
+	    padding-bottom: 1px;
+	}
+	.content .box-thank .stamp {
+	    width: 90%;
+	}
+
+	.content .box-thank .stamp ul {
+		width: 240px;
+		padding-left: 0px;
+	}
+	.content  .box-thank .stamp ul li {
+	    height: 38px;
+	    width: 38px;
+
+	}
+
+	.content .box-thank .stamp ul li.first-item {
+	    margin-left: 5px;
+	}
+
+	.content .box-thank .stamp ul li.have-stamp img, .content .box-thank .stamp ul li.nohave-stamp img {
+	    margin-top: 9px;
+	    width: 25px;
+	}
+}
+
+@media (width: 1024px) and (height:1366px){
+	.footer{
+		position: fixed;
+		bottom: 0;
+	}
+
+}
+@media (width: 800px) and (height:1280px){
+	.footer{
+		position: fixed;
+		bottom: 0;
+	}
+
+}
+@media (width: 768px) and (height:1024px){
+	.footer{
+		position: fixed;
+		bottom: 0;
+	}
+
+}
+
+@media (width: 600px) and (min-height:890px) {
+
+	.footer{
+		position: fixed;
+		bottom: 0;
+	}
+
+}
+
+
+
+@media (min-width: 360px) and (min-height:640px) and (max-width: 599px){
+
+	.footer{
+		position: fixed;
+		bottom: 0;
+	}
+
+}
+
+@media (max-width: 480px) and (min-height:855px){
+	.footer{
+		position: inherit;
+		bottom: inherit;
+	}
+	.register_u_point .footer {
+	    position: fixed;
+	    bottom: 0;
+	}
+}
+
+@media  (max-height:640px) and (width:360px) {
+	.stamp .footer {
+	    position: inherit;
+	    bottom: 0;
+	}
+
+
+}
+@media (max-width: 360px) and (min-height:600px)  {
+	.stamp .footer {
+	    position: inherit;
+	    bottom: 0;
+	}
+}
+@media (max-width: 375px) and (max-height:667px)  {
+/*	.register .footer {
+	    position: inherit;
+	    bottom: 0;
+	}*/
+	.register_u_point .footer {
+	    position: fixed;
+	    bottom: 0;
+	}
+}
+@media (max-height: 667px) and (max-width: 320px){
+	.register_u_point .footer {
+	    position: inherit;
+	    bottom: 0;
+	}
+}
+@media (min-height: 960px) and (min-width: 600px){
+	.register_u_point .footer {
+	    position: fixed;
+	    bottom: 0;
+	}
+}
+
+@media (min-width: 768px){
+	.content .stamp {
+	    width: 600px;
+	}
+}

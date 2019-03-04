@@ -1,0 +1,11 @@
+{
+    "name": "th_co_fwd/ccf",
+    "description": "FWD Cloud Client Framework. Access all FWD Cloud Server Framework components using this client package.",
+    "type": "library",
+    "authors": [
+        {
+            "name": "FWD Life Insurance"
+        }
+    ],
+    "require": {}
+}

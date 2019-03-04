@@ -1,0 +1,27 @@
+section {
+	padding-top: 100px;
+}
+footer{
+	top: 99px !important;
+}
+@media screen and (max-width: 800px){
+	.sub-header{
+		font-size: 6vw !important;
+	}
+	.word1{
+
+	}
+	.word2{
+
+    	font-size: 7.3vw !important;
+	}
+	.word3{
+
+	}
+	.word4 {
+    	font-size: 7.3vw !important;
+
+	}
+}
+.footer-terms{display: none !important;}
+.float-left{display: none !important;}

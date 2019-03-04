@@ -1,0 +1,67 @@
+.header {
+  margin-top: 30px; }
+
+.panel {
+  background-color: #FDDB38;
+  border-radius: 1.5rem;
+  height: 95.3%;
+  width: 91%;
+  margin-left: 5%;
+  margin-top: 0px; }
+  .panel label {
+    font-size: 1.5vw;
+    padding: 28px 20px;
+    text-align: left; }
+    .panel label .prize {
+      padding-left: 16px;
+      margin-bottom: 0px; }
+    .panel label .channel {
+      margin-bottom: 0px; }
+    .panel label .prize-list {
+      margin-left: 38px;
+      margin-bottom: 0px; }
+
+.footer img {
+  display: none; }
+
+.float-left {
+  display: none !important; }
+
+.expanded.button.large {
+  background-color: #FED400; }
+  .expanded.button.large a {
+    color: #000; }
+
+@media screen and (min-width: 1431px) {
+  .panel {
+    height: 96.5%;
+    min-height: 96.5%; } }
+@media screen and (min-width: 1025px) and (max-width: 1430px) {
+  .panel {
+    height: 93.8%;
+    min-height: 93.8%; } }
+@media screen and (min-width: 800px) and (max-width: 1024px) {
+  .panel {
+    margin-left: 9.5% !important;
+    width: 83%; } }
+@media screen and (min-width: 320px) and (max-width: 799px) {
+  .panel {
+    height: 94%; }
+
+  .footer-terms {
+    height: 40px !important;
+    padding-top: 10px !important; } }
+@media screen and (max-width: 800px) {
+  .expanded.button.large {
+    display: none !important; } }
+@media all and (-ms-high-contrast: none) {
+  .ie {
+    margin-bottom: 85px; }
+
+  /* IE10 */
+  *::-ms-backdrop, .ie {
+    margin-bottom: 85px; }
+
+  /* IE11 */ }
+
+/*# sourceMappingURL=index.css.map */

@@ -1,0 +1,752 @@
+var token = "";
+var userId = "";
+var accessToken = {} ;
+var fanpageDatas = {};
+// var chatUserDatas = {};
+var loginProfile = {};
+var interval = "";
+
+var count = 1;
+// setInterval(transition(count), 10000);
+
+// function transition(gg) {
+//     console.log(gg+count);
+//     // if(count == 1) {
+//     //     console.log('variation 2');
+//     // } else if(count == 2) {
+//     //     console.log('variation 3');
+//     // } else if(count == 3) {
+//     //     console.log('variation 1');
+//     if (count == 10) {
+//         clearInterval(tid);
+//     }
+//     count++;
+// }
+
+function updateProgressBar(percent)
+{
+    $('#progressBar').attr('aria-valuenow',percent);
+    $('#progressBar').attr('style','width:'+percent+'%');
+    $('#progressBar').empty();
+    $('#progressBar').append(''+percent+'%');
+}
+
+window.fbAsyncInit = function() {
+    FB.init({
+        appId: '1529693500389649', //'259763817525266',
+        status: true, // check login status
+        cookie: true, // enable cookies to allow the server to access the session
+        xfbml: true  // parse XFBML
+    });
+    FB.Event.subscribe('auth.authResponseChange', function(response){
+        // console.log(response);
+        //logout-unauthen
+        if (response.authResponse == null | response.status == "unknow") {
+            return;
+        }
+        token = response.authResponse.accessToken;
+        userId = response.authResponse.userID;
+        // console.log("token:::" + token);
+        // console.log("userID::" + userId);
+
+        if (response.status === 'connected') {
+            $('#myPleaseWait').modal('show');
+            updateProgressBar(0);
+            updateProgressBar(10);
+            enableAPI();
+            // startThis();
+            // FB.api("/me/permissions", function (response) {
+            //     console.log("My Permissions: ", response);
+            // });
+        } else if (response.status === 'not_authorized') {
+            FB.login(function() { scope: 'public_profile,publish_actions,publish_pages,manage_pages,read_page_mailboxes'});
+        } else {
+            FB.login(function() { scope: 'public_profile,publish_actions,publish_pages,manage_pages,read_page_mailboxes'});
+        }
+    });
+};
+
+// Load the SDK asynchronously
+(function(d) {
+    var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
+    if (d.getElementById(id)) { console.log(7); return; }
+    js = d.createElement('script');
+    js.id = id; js.async = true;
+    js.src = "//connect.facebook.net/en_US/all.js";
+    ref.parentNode.insertBefore(js, ref);
+} (document));
+
+// function startThis() {
+// 	gg = "fdkgjdfjkg";
+// 	// var getUser = fbUser(gg, function(num) {
+// 	// 	console.log(num);
+// 	// });
+// 	// console.log(getUser);
+//     var getUser = fbUser(gg, function(model){
+//         // console.log(model);
+//         // startapp(model);
+//     });
+//     console.log(getUser);
+// };
+
+// function fbUser(gg,callback){
+// 	console.log(gg);
+//     FB.api('/me', function(response){
+//         callback(response);
+//     });
+// }
+
+function enableAPI()
+{
+    // console.log('Welcome!  Fetching your information.... ');
+    // getLoginProfile();
+    loadFanpage();
+    connectFanpage();
+}
+
+function connectFanpage()
+{
+    FB.api('/me/accounts',function(response) {
+        $.each( response.data, function( key, fanpage ) {
+            var fanpageDatas = {};
+            var fanpageId = fanpage.id;
+            accessToken[fanpageId] = fanpage.access_token;
+            FB.api('/'+fanpageId+'/photos', function(response) {
+                updateProgressBar(20);
+                var imgUrl = "";
+                if(!response['data'][0]) {
+                    imgUrl = 'http://3.bp.blogspot.com/-5C3tgIpCkHo/VTnR3xce82I/AAAAAAAABQ8/MMfWH-IrIlQ/s1600/Ho%2Bto%2BConvert%2BFacebook%2BProfile%2Bto%2BPage.png';
+                    fanpageDatas['company_id']  = 1;
+                    fanpageDatas['page_id'] = fanpageId;
+                    fanpageDatas['page_name'] = fanpage.name;
+                    fanpageDatas['page_img_url'] = imgUrl;
+                    // console.log(fanpageDatas);
+                    storeFanpage(fanpageDatas);
+                } else {
+                    var fanpagePhotoId = response['data'][0]['id'];
+                    FB.api('/'+fanpagePhotoId,'get',{fields : 'picture'},function(response) {
+                        imgUrl = response.picture;
+                        fanpageDatas['company_id']  = 1;
+                        fanpageDatas['page_id'] = fanpageId;
+                        fanpageDatas['page_name'] = fanpage.name;
+                        fanpageDatas['page_img_url'] = imgUrl;
+                        // console.log(fanpageDatas);
+                        storeFanpage(fanpageDatas);
+                    });
+                }
+                // console.log(imgUrl);
+            });
+            // storeFanpage(fanpage);
+        });
+        // if(count == 1) {
+            // interval = setInterval(liveReloadData, 20000);
+        // }
+    });
+}
+
+function storeFanpage(fanpageDatas)
+{
+    $.ajax({
+        type: "POST",
+        url : "/api/v1/facebook-1-on-1-chat-page",
+        data: {
+            fanpageDatas : fanpageDatas,
+            '_token' : $(this).attr('data-csrf')
+        },
+        success: function(response) {
+            // console.log(response);
+            updateProgressBar(40);
+            var fanpageId = fanpageDatas['page_id'];
+            syncFanpageConversation(response,fanpageId);
+            // console.log(response);
+        }
+    });
+}
+
+function syncFanpageConversation(oneOnOneChatPageId,fanpageId)
+{
+    var pageTokenId = accessToken[fanpageId];
+    FB.api('/'+fanpageId+'/conversations','get',{access_token: pageTokenId},function(response) {
+        // console.log("----------------Message Fanpage------------------");
+        // console.log(response.data.length);
+        updateProgressBar(50);
+        if(response.data.length == 0) {
+            $('#fanpage-user-inbox').empty();
+        } else {
+            $('#fanpage-user-inbox').empty();
+            $.each( response.data, function( key, fanpageMessages ) {
+                var conversationId = fanpageMessages['id'];
+                 getUserProfileFromMessageFanPage(fanpageId,conversationId, function(callback){
+                    // console.log(callback.name);
+                    updateProgressBar(55);
+                    var datas = {};
+                    datas['page_id'] = oneOnOneChatPageId;
+                    datas['conversation_id'] = conversationId;
+                    datas['conversation_name'] = callback.name;
+                    datas['conversation_img_url'] = callback.imgUrl;
+                    storeFanpageUser(datas,fanpageId);
+                    // console.log(datas);
+                    // showInboxFanpage(fanpageId,conversationId,callback);
+                });
+            });
+        }
+    });
+    // console.log(fanpageId);
+}
+
+function storeFanpageUser(fanpageUserDatas,fanpageId)
+{
+    $.ajax({
+        type: "POST",
+        url : "/api/v1/facebook-1-on-1-chat-page-user",
+        data: {
+            fanpageUserDatas : fanpageUserDatas,
+            '_token' : $(this).attr('data-csrf')
+        },
+        success: function(response) {
+            updateProgressBar(65);
+            var conversationId = fanpageUserDatas['conversation_id'];
+            syncFanpageConversationMessage(response,conversationId,fanpageId);
+            // syncFanpageConversation(response,fanpageId);
+            // console.log(response);
+        }
+    });
+}
+
+function syncFanpageConversationMessage(oneOnOneChatPageUserId,conversationId,fanpageId)
+{
+    // console.log(conversationId);
+    var pageTokenId = accessToken[fanpageId];
+    var messageGets = {
+        fields: 'message,from,created_time',
+        access_token: pageTokenId,
+    };
+    FB.api('/'+conversationId+'/messages','get',messageGets, function(response) {
+        updateProgressBar(75);
+        var datas = response;
+        datas['page_user_id'] = oneOnOneChatPageUserId;
+        storeFanpageUserMessage(datas,oneOnOneChatPageUserId,conversationId,fanpageId);
+        // console.log(datas);
+        // $.each( response.data, function( key, fanpageMessages ) {
+        //     console.log(fanpageMessages);
+        //     var datas = {};
+        //     datas['page_user_id'] = oneOnOneChatPageUserId;
+        //     datas['message_id'] = conversationId;
+        //     datas['sender_id'] = fanpageMessages['from']['id'];
+        //     datas['sender_name'] = fanpageMessages['from']['name'];
+        //     datas['message'] = fanpageMessages['message'];
+        //     datas['sent_date'] = fanpageMessages['created_time'];
+        //     $.ajax({
+        //         type: "POST",
+        //         url : "/api/v1/facebook-1-on-1-chat-page-user-message",
+        //         data: {
+        //             datas : datas,
+        //             '_token' : $(this).attr('data-csrf')
+        //         },
+        //         success: function(response) {
+        //         }
+        //     });
+        // });
+    });
+}
+
+function storeFanpageUserMessage(datas,oneOnOneChatPageUserId,conversationId,fanpageId)
+{
+    // console.log(datas);
+    $.ajax({
+        type: "POST",
+        url : "/api/v1/facebook-1-on-1-chat-message",
+        data: {
+            datas : datas,
+            '_token' : $(this).attr('data-csrf')
+        },
+        success: function(response) {
+            updateProgressBar(85);
+            updateProgressBar(95);
+            updateProgressBar(100);
+            $('#myPleaseWait').modal('hide');
+            // interval = setInterval(liveReloadData, 20000, oneOnOneChatPageUserId,conversationId,fanpageId);
+        }
+    });
+}
+
+function loadFanpage()
+{
+    selectFanpage = $('#selectFanpage select');
+    selectFanpage.find('option').remove();
+    selectFanpage.append(new Option('Nothing Select','', false, false));
+    $('#inviteFanpageBody').empty();
+    $.ajax({
+        type: "GET",
+        url : "/api/v1/facebook-1-on-1-chat-page",
+        success: function(response){
+            $.each( response, function( key, fanpage ) {
+                var fanpageName = fanpage['page_name'];
+                var fanpageId = fanpage['page_id'];
+                var id = fanpage['id'];
+                selectFanpage.append(new Option(fanpageName,id, false, false));
+                var imgHtml = '<img src="'+fanpage['page_img_url']+'" class="img-circle" alt="" width="65" height="65"><label>'+fanpageName+'</label>'+'<a class="btn btn-primary" href="javascript:showUserInbox('+fanpageId+')"" role="button"></i>Add</a>'+'<br/>';
+                $('#inviteFanpageBody').append(imgHtml);
+                // console.log(fanpage);
+            });
+        }
+    });
+}
+
+function loadFanpageUser(data)
+{
+    clearInterval(interval);
+    $('#headChat #inboxChatName').empty();
+    $('#headChat img').hide();
+    $('#showMessage').empty();
+    var facebookFanpageId = data.value;
+    $.ajax({
+        type: "GET",
+        url : "/api/v1/facebook-1-on-1-chat-page-user/"+facebookFanpageId,
+        data: {
+            '_token' : $(this).attr('data-csrf')
+        },
+        success: function(response){
+            // console.log(response.length);
+            if(response.length == 0) {
+                $('#fanpage-user-inbox').empty();
+            } else {
+                $('#fanpage-user-inbox').empty();
+                $.each( response, function( key, fanpageUser ) {
+                    var id = fanpageUser['id'];
+                    var name = fanpageUser['conversation_name'];
+                    var imgUrl = fanpageUser['conversation_img_url'];
+                    var conversationId = fanpageUser['conversation_id'];
+                    var pageId = fanpageUser['facebook_page']['page_id'];
+                    var pageName = fanpageUser['facebook_page']['page_name'];
+                    var proFileUserInbox = '<li style="cursor:pointer"><a data-toggle="tab" onclick="loadChat('+id+','+facebookFanpageId+','+"'"+imgUrl+"'"+','+"'"+name+"'"+','+"'"+conversationId+"'"+','+pageId+','+"'"+pageName+"'"+')"><div class="row"><div class="col-xs-9"><div class="media"><div class="media-left media-middle"><img src="'+imgUrl+'" alt="user-image" class="img-circle" width="50px" height="50px"/></div><div class="media-body"><h4 class="media-heading">'+name+'</h4></div></div></div></div></a></li>';
+                    $('#fanpage-user-inbox').append(proFileUserInbox);
+                    // console.log(fanpageUser);
+                });
+            }
+        }
+    });
+}
+
+function loadChat(chatMessageId,chatFanPageId,imgUrl,name,conversationId,pageId,pageName)
+{
+    // console.log(chatMessageId);
+    // console.log(imgUrl);
+    $.ajax({
+        type: "GET",
+        url : "/api/v1/facebook-1-on-1-chat-message/"+chatMessageId,
+        data: {
+            '_token' : $(this).attr('data-csrf')
+        },
+        success: function(response) {
+            // console.log(response);
+            showChat(response,imgUrl,name,conversationId,pageId,chatMessageId,pageName)
+        }
+    });
+}
+
+function showChat(chatDatas,imgUrl,name,conversationId,pageId,chatMessageId,pageName)
+{
+    clearInterval(interval);
+    $('#headChat img').show();
+    $('#headChat img').attr('src',imgUrl);
+    $('#headChat #inboxChatName').empty();
+    $('#headChat #inboxChatName').append(name);
+    $('#sendConversationId').val(conversationId);
+    $('#sendFanpageId').val(pageId);
+    $('#sendFanpageName').val(pageName);
+    $('#sendImgUrl').val(imgUrl);
+    $('#sendName').val(name);
+    $('#sendChatMessageId').val(chatMessageId);
+    $('#showMessage').empty();
+    $.each( chatDatas, function( key, chatData ) {
+        // console.log(chatData);
+        var message = chatData['message'];
+        var time = chatData['sent_date'];
+        var senderId = chatData['sender_id'];
+        var senderName = chatData['sender_name'];
+        // console.log(accessToken);
+        if(accessToken[senderId]) {
+            var messageShow = '<div class="col-xs-12"><span class="pull-right" style="position:relative"><div class="self-msg bg-fb"><p>'+message+'</p></div></span><span class="timeread pull-right"><div><time> '+time+'</time></div></span></div>';
+            $('#showMessage').append(messageShow);
+        } else {
+            // FB.api("/"+senderId+"/picture",'get',{type: 'normal'},function (response) {
+                var messageShow = '<div class="col-xs-12"><span class="pull-left" style="position:relative"><img src="'+imgUrl+'" alt="user-image" class="img-circle" width="50px" height="50px"/></span><span class="user-msg pull-left"><div class="msg"><p>'+message+'</p></div></span><span class="timeread pull-left"><div><time> '+time+'</time></div></span></div>';
+                $('#showMessage').append(messageShow);
+            // });
+        }
+    });
+    interval = setInterval(liveReloadData, 15000, conversationId);
+}
+
+function liveReloadData(conversationId)
+{
+    var fanpageId = $('#sendFanpageId').val();
+    var chatMessageId = $('#sendChatMessageId').val();
+    var imgUrl = $('#sendImgUrl').val();
+    var name = $('#sendName').val();
+    var pageTokenId = accessToken[fanpageId];
+    // console.log(count);
+    // console.log(conversationId);
+    var messageGets = {
+        fields: 'message,from,created_time',
+        access_token: pageTokenId,
+    };
+    FB.api('/'+conversationId+'/messages','get',messageGets, function(response) {
+        var datas = response;
+        datas['page_user_id'] = chatMessageId;
+        $.ajax({
+            type: "POST",
+            url : "/api/v1/facebook-1-on-1-chat-livechat",
+            data: {
+                datas : datas,
+                '_token' : $(this).attr('data-csrf')
+            },
+            success: function(response) {
+                console.log(response);
+                if(response.length > 0)
+                {
+                    $.each( response, function( key, chatData ) {
+                        // console.log(chatData);
+                        var message = chatData['message'];
+                        var time = chatData['sent_date'];
+                        var senderId = chatData['sender_id'];
+                        var senderName = chatData['sender_name'];
+                        // console.log(accessToken);
+                        if(accessToken[senderId]) {
+                            var messageShow = '<div class="col-xs-12"><span class="pull-right" style="position:relative"><div class="self-msg bg-fb"><p>'+message+'</p></div></span><span class="timeread pull-right"><div><time> '+time+'</time></div></span></div>';
+                            $('#showMessage').append(messageShow);
+                        } else {
+                            // FB.api("/"+senderId+"/picture",'get',{type: 'normal'},function (response) {
+                                var messageShow = '<div class="col-xs-12"><span class="pull-left" style="position:relative"><img src="'+imgUrl+'" alt="user-image" class="img-circle" width="50px" height="50px"/></span><span class="user-msg pull-left"><div class="msg"><p>'+message+'</p></div></span><span class="timeread pull-left"><div><time> '+time+'</time></div></span></div>';
+                                $('#showMessage').append(messageShow);
+                            // });
+                        }
+                    });
+                }
+            }
+        });
+    });
+    // console.log(response);
+
+    // if(count == 3) {
+    //     clearInterval(interval);
+    // }
+    // count++;
+}
+
+// var loginProfile = {};
+// function getLoginProfile()
+// {
+//     FB.api('/me', function(response) {
+//         // console.log(response);
+//         loginProfile = response;
+//         // console.log(loginProfile);
+//     });
+//     FB.api("/me/permissions", function (response) {
+//         // console.log("My Permissions: ", response);
+//     });
+// }
+
+// function showProfileFanpage(pageData)
+// {
+// 	selectFanpage = $('#selectFanpage select');
+// 	selectFanpage.find('option').remove();
+// 	selectFanpage.append(new Option('Nothing Select','', false, false));
+// 	$.each( pageData['data'], function( key, fanpage ) {
+//         var fanpageName = fanpage['name'];
+//         var fanpageId = fanpage['id'];
+//         selectFanpage.append(new Option(fanpageName,fanpageId, false, false));
+//         // console.log(fanpageName);
+//         var emptyFanpagePhoto = 'http://3.bp.blogspot.com/-5C3tgIpCkHo/VTnR3xce82I/AAAAAAAABQ8/MMfWH-IrIlQ/s1600/Ho%2Bto%2BConvert%2BFacebook%2BProfile%2Bto%2BPage.png';
+//         FB.api('/'+fanpageId+'/photos', function(response) {
+//             if(!response['data'][0]) {
+//             	var imgHtml = '<img src="'+emptyFanpagePhoto+'" class="img-circle" alt="" width="65" height="65"><label>'+fanpageName+'</label>'+'<a class="btn btn-primary" href="javascript:showUserInbox('+fanpageId+')"" role="button"></i>Add</a>'+'<br/>';
+//                 $('#inviteFanpageBody').append(imgHtml);
+//                 // pageDatas[fanpageId] = {
+//                 //   'name':fanpageName,
+//                 //   'imgUrl':emptyFanpagePhoto
+//                 // };
+//             } else {
+//                 var fanpagePhotoId = response['data'][0]['id'];
+//                 FB.api('/'+fanpagePhotoId,'get',{fields : 'picture'},function(response) {
+//             		var imgHtml = '<img src="'+response['picture']+'" class="img-circle" alt="" width="65" height="65"><label>'+fanpageName+'</label>'+'<a class="btn btn-primary" href="javascript:showUserInbox('+fanpageId+')"" role="button"></i>Add</a>'+'<br/>';
+//                     $('#inviteFanpageBody').append(imgHtml);
+//                   // pageDatas[fanpageId] = {
+//                   //   'name':fanpageName,
+//                   //   'imgUrl':response.picture
+//                   // };
+//                 });
+//             }
+//     		// callback(pageDatas);
+//         });
+//         accessToken[fanpageId] = fanpage['access_token'];
+//         // chatUserDatas[fanpageId] = connectFanpageConversation(fanpageId);
+//     });
+// }
+
+// function connectFanpageConversation(fanpageId)
+// {
+// 	// console.log(fanpageId.value);
+// 	// clearInterval(tid);
+//     fanpageId = fanpageId.value;
+// 	var pageTokenId = accessToken[fanpageId];
+// 	FB.api('/'+fanpageId+'/conversations','get',{access_token: pageTokenId},function(response) {
+//         // console.log("----------------Message Fanpage------------------");
+//         // console.log(response.data.length);
+//         if(response.data.length == 0) {
+//         	$('#fanpage-user-inbox').empty();
+//         } else {
+//         	$('#fanpage-user-inbox').empty();
+// 	        $.each( response.data, function( key, fanpageMessages ) {
+// 	        	var conversationId = fanpageMessages['id'];
+// 	        	console.log(conversationId);
+// 	        	// console.log(conversationId);
+// 	        	 getUserProfileFromMessageFanPage(fanpageId,conversationId, function(callback){
+// 	        	 	showInboxFanpage(fanpageId,conversationId,callback);
+// 				    // console.log(model);
+// 				    // startapp(model);
+// 				    // return model;
+// 				});
+// 	            // chatUserDatas[conversationId] = getUserProfileFromMessageFanPage(fanpageId,conversationId);
+// 	        });
+//         }
+//         // console.log(chatUserDatas);
+//     });
+// 	// console.log(pageTokenId);
+// }
+
+// function showInboxFanpage(fanpageId,conversationId,userInboxData)
+// {
+// 	// var proFileUserInbox = '<li class="active"><a data-toggle="tab" href="#" onclick="connectFanpage()"><div class="row"><div class="col-xs-9"><div class="media"><div class="media-left media-middle"><img src="'+userInboxData['imgUrl']+'" alt="user-image" class="img-circle" width="50px" height="50px"/></div><div class="media-body"><h4 class="media-heading">'+userInboxData['name']+'</h4><span class="text-muted">Cras sit amet nibh libero, in gravida nulla.</span></div></div></div><div class="col-xs-3 text-right"><div class="text-danger"><i class="fa fa-times" aria-hidden="true"></i></div><div>9.00 PM</div></div></div></a></li>';
+// 	var imgUrl = userInboxData['imgUrl'];
+// 	var name = userInboxData['name'];
+// 	var proFileUserInbox = '<li style="cursor:pointer"><a data-toggle="tab" onclick="loadChat('+"'"+name+"'"+','+"'"+imgUrl+"'"+','+"'"+conversationId+"'"+','+fanpageId+')"><div class="row"><div class="col-xs-9"><div class="media"><div class="media-left media-middle"><img src="'+imgUrl+'" alt="user-image" class="img-circle" width="50px" height="50px"/></div><div class="media-body"><h4 class="media-heading">'+name+'</h4></div></div></div></div></a></li>';
+// 	$('#fanpage-user-inbox').append(proFileUserInbox);
+// 	// console.log(userInboxData);
+// }
+
+// var tid = setInterval(mycode("ggg"), 2000);
+// function mycode(gg) {
+//    alert(gg);
+//    abortTimer();
+//   // do some stuff...
+//   // no need to recall the function (it's an interval, it'll loop forever)
+// }
+// function abortTimer() { // to be called when you want to stop the timer
+//   clearInterval(tid);
+// }
+// function test(name,imgUrl,conversationId,fanpageId)
+// {
+// 	// console.log(name);
+// 	// var tid = setInterval(loadChat(name,imgUrl,conversationId,fanpageId), 1);
+// }
+
+// function loadChatSort(datas,callback)
+// {
+// 	// var dataSorts = {};
+// 	$.ajax({
+//         type: "POST",
+//         url : "/api/v1/facebook-1-on-1-chats",
+//         data: {
+//             datas : datas,
+//             '_token' : $(this).attr('data-csrf')
+//         },
+//         success: function(response){
+//         	callback(response);
+//         	// dataSorts = response;
+//         	// console.log(dataSorts);
+//         	// console.log(response);
+//         }
+//     });
+//     // console.log(dataSorts);
+// }
+
+
+
+// function loadChat(name,imgUrl,conversationId,fanpageId)
+// {
+// 	$('#headChat img').attr('src',imgUrl);
+// 	$('#headChat #inboxChatName').empty();
+// 	$('#headChat #inboxChatName').append(name);
+// 	$('#sendConversationId').val(conversationId);
+// 	$('#sendFanpageId').val(fanpageId);
+// 	$('#sendImgUrl').val(imgUrl);
+// 	$('#sendName').val(name);
+// 	// console.log('load');
+// 	var pageTokenId = accessToken[fanpageId];
+// 	var messageGets = {
+//         fields: 'message,from,created_time',
+//         access_token: pageTokenId,
+//     };
+//     FB.api('/'+conversationId+'/messages','get',messageGets, function(response) {
+//         $('#showMessage').empty();
+//         // console.log(response['data']);
+//         var datas = response['data'];
+//         loadChatSort(datas, function(callback){
+
+// 		// console.log(dataSorts);
+//         // var datas2 = loadChatSort(datas);
+//         // console.log(dataSorts);
+//         // datas.sort(function(a,b) { return (a.created_time > b.created_time) ? 1 : ((b.created_time > a.created_time) ? -1 : 0);} );
+//         // console.log(datas);
+//         // var people = response['data'].sort(function(a, b) {
+//         // 	console.log(a['created_time']);
+// 	       //  // return (a['created_time'] > b['created_time']) ? 1 : ((a['created_time'] < b['created_time']) ? -1 : 0);
+// 	       //  // return (b['created_time'] > a['created_time']) ? 1 : ((b['created_time'] < a['created_time']) ? -1 : 0);
+//         // });
+//         // console.log(people);
+// 	        $.each( callback, function( key, messages ) {
+// 	        	// console.log(key);
+// 	            var message = messages['message'];
+// 	            var name = messages['from']['name'];
+// 	            var id = messages['from']['id'];
+// 	            var time = messages['created_time'];
+// 	            // console.log(time);
+// 	            if(fanpageId == id) {
+// 	                FB.api("/"+id+"/picture",'get',{type: 'normal'},function (response) {
+// 	                	var messageShow = '<div class="col-xs-12"><span class="pull-right" style="position:relative"><div class="self-msg bg-fb"><p>'+message+'</p></div></span><span class="timeread pull-right"><div><time> '+time+'</time></div></span></div>';
+// 	                	$('#showMessage').append(messageShow);
+// 	                    // $('#showMessage').append("<div class='text-left'><img src='"+response.data.url+"' class='img-circle' alt='' width='32' height='32'>"+name+"<br/>"+"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+message+"<br/></div>");
+// 	                });
+// 	            } else {
+// 	                FB.api("/"+id+"/picture",'get',{type: 'normal'},function (response) {
+// 	                	var messageShow = '<div class="col-xs-12"><span class="pull-left" style="position:relative"><img src="'+response.data.url+'" alt="user-image" class="img-circle" width="50px" height="50px"/></span><span class="user-msg pull-left"><div class="msg"><p>'+message+'</p></div></span><span class="timeread pull-left"><div><time> '+time+'</time></div></span></div>';
+// 	                	$('#showMessage').append(messageShow);
+// 	                    // $('#showMessage').append("<div class='text-right'><img src='"+response.data.url+"' class='img-circle' alt='' width='32' height='32'>"+name+"<br/>"+message+"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+"<br/></div>");
+// 	                });
+// 	            }
+// 	        });
+// 	    });
+//         // test(name,imgUrl,conversationId,fanpageId);
+//     });
+// }
+
+function sendMessage()
+{
+	var conversationId = $('#sendConversationId').val();
+	var fanpageId = $('#sendFanpageId').val();
+    var fanpageName = $('#sendFanpageName').val();
+	var imgUrl = $('#sendImgUrl').val();
+	var name = $('#sendName').val();
+	var pageTokenId = accessToken[fanpageId];
+    var chatMessageId = $('#sendChatMessageId').val();
+	var message = $('#messageTextArea').val();
+	// alert($('#sendConversationId').val());
+	FB.api("/"+conversationId+"/messages","POST",{access_token: pageTokenId,message: message},
+	    function (response) {
+	      if (response) {
+            var sendMessageId = response.id;
+	        /* handle the result */
+	        $('#messageTextArea').val("");
+	        FB.api("/"+conversationId,"GET",{access_token: pageTokenId,fields: 'snippet'},
+			    function (response) {
+			      if (response) {
+                    var snippet = response.snippet;
+                    var datas = {};
+                    datas['page_user_id'] = chatMessageId;
+                    datas['message_id'] = sendMessageId;
+                    datas['sender_id'] = fanpageId;
+                    datas['sender_name'] = fanpageName;
+                    datas['message'] = snippet;
+                    // console.log(response);
+                    $.ajax({
+                        type: "POST",
+                        url : "/api/v1/facebook-1-on-1-chat-send-message",
+                        data: {
+                            datas : datas,
+                            '_token' : $(this).attr('data-csrf')
+                        },
+                        success: function(response) {
+                            var messageShow = '<div class="col-xs-12"><span class="pull-right" style="position:relative"><div class="self-msg bg-fb"><p>'+response.message+'</p></div></span><span class="timeread pull-right"><div><time>'+response.sent_date+'</time></div></span></div>';
+                            $('#showMessage').append(messageShow).fadeIn();
+                            // console.log(response);
+                        }
+                    });
+			      	// var snippet = response.snippet;
+			      	// console.log(response);
+			      }
+			 });
+	        // loadChat(name,imgUrl,conversationId,fanpageId);
+	      }
+	    }
+	);
+}
+
+
+
+// function connectFanpageConversation(fanpageId)
+// {
+//     var pageTokenId = accessToken[fanpageId];
+//    	var chatUserDatas = {};
+//     FB.api('/'+fanpageId+'/conversations','get',{access_token: pageTokenId},function(response) {
+//         // console.log("----------------Message Fanpage------------------");
+//         $.each( response.data, function( key, fanpageMessages ) {
+//         	var conversationId = fanpageMessages['id'];
+//         	 getUserProfileFromMessageFanPage(fanpageId,conversationId, function(model){
+//         	 	chatUserDatas[conversationId] = model;
+//         	 	console.log(chatUserDatas);
+// 			    // console.log(model);
+// 			    // startapp(model);
+// 			    // return model;
+// 			});
+//             // chatUserDatas[conversationId] = getUserProfileFromMessageFanPage(fanpageId,conversationId);
+//         });
+//         // console.log(chatUserDatas);
+//     });
+//     // console.log(chatUserDatas);
+//     return chatUserDatas;
+// }
+
+function getUserProfileFromMessageFanPage(fanpageId,conversationId,callback)
+{
+    var pageTokenId = accessToken[fanpageId];
+    var chatUserDatas = {};
+    // console.log(chatUserDatas);
+    FB.api(
+        '/'+conversationId,
+        'get',
+        {
+            fields: 'senders',
+            access_token: pageTokenId,
+        },
+        function(response) {
+          var userName = response['senders']['data'][0]['name'];
+          var userId = response['senders']['data'][0]['id'];
+          FB.api("/"+userId+"/picture",'get',{type: 'normal'},function (response) {
+            var imgUrl = response.data.url;
+            // chatUserDatas[fanpageId] = {
+            //   conversationId:{
+            //     name:userName,
+            //     imgUrl:imgUrl,
+            //   },
+            // };
+            chatUserDatas['name'] = userName;
+            chatUserDatas['imgUrl'] = imgUrl;
+            callback(chatUserDatas);
+            // console.log(chatUserDatas);
+            // chatUserDatas = {
+            //   name:userName,
+            //   imgUrl:imgUrl,
+            // };
+          });
+    });
+    // console.log(chatUserDatas);
+    // console.log(chatUserDatas);
+ //    $.each( chatUserDatas, function( key, fanpage ){
+	//   console.log(fanpage);
+	// });
+	// chatUserDatas = {};
+	// chatUserDatas['name'] = 'kkk';
+	// chatUserDatas['url'] = 'dgfg';
+	// console.log(chatUserDatas);
+    // return chatUserDatas;
+}
+
+// function showUserFanpageInbox()
+// {
+// 	// console.log(chatUserDatas);
+// 	// $.each( chatUserDatas, function( key, fanpageUser ) {
+// 	// 	console.log(fanpageUser);
+//  //    });
+// }
