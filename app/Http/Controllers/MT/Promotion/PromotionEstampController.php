@@ -23,13 +23,13 @@ class PromotionEstampController extends MainController
         $lineUserProfile = $this->checkSession('line-login');
         \Session::put('line-login', '');
         if(!$lineUserProfile){
-            // return $this->lineLoginError();
+            return $this->errorLineLogin();
         }
 
 
         $registerEstampData = RegisterEstampData::where('line_user_id',$lineUserProfile->id)->first();
         if(!$registerEstampData){
-            return $this->lineStampRegisterError($lineUserProfile);
+            return $this->errorLineStampRegister($lineUserProfile);
         }
 
         $datas = [];
@@ -46,7 +46,7 @@ class PromotionEstampController extends MainController
             ->where('status','active')
             ->first();
         if(!$estampCustomer){
-            return $this->estampCustomerNoneActive($lineUserProfile);
+            return $this->errorEstampCustomer($lineUserProfile);
         }
 
         $estampCustomerItems = collect();
@@ -81,14 +81,14 @@ class PromotionEstampController extends MainController
             }
         }
 
-    //     return view('mt.estamp.index')
-    //         ->with('splitLengths',$splitLengths)
-    //         ->with('stamps',$datas)
-    //         ->with('estamp',$estamp)
-    //         ->with('customerStampCount',$estampCustomerItems->count())
-    //         ->with('lineUserProfile',$lineUserProfile);
-    // }
+        return view('mt.estamp.index')
+            ->with('splitLengths',$splitLengths)
+            ->with('stamps',$datas)
+            ->with('estamp',$estamp)
+            ->with('customerStampCount',$estampCustomerItems->count())
+            ->with('lineUserProfile',$lineUserProfile);
 
-    
-    }
+            
+    } // end func estampPage
+
 }

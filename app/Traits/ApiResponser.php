@@ -45,34 +45,27 @@ trait ApiResponser
 
 	protected function checkSession($payload)
 	{
-		 // session()->put('teams', 'developers');
-		 // session()->put('name', 'wisanu');
-		 // session()->put('test', 'tester');
-		 // // session()->put('line-login', 'line-login');
-		 // session()->put('line', 'Facebook');
-		 // // return \Session::get('line-login', '');
-		 // return \Session::all();
 		return \Session::get($payload, '');
 	}
 
-	protected function lineLoginError()
+	protected function errorLineLogin()
 	{
         return view('mt.custom-error.index')
             	->with('error','ไม่พบข้อมูล LineUser ของท่าน');
 	}
 
-	protected function lineStampRegisterError($payload)
+	protected function errorLineStampRegister($payload)
 	{
 		return view('mt.register-u-fan-club.index')
                 ->with('code','Register')
-                ->with('lineUserProfile',$lineUserProfile);
+                ->with('lineUserProfile',$payload);
 	}
 
-	protected function estampCustomerNoneActive()
+	protected function errorEstampCustomer()
 	{
 		return view('mt.thank-after-recieve-reward.index')
                 ->with('estamp',$estamp)
-                ->with('lineUserProfile',$lineUserProfile);
+                ->with('lineUserProfile',$payload);
 	}
 
 }

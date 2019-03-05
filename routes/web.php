@@ -181,5 +181,6 @@ Route::get('promotions', 'MT\Promotion\PromotionController@index');
 Route::get('promotions_first', 'MT\Promotion\PromotionController@first');
 Route::get('promotions_second', 'MT\Promotion\PromotionController@second');
 Route::post('promotions_confirm', 'MT\Promotion\PromotionController@confirm');
+
 Route::get('promotions_estamps', 'MT\Promotion\PromotionEstampController@estampPage');
 //////////////////////////////////////////////////////////////////////////////////
