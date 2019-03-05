@@ -68,11 +68,13 @@
 					<img src="mt/img/images/btn-confirm.png">
 				</button>
 			@else
-				<form action="promotions_second">
-				<button>
-					<img src="mt/img/images/btn.png">
-				</button>
-			</form>
+				<form action="{{ action('MT\Promotion\PromotionController@second') }}" method="POST">
+					{!! csrf_field() !!}
+					<input type="hidden" name="line_user_id" value="{{ $lineUserProfile->id }}">
+					<button type="submit">
+						<img src="mt/img/images/btn.png">
+					</button>
+				</form>
 			@endif
 			
 		</div>

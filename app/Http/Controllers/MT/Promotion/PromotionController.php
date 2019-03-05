@@ -20,12 +20,17 @@ class PromotionController extends Controller
        return view('mt.promotions.index');
     }
 
-    public function first ()
+    public function first()
     {   
-        return view('mt.promotions.first',['point' => $this->points, 'points_rule' => $this->points_rule]);
+        $lineUserProfile = \Session::get('line-login', "");
+
+        return view('mt.promotions.first')
+            ->with('lineUserProfile',$lineUserProfile)
+            ->with('point',$this->points)
+            ->with('points_rule',$this->points_rule);
     }
 
-    public function second ()
+    public function second()
     {
         if ($this->points >= $this->points_rule) {
             return view('mt.promotions.second',[
