@@ -179,8 +179,9 @@ Route::get('clear-data-mt-estamp', function (Request $request) {
 
 Route::get('promotions', 'MT\Promotion\PromotionController@index');
 Route::get('promotions_first', 'MT\Promotion\PromotionController@first');
-Route::get('promotions_second', 'MT\Promotion\PromotionController@second');
+Route::post('promotions_second', 'MT\Promotion\PromotionController@second');
 Route::post('promotions_confirm', 'MT\Promotion\PromotionController@confirm');
+Route::get('mt-royal-thankpage', 'MT\Promotion\PromotionController@thank');
 
 Route::get('promotions_estamps', 'MT\Promotion\PromotionEstampController@estampPage');
 //////////////////////////////////////////////////////////////////////////////////

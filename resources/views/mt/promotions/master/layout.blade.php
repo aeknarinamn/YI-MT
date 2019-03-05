@@ -29,16 +29,6 @@
 
 	<script type="text/javascript">
 		$('#myModal').modal('show')
-
-		function completed($payload){
-			if($payload == 'confirm'){
-				document.getElementById("submitform").submit();
-			}
-			if ($payload == 'after'){
-				url= '/promotions';
-    			window.location = url; 
-			}
-		}
 			
 	</script>
 

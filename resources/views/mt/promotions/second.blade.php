@@ -28,11 +28,30 @@
 
 	</div>
 	
-
-	<form method="Post" id="submitform" action="{{$url_confirm}}">
+	<form action="{{ action('MT\Promotion\PromotionController@confirm') }}" method="POST" id="submitForm">
 		{!! csrf_field() !!}
-		<input type="hidden" name="confirm" value="{{$user_token}}">
+		@isset ($user_token)
+		   <input type="hidden" name="confirm" value="{{$user_token}}"> 
+		@endisset
 	</form>
+
+	<form action="{{ action('MT\Promotion\PromotionController@confirm') }}" method="POST" id="laterForm">
+		{!! csrf_field() !!}
+		<input type="hidden" name="confirm" value="later">
+	</form>
+
+
+	<script type="text/javascript">
+		function completed($payload){
+			if($payload == 'confirm'){
+				document.getElementById("submitForm").submit();
+			}
+			if ($payload == 'later'){
+				document.getElementById("laterForm").submit();
+			}
+		}
+			
+	</script>
 @endsection
 
 

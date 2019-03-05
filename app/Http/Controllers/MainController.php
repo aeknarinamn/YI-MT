@@ -3,9 +3,9 @@
 namespace YellowProject\Http\Controllers;
 
 use Illuminate\Http\Request;
-use YellowProject\Traits\ApiResponser;
+use YellowProject\Traits\HelperRoyal;
 
 class MainController extends Controller
 {
-    use ApiResponser;
+    use HelperRoyal;
 }

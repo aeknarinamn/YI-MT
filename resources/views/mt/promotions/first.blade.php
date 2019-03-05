@@ -53,24 +53,20 @@
 						<img src="mt/img/images/point-1.png">
 					@endif
 				</div>
-				{{-- <div class="item 7">
-					@if ($point < 7)
-						<img src="mt/img/images/point-2.png">
-					@else
-						<img src="mt/img/images/point-1.png">
-					@endif
-				</div> --}}
+
 			</div>
 		</div>
 		<div class="row-btn">
 			@if ($point < $points_rule)
 				<button disabled="">
-					<img src="mt/img/images/btn-confirm.png">
+					<img src="mt/img/images/btn-no.png">
 				</button>
 			@else
 				<form action="{{ action('MT\Promotion\PromotionController@second') }}" method="POST">
 					{!! csrf_field() !!}
-					<input type="hidden" name="line_user_id" value="{{ $lineUserProfile->id }}">
+					@isset ($lineUserProfile->id)
+					    <input type="hidden" name="line_user_id" value="{{ $lineUserProfile->id }}">
+					@endisset
 					<button type="submit">
 						<img src="mt/img/images/btn.png">
 					</button>
