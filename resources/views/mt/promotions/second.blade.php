@@ -1,6 +1,6 @@
 @extends('mt.promotions.master.layout')
 
-@section('title', 'second')
+@section('title')
 
 
 @section('content')
@@ -11,33 +11,27 @@
 			<img src="mt/img/images/bg.png">
 		</div>
 		<div class="row-btn">
-<!-- 			<button>
+{{-- 			<button>
 				<img src="images/btn-confirm.png">
-			</button> -->
-			
-			{{-- <input type="checkbox" name="completed" onChange="this.form.submit()" {{ $task->completed ? 'checked' : '' }}>  --}} 
+			</button> --}}
+
 				<button type="submit" onclick="completed('confirm')">
 					<img src="mt/img/images/btn-confirm-a.png">
 				</button>	
 
-				<button type="submit" onclick="completed('after')">
+				<button type="submit" onclick="completed('later')">
 					<img src="mt/img/images/btn-get-later.png">
 				</button>
 
-			{{-- <form method="POST" action="/promotions_confirm?confirm=confirm">		
-			</form>	 --}}
-	
-		{{-- 	<button>
-				<img src="mt/img/images/btn-get-later-a.png">
-			</button> --}}
 		</div>
 
 
 	</div>
 	
 
-	<form method="Post" id="submitform" action="promotions_confirm?confirm=confirm">
-		<input type="hidden" name="confirm" value="confirm">
+	<form method="Post" id="submitform" action="{{$url_confirm}}">
+		{!! csrf_field() !!}
+		<input type="hidden" name="confirm" value="{{$user_token}}">
 	</form>
 @endsection
 

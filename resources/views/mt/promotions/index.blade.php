@@ -1,6 +1,6 @@
 @extends('mt.promotions.master.layout')
 
-@section('title', 'Project Show')
+@section('title')
 
 
 @section('content')

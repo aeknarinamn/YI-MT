@@ -1,6 +1,6 @@
 @extends('mt.promotions.master.layout')
 
-@section('title', 'first')
+@section('title')
 
 
 @section('content')

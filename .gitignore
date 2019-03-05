@@ -11,3 +11,5 @@ Homestead.yaml
 Desktop.ini
 desktop.ini
 .dropbox
+.env
+.envExample

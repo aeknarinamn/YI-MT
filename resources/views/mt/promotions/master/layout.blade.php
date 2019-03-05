@@ -2,7 +2,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>@yield('title', 'Master')</title>
+	<title>@yield('title', 'ยูนิลีเวอร์โปรคุ้ม')</title>
 
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" href="mt/js/bootstrap-4.3.1.js">

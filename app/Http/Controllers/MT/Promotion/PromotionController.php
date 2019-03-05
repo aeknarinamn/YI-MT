@@ -11,7 +11,7 @@ class PromotionController extends Controller
 
     public function __construct()
     {
-        $this->points = 6;
+        $this->points = 51;
         $this->points_rule = 6;
     }
 
@@ -22,18 +22,18 @@ class PromotionController extends Controller
 
     public function first ()
     {   
-        // $point = 5;
         return view('mt.promotions.first',['point' => $this->points, 'points_rule' => $this->points_rule]);
     }
 
     public function second ()
     {
-        // $point = 5;
         if ($this->points >= $this->points_rule) {
-            return view('mt.promotions.second');
-            # code...
+            return view('mt.promotions.second',[
+                'url_confirm' => 'promotions_confirm',
+                'user_token' => 'confirm',
+            ]);
         } else {
-            return redirect('promotions');
+            return redirect()->action('MT\Promotion\PromotionController@index');
         }
         
         
@@ -46,12 +46,10 @@ class PromotionController extends Controller
                 if ($request->confirm == 'confirm') {
                     $respo = $this->points-$this->points_rule;
                     return 'บริษัทจัดทำการส่งสินค้าแล้วค่ะ คะแนนคุณเหลือ '.$respo.' คะแนน';
-                } else {
-                return 'ยืนยันภายหลัง';
-                }
+                } 
             }
         } else {
-            return redirect('promotions');
+            return redirect()->action('MT\Promotion\PromotionController@index');
         }
         
     }
