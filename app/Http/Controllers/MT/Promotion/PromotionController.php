@@ -3,9 +3,9 @@
 namespace YellowProject\Http\Controllers\MT\Promotion;
 
 use Illuminate\Http\Request;
-use YellowProject\Http\Controllers\Controller;
+use YellowProject\Http\Controllers\MainController;
 
-class PromotionController extends Controller
+class PromotionController extends MainController
 {
     protected $points;
 
@@ -22,6 +22,7 @@ class PromotionController extends Controller
 
     public function first()
     {   
+        
         $lineUserProfile = \Session::get('line-login', "");
 
         return view('mt.promotions.first')

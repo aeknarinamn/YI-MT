@@ -20,7 +20,7 @@ class PromotionEstampController extends MainController
     public function estampPage()
     {
         // \Session::put('facebook', 'facebook');
-        $lineUserProfile = $this->checkSession('line-login');
+        $lineUserProfile = \Session::get('line-login', '');
         \Session::put('line-login', '');
         if(!$lineUserProfile){
             return $this->errorLineLogin();
@@ -90,5 +90,7 @@ class PromotionEstampController extends MainController
 
             
     } // end func estampPage
+
+    
 
 }

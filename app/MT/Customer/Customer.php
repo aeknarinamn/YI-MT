@@ -3,6 +3,7 @@
 namespace YellowProject\MT\Customer;
 
 use Illuminate\Database\Eloquent\Model;
+use YellowProject\MT\Customer\CustomerEstamp;
 
 class Customer extends Model
 {
@@ -27,4 +28,11 @@ class Customer extends Model
     	'is_active',
     	'is_redeem',
     ];
+
+    public function customerestamps()
+    {
+        return $this->hasMany(CustomerEstamp::class,'mt_customer_id');
+    }
+
+    
 }

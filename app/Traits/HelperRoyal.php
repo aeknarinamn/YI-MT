@@ -3,6 +3,9 @@
 namespace YellowProject\Traits;
 
 use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\Model;
+use YellowProject\MT\Customer\Customer;
+use Illuminate\Database\Eloquent\Collection;
 
 trait HelperRoyal
 {
@@ -11,6 +14,10 @@ trait HelperRoyal
 		return response()->json([$data, $code]);
 	}
 
+	protected function errorResponse($message, $code)
+	{
+		return response()->json(['error' => $message, 'code' => $code], $code);
+	}
 
 	protected function showAll(Collection $collection, $code = 200)
 	{
@@ -57,11 +64,18 @@ trait HelperRoyal
                 ->with('lineUserProfile',$payload);
 	}
 
-	protected function errorEstampCustomer()
-	{
-		return view('mt.thank-after-recieve-reward.index')
-                ->with('estamp',$estamp)
-                ->with('lineUserProfile',$payload);
-	}
+	// protected function errorEstampCustomer()
+	// {
+	// 	return view('mt.thank-after-recieve-reward.index')
+ //                ->with('estamp',$estamp)
+ //                ->with('lineUserProfile',$payload);
+	// }
+
+	protected function checkLineUser(Customer $customer, $lineuser)
+    {
+        if($customer->line_user_id != $lineuser){
+            return $this->errorLineLogin();
+        }
+    }
 
 }
