@@ -3,6 +3,7 @@
 namespace YellowProject\Http\Controllers\MT\Promotion;
 
 use Illuminate\Http\Request;
+use YellowProject\MT\Customer\Customer;
 use YellowProject\Http\Controllers\MainController;
 
 class PromotionController extends MainController
@@ -12,7 +13,6 @@ class PromotionController extends MainController
     public function __construct()
     {
         $this->points = 110;
-        $this->points_rule = 6;
     }
 
     public function index()
@@ -28,12 +28,12 @@ class PromotionController extends MainController
         return view('mt.promotions.first')
             ->with('lineUserProfile',$lineUserProfile? $lineUserProfile : null)
             ->with('point',$this->points)
-            ->with('points_rule',$this->points_rule);
+            ->with('points_rule',Customer::RULE_REDEEM);
     }
 
     public function second()
     {
-        if ($this->points >= $this->points_rule) {
+        if ($this->points >= Customer::RULE_REDEEM) {
             return view('mt.promotions.second')
                 ->with('user_token','confirm');
 
@@ -50,10 +50,10 @@ class PromotionController extends MainController
 
     public function confirm(Request $request)
     {
-        if ($this->points >= $this->points_rule) {
+        if ($this->points >= Customer::RULE_REDEEM) {
             if ($request->has('confirm')) {
                 if ($request->confirm == 'confirm') {
-                    $total_point = $this->points-$this->points_rule;
+                    $total_point = $this->points-Customer::RULE_REDEEM;
                     return redirect()->action('MT\Promotion\PromotionController@thank')
                         ->with('point',$total_point);
                 } else{

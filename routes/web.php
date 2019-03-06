@@ -186,20 +186,20 @@ Route::get('mt-royal-thankpage', 'MT\Promotion\PromotionController@thank');
 Route::get('promotions_estamps', 'MT\Promotion\PromotionEstampController@estampPage');
 Route::get('mt-royal-addstamps', 'MT\Promotion\PromotionEstampController@addStamp');
 Route::get('mt-royal-addstamps', 'MT\Promotion\PromotionEstampController@addStamp');
+
 /*
   MT Royal Customer
 */
-
-
 //Get http://yi-mt.test/customers/1/customerestamps
 //Post http://yi-mt.test/customers/1/customerestamps
 
-Route::resource('customers.stamps', 'MT\Customer\CustomerEstampController',['only' => [
-  'index', 'store','destroy'
+Route::resource('customers.estamps', 'MT\Customer\CustomerEstampController',['only' => [
+  'index', 'store'
 ]]);
 
+//Patch http://yi-mt.test/customers/1   *** change is_redeem
 Route::resource('customers', 'MT\Customer\CustomerController',['only' => [
   'index', 'show', 'update'
 ]]);
-
+Route::get('customers-redeems', 'MT\Customer\CustomerController@redeem');
 //////////////////////////////////////////////////////////////////////////////////

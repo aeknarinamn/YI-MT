@@ -25,8 +25,8 @@ class CustomerEstamp extends Model
                 ->first();
 
             if ($customer) {
-                $count =  $customer->total_stamp;   
-                $customer->total_stamp = $count+1;    
+                $countStamps =  $customer->total_stamp;   
+                $customer->total_stamp = $countStamps+1;    
                 $customer->save();
             }   
         });

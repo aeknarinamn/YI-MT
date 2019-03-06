@@ -19,6 +19,11 @@ trait HelperRoyal
 		return response()->json(['error' => $message, 'code' => $code], $code);
 	}
 
+	protected function showMessage($message, $code = 200)
+	{
+		return $this->successResponse(['data' => $message], $code);
+	}
+
 	protected function showAll(Collection $collection, $code = 200)
 	{
 		return $this->successResponse(['data' => $collection], $code);
@@ -71,11 +76,11 @@ trait HelperRoyal
  //                ->with('lineUserProfile',$payload);
 	// }
 
-	protected function checkLineUser(Customer $customer, $lineuser)
-    {
-        if($customer->line_user_id != $lineuser){
-            return $this->errorLineLogin();
-        }
-    }
+	// protected function checkLineUser(Customer $customer, $lineuser)
+ //    {
+ //        if($customer->line_user_id != $lineuser){
+ //            return $this->errorLineLogin();
+ //        }
+ //    }
 
 }
