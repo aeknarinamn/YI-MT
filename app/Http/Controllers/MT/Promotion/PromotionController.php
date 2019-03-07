@@ -3,6 +3,7 @@
 namespace YellowProject\Http\Controllers\MT\Promotion;
 
 use Illuminate\Http\Request;
+use YellowProject\MT\Shop\Shop;
 use YellowProject\MT\Customer\Customer;
 use YellowProject\Http\Controllers\MainController;
 
@@ -22,30 +23,67 @@ class PromotionController extends MainController
 
     public function first()
     {   
-        
-        $lineUserProfile = \Session::get('line-login', "");
 
+        // $lineUserProfile = 134;
+
+        // if ($lineUserProfile) {
+        //     $user = Customer::where('line_user_id',$lineUserProfile)->first();
+        //     if(!$user) {
+        //         Customer::create([
+        //             'line_user_id' => $lineUserProfile,
+        //             'shop_id' => Shop::where('name','TOPS'),
+        //         ]);
+        //     }
+        // } else {
+        //     return $this->errorLineLogin();
+        // }
+        
+        //     $userResult = Customer::where('line_user_id',$lineUserProfile)->first();
+        // return view('mt.promotions.first')
+        //     ->with('UserProfile',$userResult)
+        //     ->with('point',$userResult->total_stamp)
+        //     ->with('points_rule',Customer::RULE_REDEEM);
+
+
+            $lineUserProfile = \Session::get('line-login', "");
+
+        if ($lineUserProfile) {
+            $user = Customer::where('line_user_id',$lineUserProfile->id)->first();
+            if(!$user) {
+                Customer::create([
+                    'line_user_id' => $lineUserProfile->id,
+                    'shop_id' => Shop::where('name','TOPS'),
+                ]);
+            }
+        } else {
+            return $this->errorLineLogin();
+        }
+        
+            $userResult = Customer::where('line_user_id',$lineUserProfile->id)->first();
         return view('mt.promotions.first')
             ->with('lineUserProfile',$lineUserProfile? $lineUserProfile : null)
-            ->with('point',$this->points)
+            ->with('point',$userResult->total_stamp)
             ->with('points_rule',Customer::RULE_REDEEM);
     }
 
-    public function second()
+    public function second(Request $request)
     {
-        if ($this->points >= Customer::RULE_REDEEM) {
-            return view('mt.promotions.second')
-                ->with('user_token','confirm');
+        
+        $UserProfile = Customer::where('id',$request->id)
+            ->where('line_user_id',$request->line_user_id)
+            ->first();
 
-            // return view('mt.promotions.second',[
-            //     'url_confirm' => 'promotions_confirm',
-            //     'user_token' => 'confirm',
-            // ]);
+        if ($UserProfile) {
+                if ($UserProfile->total_stamp >= Customer::RULE_REDEEM) {
+                    return view('mt.promotions.second')
+                        ->with('UserProfile',$UserProfile);
+                } else {
+                    return redirect()->action('MT\Promotion\PromotionController@index');
+                }
         } else {
-            return redirect()->action('MT\Promotion\PromotionController@index');
+                return $this->errorLineLogin();
         }
-        
-        
+                
     }
 
     public function confirm(Request $request)

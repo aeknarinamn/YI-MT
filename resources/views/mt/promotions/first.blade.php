@@ -64,8 +64,9 @@
 			@else
 				<form action="{{ action('MT\Promotion\PromotionController@second') }}" method="POST">
 					{!! csrf_field() !!}
-					@isset ($lineUserProfile->id)
-					    <input type="hidden" name="line_user_id" value="{{ $lineUserProfile->id }}">
+					@isset ($UserProfile)
+					    <input type="hidden" name="id" value="{{ $UserProfile->id }}">
+					    <input type="hidden" name="line_user_id" value="{{ $UserProfile->line_user_id }}">
 					@endisset
 					<button type="submit">
 						<img src="mt/img/images/btn.png">

@@ -38,6 +38,7 @@ class CustomerController extends MainController
 
     public function update (Request $request, Customer $customer)
     {
+        // dd($request->all());
         if($customer->line_user_id != $request->line_user_id){
             return $this->errorLineLogin();
         }
@@ -49,15 +50,19 @@ class CustomerController extends MainController
 
         if ($customer->is_redeem != 1) {
             $countStamp = $customer->total_stamp;
-            $customer->total_stamp = $countStamp - $this->points_rule;
+            // $customer->total_stamp = $countStamp - Customer::RULE_REDEEM;
             $customer->is_redeem = 1;
             $customer->save();
         }else{
             return $this->errorResponse('User นี้ได้ทำงานแลกของรางวัลไปแล้ว', 422);
         }
-        
+        // return $this->showOne($customer);
 
-        return $this->showOne($customer);
+        if ($customer->total_stamp >= Customer::RULE_REDEEM) {
+            return redirect()->action('MT\Promotion\PromotionController@thank');
+        } else {
+            return redirect()->action('MT\Promotion\PromotionController@index');
+        }
     } // ------  / update 
 
 

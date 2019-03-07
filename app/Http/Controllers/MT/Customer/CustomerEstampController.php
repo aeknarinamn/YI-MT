@@ -21,7 +21,6 @@ class CustomerEstampController extends MainController
 
     public function store (Request $request, Customer $customer)
     {
-        
         if ($customer->line_user_id != $request->line_user_id) {
             return $this->errorLineLogin();
         } 

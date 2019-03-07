@@ -2,6 +2,7 @@
 
 namespace YellowProject\MT\Customer;
 
+use YellowProject\MT\Shop\Shop;
 use Illuminate\Database\Eloquent\Model;
 use YellowProject\MT\Customer\CustomerEstamp;
 
@@ -27,5 +28,9 @@ class Customer extends Model
         return $this->hasMany(CustomerEstamp::class,'mt_customer_id');
     }
 
+    public function shop()
+    {
+        return $this->belongsTo(Shop::class,'shop_id');
+    }
     
 }
