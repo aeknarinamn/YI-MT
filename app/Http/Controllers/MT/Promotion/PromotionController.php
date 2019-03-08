@@ -23,33 +23,7 @@ class PromotionController extends MainController
 
     public function first()
     {   
-
-        // $lineUserProfile = 134;
-        // $shop = Shop::where('is_active',1)->first();
-
-        // if ($lineUserProfile) {
-        //     $user = Customer::where('line_user_id',$lineUserProfile)->first();
-        //     if(!$user) {
-        //         Customer::create([
-        //             'line_user_id' => $lineUserProfile,
-        //             'shop_id' => $shop->id,
-        //         ]);
-        //     }
-        // } else {
-        //     return $this->errorLineLogin();
-        // }
-        
-        //     $UserProfile = Customer::where('line_user_id',$lineUserProfile)->first();
-        //     if (!$UserProfile->activeShop()) {
-        //         return $this->errorLineLogin();
-        //     }
-        //     return view('mt.promotions.first')
-        //     ->with('UserProfile',$UserProfile)
-        //     ->with('points_rule',Customer::RULE_REDEEM);
-
-
         $lineUserProfile = \Session::get('line-login', "");
-        \Session::put('line-login', '');
         $shop = Shop::where('is_active',1)->first();
         if ($lineUserProfile) {
             $user = Customer::where('line_user_id',$lineUserProfile->id)->first();
@@ -67,6 +41,7 @@ class PromotionController extends MainController
             if (!$UserProfile->activeShop()) {
                 return $this->errorLineLogin();
             }
+
             return view('mt.promotions.first')
             ->with('UserProfile',$UserProfile)
             ->with('points_rule',Customer::RULE_REDEEM);
@@ -128,13 +103,25 @@ class PromotionController extends MainController
 
     public function thank(Request $request)
     {
-        $lineUserProfile = \Session::get('line-login', "");
-        \Session::put('line-login', '');
-        if ($lineUserProfile) {
-            return view('mt.promotions.thankpage');
-        } else {
+        if (session()->get($this->nameSession())) {
+            $getSession = $this->getSession();
+        }else {
             return $this->errorLineLogin();
         }
+        
+        if ($getSession['isthank'] == true) {
+            $this->setSession(['isthank' => false]);
+            return view('mt.promotions.thankpage');
+        }else {
+            return $this->errorLineLogin();
+        }
+        // $lineUserProfile = \Session::get('line-login', "");
+        // \Session::put('line-login', '');
+        // if ($lineUserProfile) {
+            
+        // } else {
+            
+        // }
         
         
     } //end func thank

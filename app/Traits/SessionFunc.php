@@ -21,9 +21,9 @@ trait SessionFunc
 		session()->put($this->nameSession(), collect());
 		session()->push($this->nameSession(), [
 			'keys' => $this->generateCode(40),
-			'verified' => false,
-			'isActive' => false,
-			'isThankPage' => false,
+			'verified' => 'false',
+			'isactive' => 'false',
+			'isthank' => true,
 		]);
 
 	}

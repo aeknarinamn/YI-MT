@@ -65,6 +65,8 @@ class CustomerController extends MainController
         // return $this->showOne($customer);
 
         if ($customer->total_stamp >= Customer::RULE_REDEEM) {
+            $this->startSession();
+            $this->setSession(['isthank'] == true);
             return redirect()->action('MT\Promotion\PromotionController@thank');
         } else {
             return redirect()->action('MT\Promotion\PromotionController@index');
