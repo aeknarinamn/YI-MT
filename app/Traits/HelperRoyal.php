@@ -57,6 +57,13 @@ trait HelperRoyal
             	->with('error','ไม่พบข้อมูล LineUser ของท่าน');
 	}
 
+	protected function errorMessage($message,$title = 'พบข้อผิดพลาดบางประการ')
+	{
+        return view('mt.promotions.page-message')
+        		->with('title', $title)
+            	->with('message',$message);
+	}
+
 	protected function errorLineStampRegister($payload)
 	{
 		return view('mt.register-u-fan-club.index')

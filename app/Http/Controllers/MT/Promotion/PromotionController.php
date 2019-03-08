@@ -106,23 +106,15 @@ class PromotionController extends MainController
         if (session()->get($this->nameSession())) {
             $getSession = $this->getSession();
         }else {
-            return $this->errorLineLogin();
+            return $this->errorMessage('คุณไม่สามารถเข้ารับของรางวัลได้ เนื่องจากไม่พบเงื่อนไข');
         }
         
         if ($getSession['isthank'] == true) {
             $this->setSession(['isthank' => false]);
             return view('mt.promotions.thankpage');
         }else {
-            return $this->errorLineLogin();
+            return $this->errorMessage('คุณไม่สามารถเข้ารับของรางวัลได้ เนื่องจากไม่พบเงื่อนไข');
         }
-        // $lineUserProfile = \Session::get('line-login', "");
-        // \Session::put('line-login', '');
-        // if ($lineUserProfile) {
-            
-        // } else {
-            
-        // }
-        
         
     } //end func thank
 
