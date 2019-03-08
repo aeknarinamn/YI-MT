@@ -208,10 +208,10 @@ Route::get('mt/customers-redeems', 'MT\Customer\CustomerController@redeem');
   MT Royal Shop
 */
 Route::resource('mt/shops', 'MT\Shop\ShopController',['only' => [
-  'index'
+  'index','show'
 ]]);
 Route::resource('mt/shops.customers', 'MT\Shop\ShopCustomerController',['only' => [
-  'index'
+  'index','show'
 ]]);
 
 /*
@@ -220,4 +220,5 @@ Route::resource('mt/shops.customers', 'MT\Shop\ShopCustomerController',['only' =
 Route::resource('mt/estamps', 'MT\Estamp\EstampController',['only' => [
   'index'
 ]]);
+
 //////////////////////////////////////////////////////////////////////////////////

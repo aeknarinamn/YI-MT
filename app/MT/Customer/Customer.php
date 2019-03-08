@@ -32,5 +32,10 @@ class Customer extends Model
     {
         return $this->belongsTo(Shop::class,'shop_id');
     }
+
+    public function activeShop()
+    {
+        return $this->shop->is_active;
+    }
     
 }

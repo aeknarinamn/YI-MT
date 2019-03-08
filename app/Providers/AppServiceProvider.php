@@ -2,8 +2,9 @@
 
 namespace YellowProject\Providers;
 
-use Illuminate\Support\ServiceProvider;
 use YellowProject\SettingPhpMailer;
+use YellowProject\Traits\ServerStatus;
+use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -32,6 +33,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+
     }
 }

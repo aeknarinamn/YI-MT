@@ -12,42 +12,42 @@
 		<div class="u-point">
 			<div class="c-row">
 				<div class="item 1">
-					@if ($point < 1)
+					@if ($UserProfile->total_stamp < 1)
 						<img src="mt/img/images/point-2.png">
 					@else
 						<img src="mt/img/images/point-1.png">
 					@endif
 				</div>
 				<div class="item 2">
-					@if ($point < 2)
+					@if ($UserProfile->total_stamp < 2)
 						<img src="mt/img/images/point-2.png">
 					@else
 						<img src="mt/img/images/point-1.png">
 					@endif
 				</div>
 				<div class="item 3">
-					@if ($point < 3)
+					@if ($UserProfile->total_stamp < 3)
 						<img src="mt/img/images/point-2.png">
 					@else
 						<img src="mt/img/images/point-1.png">
 					@endif
 				</div>
 				<div class="item 4">
-					@if ($point < 4)
+					@if ($UserProfile->total_stamp < 4)
 						<img src="mt/img/images/point-2.png">
 					@else
 						<img src="mt/img/images/point-1.png">
 					@endif
 				</div>
 				<div class="item 5">
-					@if ($point < 5)
+					@if ($UserProfile->total_stamp < 5)
 						<img src="mt/img/images/point-2.png">
 					@else
 						<img src="mt/img/images/point-1.png">
 					@endif
 				</div>
 				<div class="item 6">
-					@if ($point < 6)
+					@if ($UserProfile->total_stamp < 6)
 						<img src="mt/img/images/point-2.png">
 					@else
 						<img src="mt/img/images/point-1.png">
@@ -57,13 +57,13 @@
 			</div>
 		</div>
 		<div class="row-btn">
-			@if ($point < $points_rule)
+			@if ($UserProfile->total_stamp < $points_rule || $UserProfile->is_redeem != 0)
 				<button disabled="">
 					<img src="mt/img/images/btn-no.png">
 				</button>
 			@else
 				<form action="{{ action('MT\Promotion\PromotionController@second') }}" method="POST">
-					{!! csrf_field() !!}
+					{!! csrf_field() !!} {{ method_field('POST') }}
 					@isset ($UserProfile)
 					    <input type="hidden" name="id" value="{{ $UserProfile->id }}">
 					    <input type="hidden" name="line_user_id" value="{{ $UserProfile->line_user_id }}">

@@ -25,44 +25,50 @@ class PromotionController extends MainController
     {   
 
         // $lineUserProfile = 134;
+        // $shop = Shop::where('is_active',1)->first();
 
         // if ($lineUserProfile) {
         //     $user = Customer::where('line_user_id',$lineUserProfile)->first();
         //     if(!$user) {
         //         Customer::create([
         //             'line_user_id' => $lineUserProfile,
-        //             'shop_id' => Shop::where('name','TOPS'),
+        //             'shop_id' => $shop->id,
         //         ]);
         //     }
         // } else {
         //     return $this->errorLineLogin();
         // }
         
-        //     $userResult = Customer::where('line_user_id',$lineUserProfile)->first();
-        // return view('mt.promotions.first')
-        //     ->with('UserProfile',$userResult)
-        //     ->with('point',$userResult->total_stamp)
+        //     $UserProfile = Customer::where('line_user_id',$lineUserProfile)->first();
+        //     if (!$UserProfile->activeShop()) {
+        //         return $this->errorLineLogin();
+        //     }
+        //     return view('mt.promotions.first')
+        //     ->with('UserProfile',$UserProfile)
         //     ->with('points_rule',Customer::RULE_REDEEM);
 
 
-            $lineUserProfile = \Session::get('line-login', "");
-
+        $lineUserProfile = \Session::get('line-login', "");
+        \Session::put('line-login', '');
+        $shop = Shop::where('is_active',1)->first();
         if ($lineUserProfile) {
             $user = Customer::where('line_user_id',$lineUserProfile->id)->first();
             if(!$user) {
                 Customer::create([
                     'line_user_id' => $lineUserProfile->id,
-                    'shop_id' => Shop::where('name','TOPS'),
+                    'shop_id' => $shop->id,
                 ]);
             }
         } else {
             return $this->errorLineLogin();
         }
         
-            $userResult = Customer::where('line_user_id',$lineUserProfile->id)->first();
-        return view('mt.promotions.first')
-            ->with('lineUserProfile',$lineUserProfile? $lineUserProfile : null)
-            ->with('point',$userResult->total_stamp)
+            $UserProfile = Customer::where('line_user_id',$lineUserProfile->id)->first();
+            if (!$UserProfile->activeShop()) {
+                return $this->errorLineLogin();
+            }
+            return view('mt.promotions.first')
+            ->with('UserProfile',$UserProfile)
             ->with('points_rule',Customer::RULE_REDEEM);
     }
 
@@ -73,13 +79,17 @@ class PromotionController extends MainController
             ->where('line_user_id',$request->line_user_id)
             ->first();
 
+        if (!$UserProfile->activeShop()) {
+            return $this->errorLineLogin();
+        }
+                
         if ($UserProfile) {
-                if ($UserProfile->total_stamp >= Customer::RULE_REDEEM) {
-                    return view('mt.promotions.second')
-                        ->with('UserProfile',$UserProfile);
-                } else {
-                    return redirect()->action('MT\Promotion\PromotionController@index');
-                }
+            if ($UserProfile->total_stamp >= Customer::RULE_REDEEM) {
+                return view('mt.promotions.second')
+                    ->with('UserProfile',$UserProfile);
+            } else {
+                return redirect()->action('MT\Promotion\PromotionController@index');
+            }
         } else {
                 return $this->errorLineLogin();
         }
@@ -95,7 +105,19 @@ class PromotionController extends MainController
                     return redirect()->action('MT\Promotion\PromotionController@thank')
                         ->with('point',$total_point);
                 } else{
-                    return redirect()->action('MT\Promotion\PromotionController@index');
+                    return redirect()->action('MT\Promotion\PromotionController@index');$lineUserProfile = \Session::get('line-login', "");
+        $shop = Shop::where('is_active',1)->first();
+        if ($lineUserProfile) {
+            $user = Customer::where('line_user_id',$lineUserProfile->id)->first();
+            if(!$user) {
+                Customer::create([
+                    'line_user_id' => $lineUserProfile->id,
+                    'shop_id' => $shop->id,
+                ]);
+            }
+        } else {
+            return $this->errorLineLogin();
+        }
                 }
             }
         } else {
@@ -106,7 +128,14 @@ class PromotionController extends MainController
 
     public function thank(Request $request)
     {
-        return view('mt.promotions.thankpage');
+        $lineUserProfile = \Session::get('line-login', "");
+        \Session::put('line-login', '');
+        if ($lineUserProfile) {
+            return view('mt.promotions.thankpage');
+        } else {
+            return $this->errorLineLogin();
+        }
+        
         
     } //end func thank
 

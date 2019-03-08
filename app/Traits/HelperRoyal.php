@@ -9,6 +9,11 @@ use Illuminate\Database\Eloquent\Collection;
 
 trait HelperRoyal
 {
+	protected function NameKey()
+	{
+		return 'NameKey';
+	}
+
 	private function successResponse($data, $code)
 	{
 		return response()->json([$data, $code]);
@@ -34,17 +39,7 @@ trait HelperRoyal
 		return $this->successResponse(['data' => $model], $code);
 	}
 
-	protected function showEstamp()
-	{
-		// session()->put('teams', 'developers');
-		 // session()->put('name', 'wisanu');
-		 // session()->put('test', 'tester');
-		 // // session()->put('line-login', 'line-login');
-		 // session()->put('line', 'Facebook');
-		 // // return \Session::get('line-login', '');
-		 // return \Session::all();
-		return \Session::all();
-	}
+
 
 	protected function lineUserProfile()
 	{
@@ -69,18 +64,12 @@ trait HelperRoyal
                 ->with('lineUserProfile',$payload);
 	}
 
-	// protected function errorEstampCustomer()
-	// {
-	// 	return view('mt.thank-after-recieve-reward.index')
- //                ->with('estamp',$estamp)
- //                ->with('lineUserProfile',$payload);
-	// }
+	protected  function generateCode ($count)
+    {
+        return str_random($count);    
+    } // ------  / generateCode 
 
-	// protected function checkLineUser(Customer $customer, $lineuser)
- //    {
- //        if($customer->line_user_id != $lineuser){
- //            return $this->errorLineLogin();
- //        }
- //    }
+
+
 
 }

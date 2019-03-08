@@ -6,12 +6,14 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'AddIsActiveDimMtShopTable' => $baseDir . '/database/migrations/2019_03_07_135958_add_is_active_dim_mt_shop_table.php',
     'AddressInThailandSeeder' => $baseDir . '/database/seeds/AddressInThailandSeeder.php',
     'CampaignItemTableSeeder' => $baseDir . '/database/seeds/CampaignItemTableSeeder.php',
     'CampaignTableSeeder' => $baseDir . '/database/seeds/CampaignTableSeeder.php',
     'CreateDimMtShopTable' => $baseDir . '/database/migrations/2019_03_05_141624_create_dim_mt_shop_table.php',
     'CreateFactMtCustomerEstampTable' => $baseDir . '/database/migrations/2019_03_05_154710_create_fact_mt_customer_estamp_table.php',
     'CreateFactMtCustomerTable' => $baseDir . '/database/migrations/2019_03_05_143358_create_fact_mt_customer_table.php',
+    'CreateFactMtRedeemTable' => $baseDir . '/database/migrations/2019_03_07_134332_create_fact_mt_redeem_table.php',
     'DatabaseSeeder' => $baseDir . '/database/seeds/DatabaseSeeder.php',
     'EasyPeasyICS' => $vendorDir . '/phpmailer/phpmailer/extras/EasyPeasyICS.php',
     'File_Iterator' => $vendorDir . '/phpunit/php-file-iterator/src/Iterator.php',

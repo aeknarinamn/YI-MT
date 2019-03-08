@@ -2,8 +2,10 @@
 
 namespace YellowProject\Http\Controllers\MT\Customer;
 
-use YellowProject\MT\Customer\Customer;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use YellowProject\MT\Redeem\Redeem;
+use YellowProject\MT\Customer\Customer;
 use YellowProject\Http\Controllers\MainController;
 
 class CustomerController extends MainController
@@ -50,9 +52,13 @@ class CustomerController extends MainController
 
         if ($customer->is_redeem != 1) {
             $countStamp = $customer->total_stamp;
-            // $customer->total_stamp = $countStamp - Customer::RULE_REDEEM;
             $customer->is_redeem = 1;
             $customer->save();
+
+            Redeem::create([
+                'mt_customer_id' => $customer->id,
+                'description' => Carbon::now(),
+            ]);
         }else{
             return $this->errorResponse('User นี้ได้ทำงานแลกของรางวัลไปแล้ว', 422);
         }

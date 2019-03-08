@@ -27,7 +27,7 @@ class CustomerEstampController extends MainController
 
         $countItem = $customer->customerestamps->count();
 
-        if ($countItem > Customer::RULE_REDEEM) {
+        if ($countItem >= Customer::RULE_REDEEM) {
             return $this->errorResponse('ไม่สามารถเพิ่มจำนวนแสตม์ได้อีกเนื่องจากมีเกินจำนวน',422);
         }
         
