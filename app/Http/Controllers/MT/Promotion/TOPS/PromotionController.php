@@ -18,7 +18,7 @@ class PromotionController extends MainController
 
     public function index()
     {
-       return view('mt.promotions.index');
+       return view('mt.promotions.TOPS.index');
     }
 
     public function first()
@@ -42,7 +42,7 @@ class PromotionController extends MainController
                 return $this->errorLineLogin();
             }
 
-            return view('mt.promotions.first')
+            return view('mt.promotions.TOPS.first')
             ->with('UserProfile',$UserProfile)
             ->with('points_rule',Customer::RULE_REDEEM);
     }
@@ -60,7 +60,7 @@ class PromotionController extends MainController
                 
         if ($UserProfile) {
             if ($UserProfile->total_stamp >= Customer::RULE_REDEEM) {
-                return view('mt.promotions.second')
+                return view('mt.promotions.TOPS.second')
                     ->with('UserProfile',$UserProfile);
             } else {
                 return redirect()->action('MT\Promotion\PromotionController@index');
@@ -111,7 +111,7 @@ class PromotionController extends MainController
         
         if ($getSession['isthank'] == true) {
             $this->setSession(['isthank' => false]);
-            return view('mt.promotions.thankpage');
+            return view('mt.promotions.TOPS.thankpage');
         }else {
             return $this->errorMessage('คุณไม่สามารถเข้ารับของรางวัลได้ เนื่องจากไม่พบเงื่อนไข');
         }

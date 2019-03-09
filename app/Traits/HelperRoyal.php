@@ -59,7 +59,7 @@ trait HelperRoyal
 
 	protected function errorMessage($message,$title = 'พบข้อผิดพลาดบางประการ')
 	{
-        return view('mt.promotions.page-message')
+        return view('mt.promotions.TOPS.page-message')
         		->with('title', $title)
             	->with('message',$message);
 	}
