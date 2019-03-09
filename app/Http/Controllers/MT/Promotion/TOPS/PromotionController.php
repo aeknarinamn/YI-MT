@@ -1,6 +1,6 @@
 <?php
 
-namespace YellowProject\Http\Controllers\MT\Promotion;
+namespace YellowProject\Http\Controllers\MT\Promotion\TOPS;
 
 use Illuminate\Http\Request;
 use YellowProject\MT\Shop\Shop;

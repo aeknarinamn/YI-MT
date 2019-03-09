@@ -1,6 +1,6 @@
 <?php
 
-namespace YellowProject\Http\Controllers\MT\Promotion;
+namespace YellowProject\Http\Controllers\MT\Promotion\TOPS;
 
 use Carbon\Carbon;
 use Illuminate\Http\Request;
