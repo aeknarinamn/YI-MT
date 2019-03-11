@@ -80,7 +80,7 @@ class PromotionController extends MainController
             return $this->errorMessage('คุณไม่สามารถเข้ารับของรางวัลได้ เนื่องจากไม่พบเงื่อนไข');
         }
         
-        if ($getSession['isthank'] == true) {
+        if ($this->getSession()['isthank'] == true) {
             $this->delSession();
             return view('mt.promotions.TOPS.thankpage');
         }else {
