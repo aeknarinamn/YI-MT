@@ -11,12 +11,6 @@ use YellowProject\Http\Controllers\MainController;
 class CustomerController extends MainController
 {
 
-    public function __construct(Customer $customer)
-    {
-        $this->points = $customer->total_stamp;
-        $this->point_rule = 6;
-    }
-
     public function index()
     {
         $customers = Customer::all();
