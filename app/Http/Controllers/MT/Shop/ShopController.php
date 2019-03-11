@@ -21,16 +21,13 @@ class ShopController extends MainController
     {
         $this->startSession();
         
-        $this->addSession(['name' => 'Wisanu']);
-        $data = $this->getSession();
-        $data['name'] = '$this->getSession()';
+        $this->addSession('Testname', 'ทดลอง add session');
+
 
         if (session()->has($this->nameSession())) {
             // return $data;
             return session()->get($this->nameSession());
         }
-
-        return $data;
     }
 
 }
