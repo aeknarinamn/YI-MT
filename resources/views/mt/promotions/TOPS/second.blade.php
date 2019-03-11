@@ -38,7 +38,7 @@
 		@endisset
 	</form>
 
-	<form action="{{ action('MT\Promotion\PromotionController@index') }}" method="GET" id="laterForm">
+	<form action="{{ action('MT\Promotion\TOPS\PromotionController@index') }}" method="GET" id="laterForm">
 		{!! csrf_field() !!}
 		<input type="hidden" name="confirm" value="later">
 	</form>

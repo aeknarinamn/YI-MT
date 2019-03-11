@@ -180,7 +180,6 @@ Route::get('clear-data-mt-estamp', function (Request $request) {
 Route::get('promotions', 'MT\Promotion\TOPS\PromotionController@index');
 Route::get('promotions_first', 'MT\TOPS\Promotion\PromotionController@first');
 Route::post('promotions_second', 'MT\TOPS\Promotion\PromotionController@second');
-Route::post('promotions_confirm', 'MT\TOPS\Promotion\PromotionController@confirm');
 Route::get('mt-royal-thankpage', 'MT\TOPS\Promotion\PromotionController@thank');
 
 /*
