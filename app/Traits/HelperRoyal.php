@@ -59,7 +59,7 @@ trait HelperRoyal
 
 	protected function errorMessage($message,$title = 'พบข้อผิดพลาดบางประการ')
 	{
-        return view('mt.promotions.TOPS.page-message')
+        return view('mt.promotions.page-message')
         		->with('title', $title)
             	->with('message',$message);
 	}
@@ -71,7 +71,7 @@ trait HelperRoyal
                 ->with('lineUserProfile',$payload);
 	}
 
-	protected  function generateCode ($count)
+	protected  function generateCode ($count = 30)
     {
         return str_random($count);    
     } // ------  / generateCode 

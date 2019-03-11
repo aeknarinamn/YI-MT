@@ -25,6 +25,11 @@ class ShopController extends MainController
         $data = $this->getSession();
         $data['name'] = '$this->getSession()';
 
+        if (session()->has($this->nameSession())) {
+            // return $data;
+            return session()->get($this->nameSession());
+        }
+
         return $data;
     }
 

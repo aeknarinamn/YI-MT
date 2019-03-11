@@ -17,42 +17,48 @@ trait SessionFunc
 
 
 	protected function startSession()
-	{
-		session()->put($this->nameSession(), collect());
-		session()->push($this->nameSession(), [
-			'keys' => $this->generateCode(40),
-			'verified' => 'false',
-			'isactive' => 'false',
-			'isthank' => true,
-		]);
+	{	
+		if (!session()->get($this->nameSession())) {
+			session()->put($this->nameSession().'.'.'token', 'Hasd8dna8d45');
+			session()->put($this->nameSession().'.'.'keys', 'thisisabook');
+        	session()->put($this->nameSession().'.'.'isActive', false);
+        	session()->put($this->nameSession().'.'.'verified', false);
+        	session()->put($this->nameSession().'.'.'isthank', false);
+			// session()->put($this->nameSession(), collect());
+			// session()->push($this->nameSession(), [
+			// 'keys' => $this->generateCode(40),
+			// 'verified' => 'false',
+			// 'isactive' => 'false',
+			// 'isthank' => true,
+		// ]);
 
+		}
 	}
 
 	protected function getSession()
 	{
 		if (session()->get($this->nameSession())) {
-			$data = session()->get($this->nameSession());
-			return Arr::collapse($data);
+			return session()->get($this->nameSession());
 		}else {
 			return 'ไม่พบ Function startSession ถูกทำลายแล้ว';
 		}
 		
 	}
 
-	protected function addSession($array)
+	protected function addSession($key,$value)
 	{
 		if (session()->get($this->nameSession())) {
-			return session()->push($this->nameSession(), $array);
+			session()->put($this->nameSession().'.'.$key, $value);
 		}else {
 			return 'ไม่พบ Function startSession ถูกทำลายแล้ว';
 		}
 		
 	}
 
-	protected function setSession($array)
-	{	
+	protected function setSession($key,$value)
+	{
 		if (session()->get($this->nameSession())) {
-			return session()->push($this->nameSession(), $array);
+			session()->put($this->nameSession().'.'.$key, $value);
 		}else {
 			return 'ไม่พบ Function startSession ถูกทำลายแล้ว';
 		}
@@ -84,6 +90,6 @@ trait SessionFunc
 		    "isActive": false,
 		    "name": "$this->getSession()"
 		}
-        $data['keys'] = '$this->getSession()';
-        $data['name'] = '$this->getSession()';
+        $this->getSession()['keys']; 
+        $this->getSession()['name'];
 */

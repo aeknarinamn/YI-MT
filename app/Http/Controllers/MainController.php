@@ -10,3 +10,4 @@ class MainController extends Controller
 {
     use HelperRoyal, SessionFunc;
 }
+
