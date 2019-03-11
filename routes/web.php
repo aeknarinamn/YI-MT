@@ -180,7 +180,16 @@ Route::get('clear-data-mt-estamp', function (Request $request) {
 Route::get('promotions', 'MT\Promotion\TOPS\PromotionController@index');
 Route::get('promotions_first', 'MT\Promotion\TOPS\PromotionController@first');
 Route::post('promotions_second', 'MT\Promotion\TOPS\PromotionController@second');
+<<<<<<< HEAD
 Route::get('mt-royal-thankpage', 'MT\Promotion\TOPS\PromotionController@thank');
+=======
+Route::post('promotions_confirm', 'MT\Promotion\TOPS\PromotionController@confirm');
+Route::get('mt-royal-thankpage', 'MT\Promotion\TOPS\PromotionController@thank');
+
+Route::get('mt-question-1', 'MT\Promotion\TOPS\QuestionController@questionPage1');
+Route::post('mt-question-1', 'MT\Promotion\TOPS\QuestionController@questionPage1Store');
+Route::get('mt-question-2', 'MT\Promotion\TOPS\QuestionController@questionPage2');
+>>>>>>> 19de86bd360e38ef486648536ab22e84ab61d23c
 
 /*
   MT Royal Customer
@@ -203,19 +212,15 @@ Route::resource('mt/customers.shops', 'MT\Customer\CustomerShopController',['onl
 
 Route::get('mt/customers-redeems', 'MT\Customer\CustomerController@redeem');
 
-/*
-  MT Royal Shop
-*/
+/*------------MT Royal Shop-------------*/
 Route::resource('mt/shops', 'MT\Shop\ShopController',['only' => [
   'index','show'
 ]]);
 Route::resource('mt/shops.customers', 'MT\Shop\ShopCustomerController',['only' => [
   'index','show'
 ]]);
+/*-----------MT Royal Estamp------------*/
 
-/*
-  MT Royal Estamp
-*/
 Route::resource('mt/estamps', 'MT\Estamp\EstampController',['only' => [
   'index'
 ]]);

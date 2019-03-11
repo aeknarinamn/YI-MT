@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use YellowProject\SubscriberLine;
 use YellowProject\Field;
 use YellowProject\Subscriber\SubscriberCategory;
+use YellowProject\Subscriber\SubscriberItemData;
 
 class SubscriberItem extends Model
 {
@@ -52,5 +53,10 @@ class SubscriberItem extends Model
     public function field()
     {
         return $this->belongsTo(Field::class, 'field_id', 'id');
+    }
+
+    public function subscriberItemDatas()
+    {
+        return $this->hasMany(SubscriberItemData::class, 'subscriber_id', 'id');
     }
 }
