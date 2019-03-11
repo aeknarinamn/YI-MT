@@ -442,6 +442,7 @@ class ComposerStaticInitf1803765790ef8f437f64284ab88159e
         'CreateFactMtCustomerEstampTable' => __DIR__ . '/../..' . '/database/migrations/2019_03_05_154710_create_fact_mt_customer_estamp_table.php',
         'CreateFactMtCustomerTable' => __DIR__ . '/../..' . '/database/migrations/2019_03_05_143358_create_fact_mt_customer_table.php',
         'CreateFactMtRedeemTable' => __DIR__ . '/../..' . '/database/migrations/2019_03_07_134332_create_fact_mt_redeem_table.php',
+        'CreateFactSubscriberItemsTable' => __DIR__ . '/../..' . '/database/migrations/2019_03_11_165635_create_fact_subscriber_items_table.php',
         'DatabaseSeeder' => __DIR__ . '/../..' . '/database/seeds/DatabaseSeeder.php',
         'EasyPeasyICS' => __DIR__ . '/..' . '/phpmailer/phpmailer/extras/EasyPeasyICS.php',
         'File_Iterator' => __DIR__ . '/..' . '/phpunit/php-file-iterator/src/Iterator.php',

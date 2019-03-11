@@ -14,6 +14,7 @@ return array(
     'CreateFactMtCustomerEstampTable' => $baseDir . '/database/migrations/2019_03_05_154710_create_fact_mt_customer_estamp_table.php',
     'CreateFactMtCustomerTable' => $baseDir . '/database/migrations/2019_03_05_143358_create_fact_mt_customer_table.php',
     'CreateFactMtRedeemTable' => $baseDir . '/database/migrations/2019_03_07_134332_create_fact_mt_redeem_table.php',
+    'CreateFactSubscriberItemsTable' => $baseDir . '/database/migrations/2019_03_11_165635_create_fact_subscriber_items_table.php',
     'DatabaseSeeder' => $baseDir . '/database/seeds/DatabaseSeeder.php',
     'EasyPeasyICS' => $vendorDir . '/phpmailer/phpmailer/extras/EasyPeasyICS.php',
     'File_Iterator' => $vendorDir . '/phpunit/php-file-iterator/src/Iterator.php',

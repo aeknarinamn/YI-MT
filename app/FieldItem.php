@@ -21,6 +21,7 @@ class FieldItem extends Model
     protected $fillable = [
         'dim_fields_id',
         'value',
+        'img_url'
     ];
 
     // protected $dates = ['deleted_at'];
