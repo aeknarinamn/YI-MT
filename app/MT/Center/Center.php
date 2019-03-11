@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Center extends Model
 {
     public $timestamps = true;
-    protected $table = 'dim_mt_center';
+    // protected $table = 'dim_mt_center';
     // protected $fillable = [
     // 	'line_user_id',
     // 	'shop_id',
@@ -18,5 +18,7 @@ class Center extends Model
 
     const CENTER_NAME = 'isCenter';
 
-    
+    const PAGE_TOPS_QUESTION = 'mt.promotions.TOPS.question.';
+    const PAGE_TOPS_QUESTION_PAGE1 = 'mt.promotions.TOPS.question.page-1';
+    const PAGE_TOPS_QUESTION_PAGE2 = 'mt.promotions.TOPS.question.page-2';
 }

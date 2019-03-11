@@ -2,11 +2,12 @@
 
 namespace YellowProject\Http\Controllers\MT\Promotion\TOPS;
 
-use Illuminate\Http\Request;
-use YellowProject\Http\Controllers\Controller;
 use YellowProject\Field;
-use YellowProject\SubscriberLine;
+use Illuminate\Http\Request;
 use YellowProject\SubscriberItem;
+use YellowProject\SubscriberLine;
+use YellowProject\MT\Center\Center;
+use YellowProject\Http\Controllers\Controller;
 use YellowProject\Subscriber\SubscriberItemData;
 
 class QuestionController extends Controller
@@ -16,7 +17,9 @@ class QuestionController extends Controller
     	$field = Field::where('name','regular_purchase')->first();
     	$fieldItems = $field->fieldItems->chunk(2);
     	
-    	return view('mt.promotions.TOPS.question.page-1')
+        // Center::PAGE_TOPS_QUESTION = 'mt.promotions.TOPS.question.'
+        // เป็นการกำหนดเส้นทางของ folder mt.promotions.TOPS.question
+    	return view(Center::PAGE_TOPS_QUESTION.'page-1')
     		->with('fieldItems',$fieldItems);
     }
 
@@ -60,6 +63,6 @@ class QuestionController extends Controller
 
     public function questionPage2()
     {
-    	return view('mt.promotions.TOPS.question.page-2');
+    	return view(Center::PAGE_TOPS_QUESTION.'page-2');
     }
 }
