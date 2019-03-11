@@ -178,10 +178,13 @@ Route::get('clear-data-mt-estamp', function (Request $request) {
 
 
 Route::get('promotions', 'MT\Promotion\TOPS\PromotionController@index');
-Route::get('promotions_first', 'MT\TOPS\Promotion\PromotionController@first');
-Route::post('promotions_second', 'MT\TOPS\Promotion\PromotionController@second');
-Route::post('promotions_confirm', 'MT\TOPS\Promotion\PromotionController@confirm');
-Route::get('mt-royal-thankpage', 'MT\TOPS\Promotion\PromotionController@thank');
+Route::get('promotions_first', 'MT\Promotion\TOPS\PromotionController@first');
+Route::post('promotions_second', 'MT\Promotion\TOPS\PromotionController@second');
+Route::post('promotions_confirm', 'MT\Promotion\TOPS\PromotionController@confirm');
+Route::get('mt-royal-thankpage', 'MT\Promotion\TOPS\PromotionController@thank');
+
+Route::get('mt-question-1', 'MT\Promotion\TOPS\QuestionController@questionPage1');
+Route::get('mt-question-2', 'MT\Promotion\TOPS\QuestionController@questionPage2');
 
 /*
   MT Royal Customer

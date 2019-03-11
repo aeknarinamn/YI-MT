@@ -62,7 +62,7 @@
 					<img src="mt/img/images/btn-no.png">
 				</button>
 			@else
-				<form action="{{ action('MT\Promotion\PromotionController@second') }}" method="POST">
+				<form action="{{ action('MT\Promotion\TOPS\PromotionController@second') }}" method="POST">
 					{!! csrf_field() !!} {{ method_field('POST') }}
 					@isset ($UserProfile)
 					    <input type="hidden" name="id" value="{{ $UserProfile->id }}">

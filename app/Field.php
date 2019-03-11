@@ -43,6 +43,7 @@ class Field extends Model
         'is_master_subscriber',
         'is_master_subscriber_update',
         'mapping_master_field',
+        'img_url'
     ];
 
     public function fieldItems()

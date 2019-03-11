@@ -63,7 +63,7 @@ class PromotionController extends MainController
                 return view('mt.promotions.TOPS.second')
                     ->with('UserProfile',$UserProfile);
             } else {
-                return redirect()->action('MT\Promotion\PromotionController@index');
+                return redirect()->action('MT\Promotion\TOPS\PromotionController@index');
             }
         } else {
                 return $this->errorLineLogin();
@@ -77,10 +77,10 @@ class PromotionController extends MainController
             if ($request->has('confirm')) {
                 if ($request->confirm == 'confirm') {
                     $total_point = $this->points-Customer::RULE_REDEEM;
-                    return redirect()->action('MT\Promotion\PromotionController@thank')
+                    return redirect()->action('MT\Promotion\TOPS\PromotionController@thank')
                         ->with('point',$total_point);
                 } else{
-                    return redirect()->action('MT\Promotion\PromotionController@index');$lineUserProfile = \Session::get('line-login', "");
+                    return redirect()->action('MT\Promotion\TOPS\PromotionController@index');$lineUserProfile = \Session::get('line-login', "");
         $shop = Shop::where('is_active',1)->first();
         if ($lineUserProfile) {
             $user = Customer::where('line_user_id',$lineUserProfile->id)->first();
@@ -96,7 +96,7 @@ class PromotionController extends MainController
                 }
             }
         } else {
-            return redirect()->action('MT\Promotion\PromotionController@index');
+            return redirect()->action('MT\Promotion\TOPS\PromotionController@index');
         }
         
     } //end func confirm
