@@ -16,9 +16,12 @@ class Center extends Model
     // 	'is_redeem',
     // ];
 
-    const CENTER_NAME = 'isCenter';
+    const CENTER_NAME = 'isCenter'; 
 
     const PAGE_TOPS_QUESTION = 'mt.promotions.TOPS.question.';
+    const TOPS_QUESTION_CONTROLLER = 'MT\Promotion\TOPS\QuestionController@';
+
+
     const PAGE_TOPS_QUESTION_PAGE1 = 'mt.promotions.TOPS.question.page-1';
     const PAGE_TOPS_QUESTION_PAGE2 = 'mt.promotions.TOPS.question.page-2';
 }

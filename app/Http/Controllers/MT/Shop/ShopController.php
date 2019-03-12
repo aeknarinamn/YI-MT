@@ -19,9 +19,10 @@ class ShopController extends MainController
 
     public function show()
     {
+        // $this->delSession()
         $this->startSession();
         
-        $this->addSession('Testname', 'ทดลอง add session');
+        $this->addSession('testToken', 'ทดลอง add session');
 
 
         if (session()->has($this->nameSession())) {

@@ -19,6 +19,7 @@ class Customer extends Model
     	'total_stamp',
     	'is_active',
     	'is_redeem',
+        'is_use_coupon',
     ];
 
     const RULE_REDEEM = 6;

@@ -1,22 +1,23 @@
 <?php
-use Illuminate\Http\Request;
-use YellowProject\LineWebHooks;
-use YellowProject\Profilling;
-use YellowProject\ConnectBotNoi;
-use YellowProject\Field;
-use YellowProject\SubscriberLine;
-use YellowProject\SubscriberItem;
-use YellowProject\PhpMailer;
-use YellowProject\GeneralFunction\CoreFunction;
-use YellowProject\GeneralFunction\GenData;
-use YellowProject\GeneralFunction\LineNotification;
-use YellowProject\Queuing\QueuingData;
-use YellowProject\Segment\Segment;
-use YellowProject\TEST\TestFunction;
-use YellowProject\Subscriber\MasterSubscriber;
-use YellowProject\LineUserProfile;
-use YellowProject\JobScheduleFunction;
 use Carbon\Carbon;
+use YellowProject\Field;
+use Illuminate\Http\Request;
+use YellowProject\PhpMailer;
+use YellowProject\Profilling;
+use YellowProject\LineWebHooks;
+use YellowProject\ConnectBotNoi;
+use YellowProject\SubscriberItem;
+use YellowProject\SubscriberLine;
+use YellowProject\LineUserProfile;
+use YellowProject\Segment\Segment;
+use YellowProject\MT\Center\Center;
+use YellowProject\TEST\TestFunction;
+use YellowProject\JobScheduleFunction;
+use YellowProject\Queuing\QueuingData;
+use YellowProject\GeneralFunction\GenData;
+use YellowProject\Subscriber\MasterSubscriber;
+use YellowProject\GeneralFunction\CoreFunction;
+use YellowProject\GeneralFunction\LineNotification;
 
 Route::get('/run-job', function () {
   JobScheduleFunction::checkFunctionDownload();
@@ -187,8 +188,13 @@ Route::post('promotions_confirm', 'MT\Promotion\TOPS\PromotionController@confirm
 Route::get('mt-royal-thankpage', 'MT\Promotion\TOPS\PromotionController@thank');
 
 Route::get('mt-question-1', 'MT\Promotion\TOPS\QuestionController@questionPage1');
+// Route::get('mt-question-1', 'MT\Promotion\TOPS\QuestionController@questionPage1');
 Route::post('mt-question-1', 'MT\Promotion\TOPS\QuestionController@questionPage1Store');
+Route::post('mt-question-2', 'MT\Promotion\TOPS\QuestionController@questionPage2Store');
+Route::post('mt-question-check', 'MT\Promotion\TOPS\QuestionController@checkSubscriber');
 Route::get('mt-question-2', 'MT\Promotion\TOPS\QuestionController@questionPage2');
+Route::get('mt-question-addcoupon', 'MT\Promotion\TOPS\QuestionController@addcoupon');
+Route::get('mt-question-addbarcode', 'MT\Promotion\TOPS\QuestionController@addbarcode');
 // >>>>>>> 19de86bd360e38ef486648536ab22e84ab61d23c
 
 /*
