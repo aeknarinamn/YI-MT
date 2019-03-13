@@ -181,21 +181,16 @@ Route::get('clear-data-mt-estamp', function (Request $request) {
 Route::get('promotions', 'MT\Promotion\TOPS\PromotionController@index');
 Route::get('promotions_first', 'MT\Promotion\TOPS\PromotionController@first');
 Route::post('promotions_second', 'MT\Promotion\TOPS\PromotionController@second');
-// <<<<<<< HEAD
 Route::get('mt-royal-thankpage', 'MT\Promotion\TOPS\PromotionController@thank');
 
 Route::post('promotions_confirm', 'MT\Promotion\TOPS\PromotionController@confirm');
 Route::get('mt-royal-thankpage', 'MT\Promotion\TOPS\PromotionController@thank');
 
 Route::get('mt-question-1', 'MT\Promotion\TOPS\QuestionController@questionPage1');
-// Route::get('mt-question-1', 'MT\Promotion\TOPS\QuestionController@questionPage1');
 Route::post('mt-question-1', 'MT\Promotion\TOPS\QuestionController@questionPage1Store');
-// Route::post('mt-question-2', 'MT\Promotion\TOPS\QuestionController@questionPage2Store');
 Route::post('mt-question-check', 'MT\Promotion\TOPS\QuestionController@checkSubscriber');
-// Route::get('mt-question-2', 'MT\Promotion\TOPS\QuestionController@questionPage2');
 Route::get('mt-question-addcoupon', 'MT\Promotion\TOPS\QuestionController@addcoupon');
 Route::get('mt-question-addbarcode', 'MT\Promotion\TOPS\QuestionController@addbarcode');
-// >>>>>>> 19de86bd360e38ef486648536ab22e84ab61d23c
 
 /*
   MT Royal Customer

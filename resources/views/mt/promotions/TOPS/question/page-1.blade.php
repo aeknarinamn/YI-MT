@@ -94,16 +94,23 @@
 
 	            var checkQ1 = $('input[name="values[]"]:checked').length > 0;
 	            var checkQ2 = $('input[name="value"]:checked').length > 0;
+	            var msgError = "กรุณาใส่ข้อมูลให้ครบถ้วน\n"; 
+	            // if(document.getElementById("checkbox3").checked == false){
+	            //     isSubmit = 0;
+	            //     msgError += "กรุณายืนยันการสมัครและรับรองเงื่อนไข \n";
+	            // }
 	            if(!checkQ1) {
-	            	alert('กรุณาตอบคำถามข้อที่ 1 ด้วย คะ');
+	            	msgError += "1. ประเภทของผลิตภัณฑ์ที่คุณซื้อเป็นประจำที่เทสโก้ โลตัส คือผลิตภัณฑ์ประเภทใดบ้าง\n";
 	            }
 
 	            if(!checkQ2) {
-	            	alert('กรุณาตอบคำถามข้อที่ 2 ด้วย คะ');
+	            	msgError += "2.ปกติคุณช้อปที่ท็อปส์ประมาณครั้งละเท่าไหร่";
 	            }
 
 	            if(checkQ1 && checkQ2){
 	            	$('#action-form').submit();
+	            }else{
+	                alert(msgError);
 	            }
 
 	    }
