@@ -99,6 +99,11 @@ class QuestionController extends MainController
 	    		'field_id' => $field->id
 	    	]);
     	}
+
+        $this->validate(request(), [
+            'value' => 'required',
+            'values' => 'required',
+        ]);
     	
     	foreach ($request->values as $key => $value) {
     		SubscriberItemData::create([
@@ -127,61 +132,61 @@ class QuestionController extends MainController
         
     }
 
-    public function questionPage2()
-    {
-        // $lineUserProfile = \Session::get('line-login', "");
-        // $UserProfile = Customer::where('line_user_id',$request->line_user_id)
-        $UserProfile = Customer::where('line_user_id',$this->testLineUse)
-            ->where('is_use_coupon','1')
-            ->first();
-        if ($UserProfile) {
-            return redirect()->action($this->ControllerAddBarcode); 
-        }
+    // public function questionPage2()
+    // {
+    //     // $lineUserProfile = \Session::get('line-login', "");
+    //     // $UserProfile = Customer::where('line_user_id',$request->line_user_id)
+    //     $UserProfile = Customer::where('line_user_id',$this->testLineUse)
+    //         ->where('is_use_coupon','1')
+    //         ->first();
+    //     if ($UserProfile) {
+    //         return redirect()->action($this->ControllerAddBarcode); 
+    //     }
 
-        $fields = $this->fieldPage2;
-        $fieldItems = $fields->fieldItems;
-        return view($this->viewPage2)
-            ->with('fieldItems',$fieldItems);
-    }
+    //     $fields = $this->fieldPage2;
+    //     $fieldItems = $fields->fieldItems;
+    //     return view($this->viewPage2)
+    //         ->with('fieldItems',$fieldItems);
+    // }
 
-    public function questionPage2Store(Request $request)
-    {
-        $field = $this->fieldPage2;
-        $subscriberId = $field->subscriber_id; // = 1 => QUESTIONARE
-        $lineUserId = $request->line_user_id;  // test = 6
-        $subscriberLine = SubscriberLine::where('subscriber_id',$subscriberId)->where('line_user_id',$lineUserId)->first();
-        if(!$subscriberLine){
-            $subscriberLine = SubscriberLine::create([
-                'subscriber_id' => $subscriberId,
-                'line_user_id' => $lineUserId
-            ]);
-        }else{
-            $subscriberLine->update([
-                'updated_at' => \Carbon\Carbon::now()->format('Y-m-d H:i:s'),
-            ]);
-        }
+    // public function questionPage2Store(Request $request)
+    // {
+    //     $field = $this->fieldPage2;
+    //     $subscriberId = $field->subscriber_id; // = 1 => QUESTIONARE
+    //     $lineUserId = $request->line_user_id;  // test = 6
+    //     $subscriberLine = SubscriberLine::where('subscriber_id',$subscriberId)->where('line_user_id',$lineUserId)->first();
+    //     if(!$subscriberLine){
+    //         $subscriberLine = SubscriberLine::create([
+    //             'subscriber_id' => $subscriberId,
+    //             'line_user_id' => $lineUserId
+    //         ]);
+    //     }else{
+    //         $subscriberLine->update([
+    //             'updated_at' => \Carbon\Carbon::now()->format('Y-m-d H:i:s'),
+    //         ]);
+    //     }
 
-        $subscriberItem = SubscriberItem::where('subscriber_line_id',$subscriberId)->where('field_id',$field->id)->first();
-        if($subscriberItem){
-            return $this->errorMessage('พบว่ามีการบันทึกข้อมูลแล้ว');
-            $subscriberItemDatas = $subscriberItem->subscriberItemDatas;
-            foreach ($subscriberItemDatas as $subscriberItemData) {
-                $subscriberItemData->delete();
-            }
-        }else{
-            $subscriberItem = SubscriberItem::create([
-                'subscriber_line_id' => $subscriberLine->id,
-                'field_id' => $field->id
-            ]);
-        }
+    //     $subscriberItem = SubscriberItem::where('subscriber_line_id',$subscriberId)->where('field_id',$field->id)->first();
+    //     if($subscriberItem){
+    //         return $this->errorMessage('พบว่ามีการบันทึกข้อมูลแล้ว');
+    //         $subscriberItemDatas = $subscriberItem->subscriberItemDatas;
+    //         foreach ($subscriberItemDatas as $subscriberItemData) {
+    //             $subscriberItemData->delete();
+    //         }
+    //     }else{
+    //         $subscriberItem = SubscriberItem::create([
+    //             'subscriber_line_id' => $subscriberLine->id,
+    //             'field_id' => $field->id
+    //         ]);
+    //     }
         
-            SubscriberItemData::create([
-                'subscriber_id' => $subscriberItem->id,
-                'value' => $request->value
-            ]);
+    //         SubscriberItemData::create([
+    //             'subscriber_id' => $subscriberItem->id,
+    //             'value' => $request->value
+    //         ]);
             
-        return redirect()->action($this->ControllerAddCoupon)->with('lineUserId',$lineUserId);
-    }
+    //     return redirect()->action($this->ControllerAddCoupon)->with('lineUserId',$lineUserId);
+    // }
 
     public function addcoupon()
     {
