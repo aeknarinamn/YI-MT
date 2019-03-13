@@ -23,15 +23,17 @@ class QuestionController extends MainController
         $this->viewAddBarcode = 'mt.promotions.TOPS.question.barcode-coupon';
         $this->ControllerAddCoupon = 'MT\Promotion\TOPS\QuestionController@addcoupon';
         $this->ControllerAddBarcode = 'MT\Promotion\TOPS\QuestionController@addbarcode';
+        $this->ControllerPage1 = 'MT\Promotion\TOPS\QuestionController@questionPage1';
+        $this->ControllerPage2 = 'MT\Promotion\TOPS\QuestionController@questionPage2';
         $this->publicPath = '/mt/promotions/TOPS/';
+        $this->testLineUse = 6;
     }
 
     public function questionPage1()
     {
         // $lineUserProfile = \Session::get('line-login', "");
-        $lineUserProfile = 6;
         // $UserProfile = Customer::where('line_user_id',$request->line_user_id)
-        $UserProfile = Customer::where('line_user_id',$lineUserProfile)
+        $UserProfile = Customer::where('line_user_id',$this->testLineUse)
             ->where('is_use_coupon','1')
             ->first();
         if ($UserProfile) {
@@ -41,34 +43,56 @@ class QuestionController extends MainController
         $field = $this->fieldPage1;
     	$fieldItems = $field->fieldItems->chunk(2);
 
+        $question2 = $this->fieldPage2;
+        $question2Items = $question2->fieldItems;
+
     	return view($this->viewPage1)
-    		->with('fieldItems',$fieldItems);
+            ->with('fieldItems',$fieldItems)
+    		->with('question2Items',$question2Items);
     }
 
     public function questionPage1Store(Request $request)
     {
+        // dd( $request->all());
+        $UserProfile = Customer::where('line_user_id',$this->testLineUse)
+            ->where('is_use_coupon','0')
+            ->first();
+        if (!$UserProfile) {
+            return $this->errorMessage("กรุณากลับไปหน้า Login"); 
+        }
+
     	$field = $this->fieldPage1;
+        $field2 = $this->fieldPage2;
     	$subscriberId = $field->subscriber_id;
-    	$lineUserId = $request->line_user_id;
-    	$subscriberLine = SubscriberLine::where('subscriber_id',$subscriberId)->where('line_user_id',$lineUserId)->first();
+    	$line_user_id = $request->line_user_id;
+
+        $UserLine = Customer::where('line_user_id',$line_user_id)
+            ->where('is_use_coupon','1')
+            ->first();
+        if ($UserLine) {
+            return $this->errorMessage('ท่านได้ทำการ is_use_coupon แล้ว'); 
+        }
+
+    	$subscriberLine = SubscriberLine::where('subscriber_id',$subscriberId)
+            ->where('line_user_id',$line_user_id)
+            ->first();
     	if(!$subscriberLine){
     		$subscriberLine = SubscriberLine::create([
     			'subscriber_id' => $subscriberId,
-    			'line_user_id' => $lineUserId
+    			'line_user_id' => $line_user_id
     		]);
     	}else{
     		$subscriberLine->update([
     			'updated_at' => \Carbon\Carbon::now()->format('Y-m-d H:i:s'),
     		]);
     	}
-        $line_user_id = $subscriberLine->line_user_id;
-    	$subscriberItem = SubscriberItem::where('subscriber_line_id',$line_user_id)->where('field_id',$field->id)->first();
+
+    	$subscriberItem = SubscriberItem::where('subscriber_line_id',$subscriberLine->id)
+            ->where('field_id',$field->id)
+            ->first();
     	if($subscriberItem){
             return $this->errorMessage('พบว่ามีการบันทึกข้อมูลแล้ว');
-    		$subscriberItemDatas = $subscriberItem->subscriberItemDatas;
-    		foreach ($subscriberItemDatas as $key => $subscriberItemData) {
-    			$subscriberItemData->delete();
-    		}
+
     	}else{
     		$subscriberItem = SubscriberItem::create([
 	    		'subscriber_line_id' => $subscriberLine->id,
@@ -83,10 +107,37 @@ class QuestionController extends MainController
     		]);
     		
     	}
+
+        $subscriberItem2 = SubscriberItem::where('subscriber_line_id',$subscriberLine->id)
+            ->where('field_id',$field2->id)
+            ->first();
+        if(!$subscriberItem2){
+            $subscriberItem2 = SubscriberItem::create([
+                'subscriber_line_id' => $subscriberLine->id,
+                'field_id' => $field2->id
+            ]);
+        }
+        
+        SubscriberItemData::create([
+            'subscriber_id' => $subscriberItem2->id,
+            'value' => $request->value
+        ]);
+
+            return redirect()->action($this->ControllerAddCoupon)->with('line_user_id',$line_user_id);
+        
     }
 
     public function questionPage2()
     {
+        // $lineUserProfile = \Session::get('line-login', "");
+        // $UserProfile = Customer::where('line_user_id',$request->line_user_id)
+        $UserProfile = Customer::where('line_user_id',$this->testLineUse)
+            ->where('is_use_coupon','1')
+            ->first();
+        if ($UserProfile) {
+            return redirect()->action($this->ControllerAddBarcode); 
+        }
+
         $fields = $this->fieldPage2;
         $fieldItems = $fields->fieldItems;
         return view($this->viewPage2)
@@ -97,7 +148,7 @@ class QuestionController extends MainController
     {
         $field = $this->fieldPage2;
         $subscriberId = $field->subscriber_id; // = 1 => QUESTIONARE
-        $lineUserId = $request->line_user_id;  // test = 1
+        $lineUserId = $request->line_user_id;  // test = 6
         $subscriberLine = SubscriberLine::where('subscriber_id',$subscriberId)->where('line_user_id',$lineUserId)->first();
         if(!$subscriberLine){
             $subscriberLine = SubscriberLine::create([
@@ -112,7 +163,7 @@ class QuestionController extends MainController
 
         $subscriberItem = SubscriberItem::where('subscriber_line_id',$subscriberId)->where('field_id',$field->id)->first();
         if($subscriberItem){
-            // return $this->errorMessage('พบว่ามีการบันทึกข้อมูลแล้ว');
+            return $this->errorMessage('พบว่ามีการบันทึกข้อมูลแล้ว');
             $subscriberItemDatas = $subscriberItem->subscriberItemDatas;
             foreach ($subscriberItemDatas as $subscriberItemData) {
                 $subscriberItemData->delete();
@@ -134,18 +185,19 @@ class QuestionController extends MainController
 
     public function addcoupon()
     {
-        $line_user_id = session()->get( 'lineUserId' );
+        $line_user_id = session()->get( 'line_user_id' );
+        if (!$line_user_id) {
+            return redirect()->action($this->ControllerPage1); 
+        }
         $UserProfile = Customer::where('line_user_id',$line_user_id)
             ->where('is_use_coupon','0')
             ->first();
             if (!$UserProfile) {
-                return $this->errorMessage('กรุณากลับไปหน้า login');
-            }else{
-                $UserProfile->is_use_coupon = '1';
-                $UserProfile->save();
+                return redirect()->action($this->ControllerPage1); 
             }
         return view($this->viewAddCoupon)
-            ->with('publicPath',$this->publicPath);
+            ->with('publicPath',$this->publicPath)
+            ->with('line_user_id',$line_user_id);
     }
 
     public function addbarcode()
@@ -155,12 +207,14 @@ class QuestionController extends MainController
     }
 
     public function checkSubscriber(Request $request)
-    {   
+    {  
+        // dd($request->all()); 
         $UserProfile = Customer::where('line_user_id',$request->line_user_id)
             ->where('is_use_coupon','0')
             ->first();
             if (!$UserProfile) {
-                return $this->errorMessage('กรุณากลับไปหน้า login');
+                return redirect()->action($this->ControllerPage1); 
+                // return $this->errorMessage('กรุณากลับไปหน้า login');
             }else{
                 $UserProfile->is_use_coupon = '1';
                 $UserProfile->save();
@@ -170,3 +224,9 @@ class QuestionController extends MainController
     } // ------  / checkSubscriber 
 
 }
+
+
+            // $subscriberItemDatas = $subscriberItem->subscriberItemDatas;
+            // foreach ($subscriberItemDatas as $key => $subscriberItemData) {
+            //  $subscriberItemData->delete();
+            // }

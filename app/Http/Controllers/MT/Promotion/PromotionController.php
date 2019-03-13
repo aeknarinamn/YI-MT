@@ -15,6 +15,8 @@ class PromotionController extends MainController
     public function __construct()
     {
         $this->points = 110;
+        $this->ControllerIndex = 'MT\Promotion\PromotionController@index';
+        $this->viewThankpage = 'mt.promotions.thankpage';
     }
 
     public function index()
@@ -25,7 +27,14 @@ class PromotionController extends MainController
     public function first()
     {   
         $lineUserProfile = \Session::get('line-login', "");
-        dd($lineUserProfile);
+
+        $UserProfile = Customer::where('line_user_id',$this->testLineUse)
+            ->where('is_reddem','1')
+            ->first();
+        if ($UserProfile) {
+            return $this->errorMessage('คุณได้ทำการ IsRedeem แล้ว ทดลอง');
+        }
+
         $shop = Shop::where('is_active',1)->first();
         if ($lineUserProfile) {
             $user = Customer::where('line_user_id',$lineUserProfile->id)->first();
@@ -65,7 +74,7 @@ class PromotionController extends MainController
                 return view('mt.promotions.second')
                     ->with('UserProfile',$UserProfile);
             } else {
-                return redirect()->action('MT\Promotion\PromotionController@index');
+                return redirect()->action($this->ControllerIndex);
             }
         } else {
                 return $this->errorLineLogin();
@@ -84,7 +93,7 @@ class PromotionController extends MainController
         
         if ($getSession['isthank'] == true) {
             $this->setSession('isthank','false']);
-            return view('mt.promotions.thankpage');
+            return view($this->viewThankpage);
         }else {
             return $this->errorMessage('คุณไม่สามารถเข้ารับของรางวัลได้ เนื่องจากไม่พบเงื่อนไข');
         }

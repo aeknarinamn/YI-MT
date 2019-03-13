@@ -35,7 +35,7 @@
 
 	<form action="{{ action('MT\Promotion\TOPS\QuestionController@checkSubscriber') }}" method="POST" id="submitForm">
 	{!! csrf_field() !!}
-		<input type="hidden" name="line_user_id" value="6">
+		<input type="hidden" name="line_user_id" value="{{$line_user_id}}">
 	</form>
 
 	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

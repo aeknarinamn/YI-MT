@@ -190,9 +190,9 @@ Route::get('mt-royal-thankpage', 'MT\Promotion\TOPS\PromotionController@thank');
 Route::get('mt-question-1', 'MT\Promotion\TOPS\QuestionController@questionPage1');
 // Route::get('mt-question-1', 'MT\Promotion\TOPS\QuestionController@questionPage1');
 Route::post('mt-question-1', 'MT\Promotion\TOPS\QuestionController@questionPage1Store');
-Route::post('mt-question-2', 'MT\Promotion\TOPS\QuestionController@questionPage2Store');
+// Route::post('mt-question-2', 'MT\Promotion\TOPS\QuestionController@questionPage2Store');
 Route::post('mt-question-check', 'MT\Promotion\TOPS\QuestionController@checkSubscriber');
-Route::get('mt-question-2', 'MT\Promotion\TOPS\QuestionController@questionPage2');
+// Route::get('mt-question-2', 'MT\Promotion\TOPS\QuestionController@questionPage2');
 Route::get('mt-question-addcoupon', 'MT\Promotion\TOPS\QuestionController@addcoupon');
 Route::get('mt-question-addbarcode', 'MT\Promotion\TOPS\QuestionController@addbarcode');
 // >>>>>>> 19de86bd360e38ef486648536ab22e84ab61d23c
