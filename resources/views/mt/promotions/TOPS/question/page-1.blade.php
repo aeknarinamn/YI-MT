@@ -54,16 +54,35 @@
 						<div class="q-row mb-0">
 							<div class="col-1 bg-none">
 								<div class="check">
-									<input onchange="check('c{{$key+1}}')" type="checkbox" name="value" id="c{{$key+1}}" value="{{$question2->value}}" >
-									<label for="c1">{{$question2->value}}</label>
+									<input onchange="check('cc{{$key+1}}')" type="checkbox" name="value" id="cc{{$key+1}}" value="{{$question2->value}}" >
+									<label for="cc{{$key+1}}">{{$question2->value}}</label>
 								</div>
 							</div>
 						</div>
 					@endforeach
 			</div>
+			
+			<button class="btn-coupon" type="Submit" style="width: 220px; margin-top: 200px;  position: absolute; bottom: 30px; left: 50%; transform: translate(-50%, -50%);">
+				<img src="/mt/promotions/TOPS/images/confirmQuestion.png">
+			</button>
 
-			<button type="Submit">Submit</button>
+
 		</form>
 	</div>
+
+	<script>
+
+		function check($id) {
+			document.getElementById("cc1").checked = false;
+			document.getElementById("cc2").checked = false;
+			document.getElementById("cc3").checked = false;
+			document.getElementById("cc4").checked = false;
+			document.getElementById("cc5").checked = false;
+			document.getElementById($id).checked = true;
+		}
+
+		
+			
+	</script>
 </body>
 </html>
