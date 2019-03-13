@@ -21,7 +21,7 @@ class CustomerController extends MainController
 
     public function redeem()
     {
-        $customers = Customer::where('is_redeem',1)->get();
+        $customers = Customer::where('is_redeem','1')->get();
 
         // // return $customers;
         return $this->showAll($customers);
@@ -44,9 +44,9 @@ class CustomerController extends MainController
             // return $this->errorLineLogin();
         }
 
-        if ($customer->is_redeem != 1) {
+        if ($customer->is_redeem != '1') {
             $countStamp = $customer->total_stamp;
-            $customer->is_redeem = 1;
+            $customer->is_redeem = '1';
             $customer->save();
 
             Redeem::create([

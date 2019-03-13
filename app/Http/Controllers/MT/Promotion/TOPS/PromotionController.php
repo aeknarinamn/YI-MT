@@ -14,6 +14,8 @@ class PromotionController extends MainController
     public function __construct()
     {
         $this->points = 110;
+        $this->ControllerIndex = 'MT\Promotion\TOPS\PromotionController@index';
+        $this->ViewThankpage = 'mt.promotions.TOPS.thankpage';
     }
 
     public function index()
@@ -23,8 +25,18 @@ class PromotionController extends MainController
 
     public function first()
     {   
+
+
         $lineUserProfile = \Session::get('line-login', "");
         $shop = Shop::where('is_active',1)->first();
+        // dd($lineUserProfile);
+        $UserProfile = Customer::where('line_user_id',$lineUserProfile->id)
+            ->where('is_redeem','1')
+            ->first();
+        if ($UserProfile) {
+            return $this->errorMessage('User นี้ได้ทำการ IsRedeem แล้ว'); 
+        }
+
         if ($lineUserProfile) {
             $user = Customer::where('line_user_id',$lineUserProfile->id)->first();
             if(!$user) {
@@ -63,7 +75,7 @@ class PromotionController extends MainController
                 return view('mt.promotions.TOPS.second')
                     ->with('UserProfile',$UserProfile);
             } else {
-                return redirect()->action('MT\Promotion\TOPS\PromotionController@index');
+                return redirect()->action($this->ControllerIndex);
             }
         } else {
                 return $this->errorLineLogin();
@@ -71,38 +83,35 @@ class PromotionController extends MainController
                 
     }
 
-<<<<<<< HEAD
-=======
-    public function confirm(Request $request)
-    {
-        if ($this->points >= Customer::RULE_REDEEM) {
-            if ($request->has('confirm')) {
-                if ($request->confirm == 'confirm') {
-                    $total_point = $this->points-Customer::RULE_REDEEM;
-                    return redirect()->action('MT\Promotion\TOPS\PromotionController@thank')
-                        ->with('point',$total_point);
-                } else{
-                    return redirect()->action('MT\Promotion\TOPS\PromotionController@index');$lineUserProfile = \Session::get('line-login', "");
-        $shop = Shop::where('is_active',1)->first();
-        if ($lineUserProfile) {
-            $user = Customer::where('line_user_id',$lineUserProfile->id)->first();
-            if(!$user) {
-                Customer::create([
-                    'line_user_id' => $lineUserProfile->id,
-                    'shop_id' => $shop->id,
-                ]);
-            }
-        } else {
-            return $this->errorLineLogin();
-        }
-                }
-            }
-        } else {
-            return redirect()->action('MT\Promotion\TOPS\PromotionController@index');
-        }
+    // public function confirm(Request $request)
+    // {
+    //     if ($this->points >= Customer::RULE_REDEEM) {
+    //         if ($request->has('confirm')) {
+    //             if ($request->confirm == 'confirm') {
+    //                 $total_point = $this->points-Customer::RULE_REDEEM;
+    //                 return redirect()->action('MT\Promotion\TOPS\PromotionController@thank')
+    //                     ->with('point',$total_point);
+    //             } else{
+    //                 return redirect()->action('MT\Promotion\TOPS\PromotionController@index');$lineUserProfile = \Session::get('line-login', "");
+    //     $shop = Shop::where('is_active',1)->first();
+    //     if ($lineUserProfile) {
+    //         $user = Customer::where('line_user_id',$lineUserProfile->id)->first();
+    //         if(!$user) {
+    //             Customer::create([
+    //                 'line_user_id' => $lineUserProfile->id,
+    //                 'shop_id' => $shop->id,
+    //             ]);
+    //         }
+    //     } else {
+    //         return $this->errorLineLogin();
+    //     }
+    //             }
+    //         }
+    //     } else {
+    //         return redirect()->action('MT\Promotion\TOPS\PromotionController@index');
+    //     }
         
-    } //end func confirm
->>>>>>> 19de86bd360e38ef486648536ab22e84ab61d23c
+    // } //end func confirm
 
     public function thank(Request $request)
     {
@@ -114,7 +123,7 @@ class PromotionController extends MainController
         
         if ($this->getSession()['isthank'] == true) {
             $this->delSession();
-            return view('mt.promotions.TOPS.thankpage');
+            return view($this->ViewThankpage);
         }else {
             return $this->errorMessage('คุณไม่สามารถเข้ารับของรางวัลได้ เนื่องจากไม่พบเงื่อนไข');
         }

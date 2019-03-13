@@ -19,7 +19,7 @@
 
 		<form id="action-form" action="{{ action('MT\Promotion\TOPS\QuestionController@questionPage1Store') }}" method="post">
 			{!! csrf_field() !!}
-			<input type="hidden" name="line_user_id" value="6">
+			<input type="hidden" name="line_user_id" value="{{$lineUserProfile}}">
 			<div class="question">
 				<?php $count = 0; ?>
 				@foreach($fieldItems as $fieldItemDatas)

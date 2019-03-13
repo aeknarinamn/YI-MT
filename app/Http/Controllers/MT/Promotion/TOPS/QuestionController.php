@@ -31,9 +31,8 @@ class QuestionController extends MainController
 
     public function questionPage1()
     {
-        // $lineUserProfile = \Session::get('line-login', "");
-        // $UserProfile = Customer::where('line_user_id',$request->line_user_id)
-        $UserProfile = Customer::where('line_user_id',$this->testLineUse)
+        $lineUserProfile = \Session::get('line-login', "");
+        $UserProfile = Customer::where('line_user_id',$lineUserProfile->id)
             ->where('is_use_coupon','1')
             ->first();
         if ($UserProfile) {
@@ -48,13 +47,14 @@ class QuestionController extends MainController
 
     	return view($this->viewPage1)
             ->with('fieldItems',$fieldItems)
-    		->with('question2Items',$question2Items);
+            ->with('question2Items',$question2Items)
+    		->with('lineUserProfile',$lineUserProfile->id);
     }
 
     public function questionPage1Store(Request $request)
     {
-        // dd( $request->all());
-        $UserProfile = Customer::where('line_user_id',$this->testLineUse)
+        // dd( $request->line_user_id);
+        $UserProfile = Customer::where('line_user_id',$request->line_user_id)
             ->where('is_use_coupon','0')
             ->first();
         if (!$UserProfile) {
