@@ -76,7 +76,12 @@ trait HelperRoyal
         return str_random($count);    
     } // ------  / generateCode 
 
-
+    protected function royalMessage($message,$title = 'พบข้อผิดพลาดบางประการ')
+	{
+        return view('mt.promotions.TOPS.show-message')
+        		->with('title', $title)
+            	->with('message',$message);
+	}
 
 
 }

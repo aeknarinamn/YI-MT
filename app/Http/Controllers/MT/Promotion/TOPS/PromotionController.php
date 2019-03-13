@@ -34,7 +34,7 @@ class PromotionController extends MainController
             ->where('is_redeem','1')
             ->first();
         if ($UserProfile) {
-            return $this->errorMessage('User นี้ได้ทำการ IsRedeem แล้ว'); 
+            return $this->royalMessage('User นี้ได้ทำการแลกของรางวัลแล้ว','ยูนิลีเวอร์โปรคุ้ม'); 
         }
 
         if ($lineUserProfile) {
@@ -118,14 +118,14 @@ class PromotionController extends MainController
         if (session()->get($this->nameSession())) {
             $getSession = $this->getSession();
         }else {
-            return $this->errorMessage('คุณไม่สามารถเข้ารับของรางวัลได้ เนื่องจากไม่พบเงื่อนไข');
+            return $this->royalMessage('คุณไม่สามารถเข้ารับของรางวัลได้ เนื่องจากไม่พบเงื่อนไข');
         }
         
         if ($this->getSession()['isthank'] == true) {
             $this->delSession();
             return view($this->ViewThankpage);
         }else {
-            return $this->errorMessage('คุณไม่สามารถเข้ารับของรางวัลได้ เนื่องจากไม่พบเงื่อนไข');
+            return $this->royalMessage('คุณไม่สามารถเข้ารับของรางวัลได้ เนื่องจากไม่พบเงื่อนไข');
         }
         
     } //end func thank
