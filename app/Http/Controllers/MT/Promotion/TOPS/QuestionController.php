@@ -53,10 +53,10 @@ class QuestionController extends MainController
             ->first();
         if($subLine) {
             $factSub = SubscriberItem::where('subscriber_line_id',$subLine->id)->first();
-        }    
+        }
         
 
-        if ($factSub) {
+        if (isset($factSub)) {
             $SubscriberItemData = SubscriberItemData::where('subscriber_id',$factSub->id)->first();
         }else {
             $SubscriberItemData = 0;

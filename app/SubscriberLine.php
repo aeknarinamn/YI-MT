@@ -25,6 +25,7 @@ class SubscriberLine extends Model
     protected   $fillable = [
         'subscriber_id',
         'line_user_id',
+        'shop_id',
         'updated_at',
     ];
 

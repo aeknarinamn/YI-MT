@@ -32,7 +32,8 @@ class TrackingBc extends Model
     		'generated_short_url',
         'desc',
         'is_route_name',
-    		'campaign_id',
+        'campaign_id',
+    		'is_line_liff',
     ];
 
     public function coupon()

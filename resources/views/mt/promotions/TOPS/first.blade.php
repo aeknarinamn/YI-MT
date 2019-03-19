@@ -58,8 +58,11 @@
 		</div>
 		<div class="row-btn">
 			@if ($UserProfile->total_stamp < $points_rule || $UserProfile->is_redeem != 0)
-				<button disabled="">
+				{{-- <button disabled="">
 					<img src="mt/img/images/btn-no.png">
+				</button> --}}
+				<button type="button" onclick="openCamera()">
+					<img src="mt/img/images/btn.png">
 				</button>
 			@else
 				<form action="{{ action('MT\Promotion\TOPS\PromotionController@second') }}" method="POST">
@@ -113,6 +116,12 @@
 
 	
 @endsection
+
+<script type="text/javascript">
+	function openCamera() {
+        window.location = "line://nv/addFriends";
+    }
+</script>
 
 
 

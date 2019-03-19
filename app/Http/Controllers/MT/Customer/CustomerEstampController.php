@@ -6,14 +6,15 @@ use Illuminate\Http\Request;
 use YellowProject\MT\Customer\Customer;
 use YellowProject\MT\Customer\CustomerEstamp;
 use YellowProject\Http\Controllers\MainController;
+use YellowProject\MT\Shop\Shop;
 
 class CustomerEstampController extends MainController
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public function __construct()
+    {
+        $this->PromotionControllerFirst = 'MT\Promotion\TOPS\PromotionController@first';
+    }
+
     public function index(Customer $customer)
     {
         return $this->showAll($customer->customerestamps);
@@ -44,5 +45,40 @@ class CustomerEstampController extends MainController
 
         return $this->showOne($Customer_Estamp);
     } // ------  / store 
+
+
+     public function addStamp()
+    {
+        $lineUserProfile = \Session::get('line-login', "");
+        $shop = Shop::where('is_active',1)->first();
+
+        $user = Customer::where('line_user_id',$lineUserProfile->id)->first();
+        if(!$user) {
+            $customer = Customer::create([
+                'line_user_id' => $lineUserProfile->id,
+                'shop_id' => $shop->id,
+            ]);
+        }else{
+            $customer = $user;
+        }
+
+
+        $countItem = $customer->customerestamps->count();
+
+        if ($countItem >= Customer::RULE_REDEEM) {
+            return $this->royalMessage('ไม่สามารถเพิ่มจำนวนแสตม์ได้อีกเนื่องจากมีเกินจำนวน');
+        }
+        
+
+        $data = [];
+        $data['line_user_id'] = $lineUserProfile->id;
+        $data['mt_customer_id'] = $customer->id;
+        $data['seq'] = $countItem+1;
+
+        $Customer_Estamp = CustomerEstamp::create($data);
+
+        return redirect()->action($this->PromotionControllerFirst);
+        
+    } //end func addStamp
 
 }

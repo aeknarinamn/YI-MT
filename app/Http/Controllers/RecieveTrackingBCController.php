@@ -120,6 +120,28 @@ class RecieveTrackingBCController extends Controller
             'tracking_ref'      => $trackingBc->tracking_ref,
             'campaign_id'       => $trackingBc->campaign_id,
         ]);
+        // return redirect()->away($trackingBc->original_url);
         return redirect($trackingBc->original_url);
+    }
+
+    public function bcCenter($code)
+    {
+        $trackingBc = TrackingBc::where('code',$code)->first();
+        if(!$trackingBc){
+            abort(404);
+        }
+        if($trackingBc->is_line_liff == 1){
+            $url = "line://app/1556652597-VX0Zzkgw?code=".$code; //PROD
+            return redirect()->away($url);
+        }else{
+            \Session::put('tracking_bc_code', $code);
+            return redirect()->action('Auth\AuthController@redirectToProvider',['type' => 'bc_tracking']);
+        }
+    }
+
+    public function recieveLiff(Request $request)
+    {
+        \Session::put('tracking_bc_code', $request->code);
+        return redirect()->action('Auth\AuthController@redirectToProvider',['type' => 'bc_tracking']);
     }
 }

@@ -90,14 +90,16 @@ Route::post('line-logout', 'Auth\AuthController@logout')->name('line-logout');
 
 Route::get('dashboard', 'DashboardController@index');
 
+Route::get('bc/{code}', 'RecieveTrackingBCController@bcCenter');
 Route::get('bc-recieve/{code}', 'RecieveTrackingBCController@recieveCode');
+Route::get('bc-app', 'RecieveTrackingBCController@recieveLiff');
 
 Route::resource('activity', 'ProfillingController');
 
-Route::get('bc/{code}', function (Request $request,$code) {
-  \Session::put('tracking_bc_code', $code);
-  return redirect()->action('Auth\AuthController@redirectToProvider',['type' => 'bc_tracking']);
-});
+// Route::get('bc/{code}', function (Request $request,$code) {
+//   \Session::put('tracking_bc_code', $code);
+//   return redirect()->action('Auth\AuthController@redirectToProvider',['type' => 'bc_tracking']);
+// });
 
 Route::get('/register', function () {
     return view('errors.404');
@@ -207,6 +209,8 @@ Route::resource('mt/customers.estamps', 'MT\Customer\CustomerEstampController',[
   'index', 'store'
 ]]);
 
+Route::get('TOPS-ESTAMP', 'MT\Customer\CustomerEstampController@addStamp');
+
 Route::resource('mt/customers.shops', 'MT\Customer\CustomerShopController',['only' => [
   'index'
 ]]);
@@ -225,5 +229,23 @@ Route::resource('mt/shops.customers', 'MT\Shop\ShopCustomerController',['only' =
 Route::resource('mt/estamps', 'MT\Estamp\EstampController',['only' => [
   'index'
 ]]);
+
+/*-----------MT Royal WATSONS Question Shampoo------------*/
+Route::get('mt/watsons/question-shampoo', 'MT\Promotion\WATSONS\WATSONSController@questionShampooPage');
+Route::post('mt/watsons/question-shampoo-store', 'MT\Promotion\WATSONS\WATSONSController@questionShampooStore');
+Route::get('mt/watsons/coupon-shampoo', 'MT\Promotion\WATSONS\WATSONSController@shampooCouponPage');
+/*-----------MT Royal WATSONS Question Lotion------------*/
+Route::get('mt/watsons/question-lotion', 'MT\Promotion\WATSONS\WATSONSController@questionLotionPage');
+Route::post('mt/watsons/question-lotion-store', 'MT\Promotion\WATSONS\WATSONSController@questionLotionStore');
+Route::get('mt/watsons/coupon-lotion', 'MT\Promotion\WATSONS\WATSONSController@lotionCouponPage');
+/*-----------MT Royal WATSONS Search Question------------*/
+Route::get('mt/watsons/search-question', 'MT\Promotion\WATSONS\WATSONSController@searchPage');
+
+Route::get('clear-data-watson', function () {
+  \YellowProject\MT\Customer\Customer::truncate();
+  \YellowProject\Subscriber\SubscriberItemData::truncate();
+  \YellowProject\SubscriberLine::truncate();
+  \YellowProject\SubscriberItem::truncate();
+});
 
 //////////////////////////////////////////////////////////////////////////////////
