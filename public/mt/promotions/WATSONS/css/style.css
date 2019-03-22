@@ -18,9 +18,11 @@ body{
 	margin: 0 auto;
 	display: block;
 	position: relative;
+	width: 100%;
 }
 .transparent{
 	background-color: transparent !important ;
+/*	background-color:#9dd8d8 !important;*/
 }
 .cbg-2{
 	background-color:#9dd8d8 !important;
@@ -49,14 +51,18 @@ body{
 	width: 100%;
 }
 .btn-confirm{
-
-background: transparent;
+    left: 50%;
+    transform: translate(-50%, -50%);
+	background: transparent;
     border: none;
     position: absolute;
-    bottom: 9%;
+/*    bottom: 9%;*/
+    z-index: 99999;
+    margin-top: -100px;
+    width: 50%;
 }
 .btn-confirm img{
-	width: 80%
+	width: 100%
 }
 
 .modal-f{
@@ -401,6 +407,9 @@ table{
 }
 
 @media only screen and (max-width: 767px) {
+	.btn-confirm{
+	    width: 70%;
+	}
 	body{
 		background-color:#9dd8d8 !important;
 	}
