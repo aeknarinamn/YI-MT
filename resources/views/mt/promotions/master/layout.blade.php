@@ -6,7 +6,7 @@
 
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" href="mt/js/bootstrap-4.3.1.js">
-	<link rel="stylesheet" type="text/css" href="mt/css/promotions/style.css">
+	<link rel="stylesheet" type="text/css" href="/mt/promotions/TOPS/css/style.css">
 
 	<style>
 		.is-text-complete {

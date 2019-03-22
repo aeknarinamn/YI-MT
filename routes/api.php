@@ -130,7 +130,8 @@ Route::group(['middleware' => 'cors'], function() {
 
 	//RichMessage
 	Route::resource('richmessage-folder', 'API\v1\TESCOLOTUS\RichMessageFolderController');
-	Route::resource('richmessage', 'API\v1\TESCOLOTUS\RichMessageController');
+	Route::resource('richmessage', 'API\v1\TESCOLOTUS\RichmessageV2\RichmessageController');
+	Route::post('richmessage-upload', 'API\v1\TESCOLOTUS\RichmessageV2\RichmessageController@uploadMultiple');
 
 	//Dashboard
 	Route::get('dashboard-1', 'API\v1\TESCOLOTUS\Dashboard@report1');

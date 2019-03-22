@@ -240,6 +240,9 @@ Route::post('mt/watsons/question-lotion-store', 'MT\Promotion\WATSONS\WATSONSCon
 Route::get('mt/watsons/coupon-lotion', 'MT\Promotion\WATSONS\WATSONSController@lotionCouponPage');
 /*-----------MT Royal WATSONS Search Question------------*/
 Route::get('mt/watsons/search-question', 'MT\Promotion\WATSONS\WATSONSController@searchPage');
+/*-----------MT Change Shop------------*/
+Route::post('mt/customer-change-shop-tops', 'MT\Customer\CustomerController@changeShopTops');
+Route::post('mt/customer-change-shop-watsons', 'MT\Customer\CustomerController@changeShopWatsons');
 
 Route::get('clear-data-watson', function () {
   \YellowProject\MT\Customer\Customer::truncate();

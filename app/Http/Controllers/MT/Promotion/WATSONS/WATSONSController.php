@@ -16,6 +16,7 @@ class WATSONSController extends Controller
 {
     public function questionLotionPage()
     {
+    	setcookie('remember-page', "/mt/watsons/question-lotion", time() + (86400 * 1), "/");
     	$lineUserProfile = \Session::get('line-login', "");
     	// $lineUserProfile = \YellowProject\LineUserProfile::first();
     	$subscriber = Subscriber::where('name','WATSONS-QUESTIONARE-1')->first();
@@ -23,7 +24,9 @@ class WATSONSController extends Controller
 
     	if($customer){
     		if($customer->shop_id != 2){
-    			abort(404);
+    			return view('mt.promotions.WATSONS.change-shop-watsons')
+                    ->with('lineUserId',$lineUserProfile->id);
+    			// abort(404);
     		}
     	}else{
     		$customer = Customer::create([
@@ -103,6 +106,7 @@ class WATSONSController extends Controller
 
     public function questionShampooPage()
     {
+    	setcookie('remember-page', "/mt/watsons/question-shampoo", time() + (86400 * 1), "/");
     	$lineUserProfile = \Session::get('line-login', "");
     	// $lineUserProfile = \YellowProject\LineUserProfile::first();
     	$subscriber = Subscriber::where('name','WATSONS-QUESTIONARE-2')->first();
@@ -110,7 +114,8 @@ class WATSONSController extends Controller
 
     	if($customer){
     		if($customer->shop_id != 2){
-    			abort(404);
+    			return view('mt.promotions.WATSONS.change-shop-watsons')
+                    ->with('lineUserId',$lineUserProfile->id);
     		}
     	}else{
     		$customer = Customer::create([
@@ -208,6 +213,18 @@ class WATSONSController extends Controller
 
     public function searchPage()
     {
+    	setcookie('remember-page', "/mt/watsons/search-question", time() + (86400 * 1), "/");
+    	$lineUserProfile = \Session::get('line-login', "");
+    	$UserProfile = Customer::where('line_user_id',$lineUserProfile->id)
+            ->where('is_active','1')
+            ->first();
+        if ($UserProfile) {
+            if($UserProfile->shop_id != 2){
+                return view('mt.promotions.WATSONS.change-shop-watsons')
+                    ->with('lineUserId',$lineUserProfile->id);
+            }
+        }
+
     	return view('mt.promotions.WATSONS.search');
     }
 }

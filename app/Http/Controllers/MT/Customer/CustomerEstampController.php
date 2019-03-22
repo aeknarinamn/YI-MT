@@ -52,11 +52,23 @@ class CustomerEstampController extends MainController
         $lineUserProfile = \Session::get('line-login', "");
         $shop = Shop::where('is_active',1)->first();
 
-        $user = Customer::where('line_user_id',$lineUserProfile->id)->first();
+        $UserProfileCheck = Customer::where('line_user_id',$lineUserProfile->id)
+            ->where('is_active','1')
+            ->first();
+        if ($UserProfileCheck) {
+            if($UserProfileCheck->shop_id != 1){
+                setcookie('remember-page', "/TOPS-ESTAMP", time() + (86400 * 1), "/");
+                return view('mt.promotions.TOPS.change-shop-tops')
+                    ->with('lineUserId',$lineUserProfile->id);
+            }
+        }
+
+        $user = Customer::where('line_user_id',$lineUserProfile->id)->where('is_active','1')->where('shop_id',1)->first();
         if(!$user) {
             $customer = Customer::create([
                 'line_user_id' => $lineUserProfile->id,
                 'shop_id' => $shop->id,
+                'is_active' => '1',
             ]);
         }else{
             $customer = $user;
@@ -74,6 +86,9 @@ class CustomerEstampController extends MainController
         $data['line_user_id'] = $lineUserProfile->id;
         $data['mt_customer_id'] = $customer->id;
         $data['seq'] = $countItem+1;
+        // $customer->update([
+        //     'total_stamp' => $countItem+1
+        // ]);
 
         $Customer_Estamp = CustomerEstamp::create($data);
 

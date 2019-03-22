@@ -24,32 +24,36 @@ class PromotionController extends MainController
     }
 
     public function first()
-    {   
-
-
+    {
+        setcookie('remember-page', "/promotions_first", time() + (86400 * 1), "/");
         $lineUserProfile = \Session::get('line-login', "");
-        $shop = Shop::where('is_active',1)->first();
+        $shop = Shop::find(1);
         // dd($lineUserProfile);
         $UserProfile = Customer::where('line_user_id',$lineUserProfile->id)
-            ->where('is_redeem','1')
+            ->where('is_active','1')
             ->first();
         if ($UserProfile) {
-            return $this->royalMessage('User นี้ได้ทำการแลกของรางวัลแล้ว','ยูนิลีเวอร์โปรคุ้ม'); 
+            if($UserProfile->shop_id != 1){
+                return view('mt.promotions.TOPS.change-shop-tops')
+                    ->with('lineUserId',$lineUserProfile->id);
+            }
+            // return $this->royalMessage('User นี้ได้ทำการแลกของรางวัลแล้ว','ยูนิลีเวอร์โปรคุ้ม'); 
         }
 
         if ($lineUserProfile) {
-            $user = Customer::where('line_user_id',$lineUserProfile->id)->first();
+            $user = Customer::where('line_user_id',$lineUserProfile->id)->where('is_active','1')->where('shop_id',1)->first();
             if(!$user) {
-                Customer::create([
+               $UserProfile = Customer::create([
                     'line_user_id' => $lineUserProfile->id,
                     'shop_id' => $shop->id,
+                    'is_active' => '1',
                 ]);
             }
         } else {
             return $this->errorLineLogin();
         }
-        
-            $UserProfile = Customer::where('line_user_id',$lineUserProfile->id)->first();
+
+            // $UserProfile = Customer::where('line_user_id',$lineUserProfile->id)->first();
             if (!$UserProfile->activeShop()) {
                 return $this->errorLineLogin();
             }
@@ -63,6 +67,8 @@ class PromotionController extends MainController
     {
         
         $UserProfile = Customer::where('id',$request->id)
+            ->where('shop_id',1)
+            ->where('is_active',1)
             ->where('line_user_id',$request->line_user_id)
             ->first();
 

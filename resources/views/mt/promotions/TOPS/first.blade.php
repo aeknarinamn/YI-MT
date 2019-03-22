@@ -79,45 +79,36 @@
 			
 		</div>
 		<div class="row-content">
-			<div class="text-title">Prize</div>
-			<div class="product">
-				<div class="product-images">
-					<img src="mt/img/images/product.png">
-				</div>
-				<div class="product-detail">
-					<h1>สินค้าล่าแต้ม</h1>
-					<hr>
-					<p>รับสติกเกอร์ไปเลย 1 ดวง!!	เมื่อซื้อสินค้าที่ร่วมรายการ คลิกดูรายละเอียดเพิ่มเติม</p>
-				</div>
+			<div class="text-title-new"><img src="/mt/promotions/TOPS/images/prize.png"  class="w-100"></div>
+			<div class="product_new" onclick="clickProduct()">
+				<img src="/mt/promotions/TOPS/images/product-p1.png" class="w-100">
 			</div>
-			<div class="product">
-				<div class="product-images">
-					<img src="mt/img/images/product.png">
-				</div>
-				<div class="product-detail">
-					<h1>สินค้าล่าแต้ม</h1>
-					<hr>
-					<p>รับสติกเกอร์ไปเลย 1 ดวง!!	เมื่อซื้อสินค้าที่ร่วมรายการ คลิกดูรายละเอียดเพิ่มเติม</p>
-				</div>
-			</div>
-			<div class="condition">
-				<h3>กติกาสะสม</h3>
-				<p>- พิเศษรับเลย U reward 1 ดวง เมื่อซื้อ พิเศษรับเลย U reward 1 ดวง เมื่อซื้อ พิเศษรับเลย U reward 1 ดวง เมื่อซื้อ</p>
-				<p>- พิเศษรับเลย U reward 1 ดวง เมื่อซื้อ พิเศษรับเลย U reward 1 ดวง เมื่อซื้อ พิเศษรับเลย U reward 1 ดวง เมื่อซื้อ</p>
-				<p>- พิเศษรับเลย U reward 1 ดวง เมื่อซื้อ พิเศษรับเลย U reward 1 ดวง เมื่อซื้อ พิเศษรับเลย U reward 1 ดวง เมื่อซื้อ</p>
-				<p>- พิเศษรับเลย U reward 1 ดวง เมื่อซื้อ พิเศษรับเลย U reward 1 ดวง เมื่อซื้อ พิเศษรับเลย U reward 1 ดวง เมื่อซื้อ</p>
-				<p>- พิเศษรับเลย U reward 1 ดวง เมื่อซื้อ พิเศษรับเลย U reward 1 ดวง เมื่อซื้อ พิเศษรับเลย U reward 1 ดวง เมื่อซื้อ</p>
-				<p>- พิเศษรับเลย U reward 1 ดวง เมื่อซื้อ</p>
+			<div class="condition_new">
+				<img src="/mt/promotions/TOPS/images/text.png" class="w-100">
 			</div>
 		</div>
 
 	</div>
-	
 
+	<div class="modal" id="productModal" tabindex="-1" role="dialog">
+	  <div class="modal-dialog" role="document">
+	    <div class="modal-content">
+	      <div class="modal-body">
+	      	    <button type="button" class="close btn-close" data-dismiss="modal" aria-label="Close">
+		          <img src="/mt/promotions/TOPS/images/btn-close.png" class="">
+		        </button>
+	        	<img src="/mt/promotions/TOPS/images/popup-2.png" class="modal-image">
+	      </div>
+	    </div>
+	  </div>
+	</div>
 	
 @endsection
 
 <script type="text/javascript">
+	function clickProduct(){
+		$('#productModal').modal('show');
+	}
 	function openCamera() {
         window.location = "line://nv/addFriends";
     }

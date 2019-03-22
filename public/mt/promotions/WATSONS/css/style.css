@@ -13,14 +13,56 @@ body{
 	display: block;
 	background-color: #c6e5e2;
 }
+.content_a{
+	max-width: 768px;
+	margin: 0 auto;
+	display: block;
+	position: relative;
+}
+.transparent{
+	background-color: transparent !important ;
+}
 .cbg-2{
 	background-color:#9dd8d8 !important;
 }
 .content .bg{
 	width: 100%;
 }
+.modal-image{
+	width: 100%;
+}
+.modal-content{
+	background-color: transparent;
+	border:none;
+}
+.modal-body{
+	position: relative;
+}
+.btn-close{
+	width: 10%;
+	position: absolute;
+	right: 7%;
+	top: 3%;
+}
 
+.btn-close img{
+	width: 100%;
+}
+.btn-confirm{
 
+background: transparent;
+    border: none;
+    position: absolute;
+    bottom: 9%;
+}
+.btn-confirm img{
+	width: 80%
+}
+
+.modal-f{
+	position: absolute;
+	bottom: 4.7%;
+}
 .text-center{
 	text-align: center;
 }

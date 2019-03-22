@@ -17,7 +17,9 @@ body{
 .text-white{
 	color: #FFF;
 }
-
+.w-100{
+	width: 100%;
+}
 .header img{
 	width: 100%;
 	display: block;
@@ -164,7 +166,11 @@ input[type=checkbox]
 	font-weight: 600;
 	display: inline-block;
 }
-
+.text-title-new{
+	width: 100%;
+	padding-top: 40px;
+	padding-bottom: 20px;
+}
 .product{
 	width: 100%;
 	background-color: #f8bbce;
@@ -174,6 +180,14 @@ input[type=checkbox]
 	margin-bottom: 20px;
 	box-sizing: border-box;
 	display: flex;
+}
+.product_new{
+	width: 100%;
+	/*padding: 15px;*/
+	border-radius:20px;
+/*	margin-top: 20px;
+	margin-bottom: 20px;*/
+	box-sizing: border-box;
 }
 .product-images{
 	width: 200px;
@@ -215,7 +229,11 @@ input[type=checkbox]
 .condition{
 	color: #9d9f9e;
 	padding-bottom: 20px;
-	padding-left: 5%;
+}
+.condition_new{
+	color: #9d9f9e;
+	padding-bottom: 20px;
+	padding-left: 1%;
 }
 .condition h3{
 	margin-bottom: 0px;
@@ -282,6 +300,11 @@ input[type=checkbox]
 @media only screen and (max-width: 767px) {
 	body{
 		background-color: #f497b0;
+	}
+
+	.bg{
+		background-color: 
+
 	}
 	.u-point .item{
 		width: 70px;
@@ -565,6 +588,9 @@ input[type=checkbox]
 }
 
 @media only screen and (max-width: 413px) {
+	body{
+		background-color: #f9f8dd;
+	}
 	.u-point .item{
 		width: 45px;
 		height: 45px;

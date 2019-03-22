@@ -32,6 +32,18 @@ class QuestionController extends MainController
     public function questionPage1()
     {
         $lineUserProfile = \Session::get('line-login', "");
+
+        $UserProfileCheck = Customer::where('line_user_id',$lineUserProfile->id)
+            ->where('is_active','1')
+            ->first();
+        if ($UserProfileCheck) {
+            if($UserProfileCheck->shop_id != 1){
+                setcookie('remember-page', "/mt-question-1", time() + (86400 * 1), "/");
+                return view('mt.promotions.TOPS.change-shop-tops')
+                    ->with('lineUserId',$lineUserProfile->id);
+            }
+        }
+
         $UserProfile = Customer::where('line_user_id',$lineUserProfile->id)
             ->where('is_use_coupon','1')
             ->first();

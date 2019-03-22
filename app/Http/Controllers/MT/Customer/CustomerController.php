@@ -47,6 +47,7 @@ class CustomerController extends MainController
         if ($customer->is_redeem != '1') {
             $countStamp = $customer->total_stamp;
             $customer->is_redeem = '1';
+            $customer->is_active = '0';
             $customer->save();
 
             Redeem::create([
@@ -75,6 +76,61 @@ class CustomerController extends MainController
         if($customer->line_user_id != $lineuser){
             return $this->errorLineLogin();
         }
+    }
+
+    public function changeShopTops(Request $request)
+    {
+        $lineUserId = $request->line_user_id;
+        $shopChangeId = $request->shop_change_id;
+        $page = $_COOKIE['remember-page'];
+
+        $UserProfile = Customer::where('line_user_id',$lineUserId)
+            ->where('is_active','1')
+            ->first();
+        if($UserProfile){
+            $UserProfile->update([
+                'is_active' => '0'
+            ]);
+        }
+
+        $searchShopChange = Customer::where('line_user_id',$lineUserId)
+            ->where('shop_id',$shopChangeId)
+            ->where('is_redeem','0')
+            ->first();
+        if($searchShopChange){
+            $searchShopChange->update([
+                'is_active' => '1'
+            ]);
+        }
+
+        return redirect($page);
+    }
+
+    public function changeShopWatsons(Request $request)
+    {
+        $lineUserId = $request->line_user_id;
+        $shopChangeId = $request->shop_change_id;
+        $page = $_COOKIE['remember-page'];
+
+        $UserProfile = Customer::where('line_user_id',$lineUserId)
+            ->where('is_active','1')
+            ->first();
+        if($UserProfile){
+            $UserProfile->update([
+                'is_active' => '0'
+            ]);
+        }
+
+        $searchShopChange = Customer::where('line_user_id',$lineUserId)
+            ->where('shop_id',$shopChangeId)
+            ->first();
+        if($searchShopChange){
+            $searchShopChange->update([
+                'is_active' => '1'
+            ]);
+        }
+
+        return redirect($page);
     }
 
 }
