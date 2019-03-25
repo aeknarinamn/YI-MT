@@ -11,9 +11,12 @@
 	<div class="content_a transparent">
 		<img src="/mt/promotions/WATSONS/images/popup2.png" class="w-100">
 	</div>
-	<button type="button" class="btn-confirm" onclick="submitData()">
-      <img src="/mt/promotions/WATSONS/images/btn-confirm-1A.png" class="">
-    </button>
+	<div class="content_a transparent">
+		<button type="button" class="btn-confirm" onclick="submitData()">
+	      <img src="/mt/promotions/WATSONS/images/btn-confirm-1A.png" class="">
+	    </button>
+	</div>
+
 
 <!-- 	<div class="modal" id="myModal" tabindex="-1" role="dialog">
 	  <div class="modal-dialog" role="document">

@@ -12,6 +12,9 @@ class CoreRichmessage extends Model
 {
     public static function saveImageRichmesage($newPhoto)
     {
+        $baseUrl = \URL::to('/');
+        $newPhoto = str_replace("https://mt-uat.yellow-idea.com", "", $newPhoto);
+        $newPhoto = public_path().$newPhoto;
         $generateCode = self::generateRandomString();
         $photoBase64 = $newPhoto;
         $directory = 'images/richmessage';

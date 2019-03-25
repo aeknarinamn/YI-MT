@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use YellowProject\MT\Redeem\Redeem;
 use YellowProject\MT\Customer\Customer;
+use YellowProject\LineUserProfile;
 use YellowProject\Http\Controllers\MainController;
 
 class CustomerController extends MainController
@@ -83,6 +84,9 @@ class CustomerController extends MainController
         $lineUserId = $request->line_user_id;
         $shopChangeId = $request->shop_change_id;
         $page = $_COOKIE['remember-page'];
+        $lineUserProfile = LineUserProfile::find($lineUserId);
+
+        Customer::changeShop($lineUserProfile,"TOPS");
 
         $UserProfile = Customer::where('line_user_id',$lineUserId)
             ->where('is_active','1')
@@ -111,6 +115,9 @@ class CustomerController extends MainController
         $lineUserId = $request->line_user_id;
         $shopChangeId = $request->shop_change_id;
         $page = $_COOKIE['remember-page'];
+        $lineUserProfile = LineUserProfile::find($lineUserId);
+
+        Customer::changeShop($lineUserProfile,"WATSONS");
 
         $UserProfile = Customer::where('line_user_id',$lineUserId)
             ->where('is_active','1')

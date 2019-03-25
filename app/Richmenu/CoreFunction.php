@@ -9,6 +9,7 @@ use YellowProject\LineWebHooks;
 use YellowProject\Segment\Segment;
 use YellowProject\Segment\QuickSegment;
 use YellowProject\Richmenu\RichmenuMappingLinkData;
+use YellowProject\AutoReplyKeyword;
 use Log;
 
 class CoreFunction extends Model
@@ -104,11 +105,11 @@ class CoreFunction extends Model
 	}
 
 	public static function setRichmenu($richMenuID)
-	{
-		$richmenu = Richmenu::find($richMenuID);
+    {
+        $richmenu = Richmenu::find($richMenuID);
           
         $messages = collect([
-        	"size" => [
+            "size" => [
                 "width" => "2500",
                 "height" => "1686",
             ],
@@ -117,69 +118,75 @@ class CoreFunction extends Model
             "chatBarText" => $richmenu->chatBarText,
         ]);
         foreach ($richmenu->areas as $area) {
-        	$action = $area->action;
-        	$bound = $area->bound;
+            $action = $area->action;
+            $bound = $area->bound;
             if($action->type == 'url_and_other_action'){
-              	$dataItems[] = [
-                	"action"  => [
-                  		"type"  => "uri",
-                		"uri"  => $action->data,
-                	],
-                	"bounds"  => [
-                  		"x" => $bound->x*4,
-                  		"y" => $bound->y*4,
-                  		"width" => $bound->width*4,
-                  		"height" => $bound->height*4,
-                	],
-              	];
+                $actionData = str_replace('http://line://nv/addFriends', 'line://nv/addFriends', $action->data);
+                $actionData = str_replace('https://line://nv/addFriends', 'line://nv/addFriends', $actionData);
+                $dataItems[] = [
+                    "action"  => [
+                        "type"  => "uri",
+                        "uri"  => $actionData,
+                    ],
+                    "bounds"  => [
+                        "x" => $bound->x*4,
+                        "y" => $bound->y*4,
+                        "width" => $bound->width*4,
+                        "height" => $bound->height*4,
+                    ],
+                ];
             }
             if($action->type == 'keyword'){
-            	$dataItems[] = [
-                	"action"  => [
-                  		"type"  => "message",
-                		"text"  => $action->data,
-                	],
-                	"bounds"  => [
-                  		"x" => $bound->x*4,
-                  		"y" => $bound->y*4,
-                  		"width" => $bound->width*4,
-                  		"height" => $bound->height*4,
-                	],
-              	];
+                $autoReplyKeyword = AutoReplyKeyword::where('title',$action->data)->first();
+                if($autoReplyKeyword){
+                    $keywords = $autoReplyKeyword->keywords;
+                    $dataItems[] = [
+                        "action"  => [
+                            "type"  => "message",
+                            "text"  => $keywords->first()->keyword,
+                        ],
+                        "bounds"  => [
+                            "x" => $bound->x*4,
+                            "y" => $bound->y*4,
+                            "width" => $bound->width*4,
+                            "height" => $bound->height*4,
+                        ],
+                    ];
+                }
             }
             if($action->type == 'share_location'){
-            	$dataItems[] = [
-                	"action"  => [
-                  		"type"  => "uri",
-                		"uri"  => "line://nv/location",
-                	],
-                	"bounds"  => [
-                  		"x" => $bound->x*4,
-                  		"y" => $bound->y*4,
-                  		"width" => $bound->width*4,
-                  		"height" => $bound->height*4,
-                	],
-              	];
+                $dataItems[] = [
+                    "action"  => [
+                        "type"  => "uri",
+                        "uri"  => "line://nv/location",
+                    ],
+                    "bounds"  => [
+                        "x" => $bound->x*4,
+                        "y" => $bound->y*4,
+                        "width" => $bound->width*4,
+                        "height" => $bound->height*4,
+                    ],
+                ];
             }
             if($action->type == -1){
-            	$dataItems[] = [
-                	"action"  => [
-                  		"type"  => "uri",
-                		"uri"  => "http://#",
-                	],
-                	"bounds"  => [
-                  		"x" => 0,
-                  		"y" => 0,
-                  		"width" => 1,
-                  		"height" => 1,
-                	],
-              	];
+                $dataItems[] = [
+                    "action"  => [
+                        "type"  => "uri",
+                        "uri"  => "http://#",
+                    ],
+                    "bounds"  => [
+                        "x" => 0,
+                        "y" => 0,
+                        "width" => 1,
+                        "height" => 1,
+                    ],
+                ];
             }
         }
         $messages->put('areas',$dataItems);
 
         return $messages;
-	}
+    }
 
     public static function uploadImageRichmenu($richmenu)
     {

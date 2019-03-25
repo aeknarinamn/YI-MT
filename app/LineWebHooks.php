@@ -13,21 +13,11 @@ use YellowProject\LineSettingBusiness;
 use YellowProject\LocationKeyword;
 use YellowProject\ConnectBotNoi;
 use YellowProject\BotTrain;
-use YellowProject\ChatMain;
-use YellowProject\ChatMessage;
-use YellowProject\ChatMainSetting;
-use YellowProject\LiveChatStatus;
 use YellowProject\LocationItem;
-use YellowProject\ConnectFirebase;
-use YellowProject\LineBizConCustomer;
 use YellowProject\CoroselConfirmation;
-use YellowProject\ChatRating;
 use YellowProject\CarouselItemKeyword;
 use YellowProject\CarouselConfirmationItem;
 use YellowProject\CarouselConfirmation;
-use YellowProject\Beacon;
-use YellowProject\AutoreplyBeacon;
-use YellowProject\RecieveBeacon;
 use YellowProject\PushOrReply;
 use YellowProject\ShareLocation\ShareLocation;
 use YellowProject\ShareLocation\ShareLocationConfirmation;
@@ -38,20 +28,19 @@ use YellowProject\ConfirmationSetting\ConfirmationSettingShareLocation;
 use YellowProject\ConfirmationSetting\ConfirmationSettingCarousel;
 use YellowProject\GeneralFunction\LineNotification;
 use YellowProject\Bot\SettingBot;
-use YellowProject\SCG\Approval\ApprovalFunction;
 use YellowProject\RecieveMessage\RecieveMessageGroup;
 use YellowProject\RecieveMessage\RecieveMessageRoom;
 use YellowProject\FWD\BotSetting;
 use YellowProject\BotJoinGroupAndRoom\AutoreplyKeyword\BotJoinKeyword;
-use YellowProject\SCG\TriggerKeyword\CoreFunction;
 use YellowProject\TemplateMessage\CoreFunction as TemplateMessageCoreFunction;
+use YellowProject\RichmessageV2\Richmessage;
 
 class LineWebHooks extends Model
 {
     
-	public static function checkSignature($header, $body)
+    public static function checkSignature($header, $body)
 
-	{
+    {
  
         $lineSettingBusiness = LineSettingBusiness::where('active',true)->first();
         if (!is_null($lineSettingBusiness)) {
@@ -76,37 +65,37 @@ class LineWebHooks extends Model
         } else {
             return false;
         }
-		
-	}
+        
+    }
 
-	public static function getMessageEvent($datas)
+    public static function getMessageEvent($datas)
     {
-    	$type=false;
+        $type=false;
 
-    	if (isset($datas['events'])) {
-    		foreach ($datas['events'] as $arr) {
-    			if (isset($arr['message']) && sizeof($arr['message']) > 0) {
+        if (isset($datas['events'])) {
+            foreach ($datas['events'] as $arr) {
+                if (isset($arr['message']) && sizeof($arr['message']) > 0) {
                     // Log::debug('type => '.$arr['message']['type']);
-    				if($arr['message']['type'] == 'location') {
-       					$type = 'location';
-    				} else if ($arr['message']['type'] == 'sticker') {
+                    if($arr['message']['type'] == 'location') {
+                        $type = 'location';
+                    } else if ($arr['message']['type'] == 'sticker') {
                         $type = 'sticker';
                     } else {
-        				$type = $arr['type'];
-    				}
-				} else {
-					$type = $arr['type'];
-				}
-    		}
-    	}
-    	return $type;
+                        $type = $arr['type'];
+                    }
+                } else {
+                    $type = $arr['type'];
+                }
+            }
+        }
+        return $type;
     }
 
     public static function getReceiverType($datas)
     {
-    	$type=false;
+        $type=false;
         $roomId = false;
-      	if (isset($arrs['events'])) {
+        if (isset($arrs['events'])) {
             foreach ($arrs['events'] as $arr) {
                 if (isset($arr['message']) && sizeof($arr['message']) > 0) {
                    //
@@ -118,162 +107,162 @@ class LineWebHooks extends Model
                 }
             }
         }
-    	return $type;
+        return $type;
     }
 
     public static function eventFollow($body)
     {
-    	$datas = collect();
-    	if (isset($body['events'])) {
-    		foreach ($body['events'] as $arr) {
-    			if (isset($arr['message']) && sizeof($arr['message']) > 0) {
-    				if($arr['message']['type'] == 'location') {
-       					// Log::debug('Receive Location');
-    				}
-				}
-				if (isset($arr['source'])) {
+        $datas = collect();
+        if (isset($body['events'])) {
+            foreach ($body['events'] as $arr) {
+                if (isset($arr['message']) && sizeof($arr['message']) > 0) {
+                    if($arr['message']['type'] == 'location') {
+                        // Log::debug('Receive Location');
+                    }
+                }
+                if (isset($arr['source'])) {
                     $datas->put('type', $arr['source']['type']);
                     if ($arr['source']['type'] == 'group') {
-                    	$datas->put('groupId', $arr['source']['groupId']);
+                        $datas->put('groupId', $arr['source']['groupId']);
                     }
                     else if ($arr['source']['type'] == 'room') {
-                    	$datas->put('roomId', $arr['source']['roomId']);
+                        $datas->put('roomId', $arr['source']['roomId']);
                     } else {
-	            		$datas->put('userId', $arr['source']['userId']);
+                        $datas->put('userId', $arr['source']['userId']);
                     }
                 } 
-        		$datas->put('replyToken', $arr['replyToken']);
-	            $datas->put('sourceType', $arr['source']['type']);
-	            $datas->put('timestamp', $arr['timestamp']);
+                $datas->put('replyToken', $arr['replyToken']);
+                $datas->put('sourceType', $arr['source']['type']);
+                $datas->put('timestamp', $arr['timestamp']);
 
-    		}
-    		 $datas->put('sentUrl', 'https://api.line.me/v2/bot/message/reply');
-    		 $datas->put('token', 'Bearer vVWfd98+M9yVZT9du4UcFMCY4fSRSiSBsO+a1q9GCnrMwYRnSS/dkHMwPGkOgkhGqUOaewTC+KlJRjyLWzB/ARcwMu3xKA6kXzILFHliQE0bhORT/K4vKTUukRcKkVvfUEzChhB1Qn+EpeYl5uJqqQdB04t89/1O/w1cDnyilFU=');
-    		
-    		$arrMessage = [
-	            [
-	                "type"=>"text",
-	                "text"=>"Thank For Added"
-	            ],
-	            [
-	                "type"=>"text",
-	                "text"=>"Sorry"
-	            ],
-	            [
-	                "type"=>"text",
-	                "text"=>"Developing"
-	            ],
-	        ];
-	        $message = collect($arrMessage);
+            }
+             $datas->put('sentUrl', 'https://api.line.me/v2/bot/message/reply');
+             $datas->put('token', 'Bearer vVWfd98+M9yVZT9du4UcFMCY4fSRSiSBsO+a1q9GCnrMwYRnSS/dkHMwPGkOgkhGqUOaewTC+KlJRjyLWzB/ARcwMu3xKA6kXzILFHliQE0bhORT/K4vKTUukRcKkVvfUEzChhB1Qn+EpeYl5uJqqQdB04t89/1O/w1cDnyilFU=');
+            
+            $arrMessage = [
+                [
+                    "type"=>"text",
+                    "text"=>"Thank For Added"
+                ],
+                [
+                    "type"=>"text",
+                    "text"=>"Sorry"
+                ],
+                [
+                    "type"=>"text",
+                    "text"=>"Developing"
+                ],
+            ];
+            $message = collect($arrMessage);
 
-	        $data = collect([
+            $data = collect([
                 "replyToken" => $datas['replyToken'],
                 "messages"   => $message
             ]);
-    		$datas->put('data', $data->toJson());
-        	
+            $datas->put('data', $data->toJson());
+            
                     
             // Log::debug('Data =>'. $datas['data']);
-        	
-    		self::sent($datas);
-    	}	
+            
+            self::sent($datas);
+        }   
     }
 
     public static function eventJoin($body)
     {
-    	$datas = collect();
-    	if (isset($body['events'])) {
-    		foreach ($body['events'] as $arr) {
-    			if (isset($arr['message']) && sizeof($arr['message']) > 0) {
-    				if($arr['message']['type'] == 'location') {
-       					Log::debug('Receive Location');
-    				}
-				}
-				if (isset($arr['source'])) {
+        $datas = collect();
+        if (isset($body['events'])) {
+            foreach ($body['events'] as $arr) {
+                if (isset($arr['message']) && sizeof($arr['message']) > 0) {
+                    if($arr['message']['type'] == 'location') {
+                        Log::debug('Receive Location');
+                    }
+                }
+                if (isset($arr['source'])) {
                     $datas->put('type', $arr['source']['type']);
                     if ($arr['source']['type'] == 'group') {
-                    	$datas->put('groupId', $arr['source']['groupId']);
+                        $datas->put('groupId', $arr['source']['groupId']);
                     }
                     else if ($arr['source']['type'] == 'room') {
-                    	$datas->put('roomId', $arr['source']['roomId']);
+                        $datas->put('roomId', $arr['source']['roomId']);
                     } else {
-	            		$datas->put('userId', $arr['source']['userId']);
+                        $datas->put('userId', $arr['source']['userId']);
                     }
                 } 
-        		$datas->put('replyToken', $arr['replyToken']);
-	            $datas->put('sourceType', $arr['source']['type']);
-	            $datas->put('timestamp', $arr['timestamp']);
+                $datas->put('replyToken', $arr['replyToken']);
+                $datas->put('sourceType', $arr['source']['type']);
+                $datas->put('timestamp', $arr['timestamp']);
 
-    		}
-    		 $datas->put('sentUrl', 'https://api.line.me/v2/bot/message/reply');
-    		 $datas->put('token', 'Bearer vVWfd98+M9yVZT9du4UcFMCY4fSRSiSBsO+a1q9GCnrMwYRnSS/dkHMwPGkOgkhGqUOaewTC+KlJRjyLWzB/ARcwMu3xKA6kXzILFHliQE0bhORT/K4vKTUukRcKkVvfUEzChhB1Qn+EpeYl5uJqqQdB04t89/1O/w1cDnyilFU=');
-    		
-    		$arrMessage = [
-	            [
-	                "type"=>"text",
-	                "text"=>"Thank For Added"
-	            ],
-	            [
-	                "type"=>"text",
-	                "text"=>"Sorry"
-	            ],
-	            [
-	                "type"=>"text",
-	                "text"=>"Developing"
-	            ],
-	        ];
-	        $message = collect($arrMessage);
+            }
+             $datas->put('sentUrl', 'https://api.line.me/v2/bot/message/reply');
+             $datas->put('token', 'Bearer vVWfd98+M9yVZT9du4UcFMCY4fSRSiSBsO+a1q9GCnrMwYRnSS/dkHMwPGkOgkhGqUOaewTC+KlJRjyLWzB/ARcwMu3xKA6kXzILFHliQE0bhORT/K4vKTUukRcKkVvfUEzChhB1Qn+EpeYl5uJqqQdB04t89/1O/w1cDnyilFU=');
+            
+            $arrMessage = [
+                [
+                    "type"=>"text",
+                    "text"=>"Thank For Added"
+                ],
+                [
+                    "type"=>"text",
+                    "text"=>"Sorry"
+                ],
+                [
+                    "type"=>"text",
+                    "text"=>"Developing"
+                ],
+            ];
+            $message = collect($arrMessage);
 
-	        $data = collect([
+            $data = collect([
                 "replyToken" => $datas['replyToken'],
                 "messages"   => $message
             ]);
-    		$datas->put('data', $data->toJson());
-        	
+            $datas->put('data', $data->toJson());
+            
                     
             // Log::debug('Data =>'. $datas['data']);
-        	
-    		self::sent($datas);
-    	}	
+            
+            self::sent($datas);
+        }   
     }
 
     public static function eventLeave($body)
     {
-    	dd($body);
+        dd($body);
     }
 
     public static function sent($arrDatas)
     {
        // dd($arrDatas['data']);
         $datasReturn = [];
-		$curl = curl_init();
-		curl_setopt_array($curl, array(
-		  CURLOPT_URL => $arrDatas['sentUrl'],
-		  CURLOPT_RETURNTRANSFER => true,
-		  CURLOPT_ENCODING => "",
-		  CURLOPT_MAXREDIRS => 10,
-		  CURLOPT_TIMEOUT => 30,
-		  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-		  CURLOPT_CUSTOMREQUEST => "POST",
-		  CURLOPT_POSTFIELDS => $arrDatas['data'],
-		  CURLOPT_HTTPHEADER => array(
-		    "authorization: ".$arrDatas['token'],
-		    "cache-control: no-cache",
-		    "content-type: application/json; charset=UTF-8",
-		  ),
-		));
+        $curl = curl_init();
+        curl_setopt_array($curl, array(
+          CURLOPT_URL => $arrDatas['sentUrl'],
+          CURLOPT_RETURNTRANSFER => true,
+          CURLOPT_ENCODING => "",
+          CURLOPT_MAXREDIRS => 10,
+          CURLOPT_TIMEOUT => 30,
+          CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+          CURLOPT_CUSTOMREQUEST => "POST",
+          CURLOPT_POSTFIELDS => $arrDatas['data'],
+          CURLOPT_HTTPHEADER => array(
+            "authorization: ".$arrDatas['token'],
+            "cache-control: no-cache",
+            "content-type: application/json; charset=UTF-8",
+          ),
+        ));
 
-		$response = curl_exec($curl);
+        $response = curl_exec($curl);
         // dd($response);
-		$err = curl_error($curl);
+        $err = curl_error($curl);
 
-		curl_close($curl);
+        curl_close($curl);
 
-		if ($err) {
+        if ($err) {
             $datasReturn['result'] = 'E';
             $datasReturn['message'] = $err;
             Log::debug('cURL Error #: =>'. $err);                          
-		} else {
+        } else {
             if($response == "{}"){
                 $datasReturn['result'] = 'S';
                 $datasReturn['message'] = 'Success';
@@ -283,49 +272,48 @@ class LineWebHooks extends Model
             }
             
             Log::debug('Reply After eventFollow =>'. $response);
-			Log::debug('return');     
-		}
+            Log::debug('return');     
+        }
 
         return $datasReturn;
     }
 
     public static function autoReplyMessage($arrDatas, $dateStartNow = null)
     {
-        $settingBot = SettingBot::first();
         $isGroup = 0;
         $isRoom = 0;
         try  {
 
-        	$datas = collect();
-        	if (isset($arrDatas['events'])) {
-        		foreach ($arrDatas['events'] as $arr) {
-    				if (isset($arr['message']) && sizeof($arr['message']) > 0) {
-        				if($arr['message']['type'] == 'location') {
-           					// Log::debug('Receive Location');
-        				}  else if($arr['message']['type'] == 'text') {
+            $datas = collect();
+            if (isset($arrDatas['events'])) {
+                foreach ($arrDatas['events'] as $arr) {
+                    if (isset($arr['message']) && sizeof($arr['message']) > 0) {
+                        if($arr['message']['type'] == 'location') {
+                            // Log::debug('Receive Location');
+                        }  else if($arr['message']['type'] == 'text') {
                            $text  = $arr['message']['text'];
                         }                       
-    				}
-    				if (isset($arr['source'])) {
+                    }
+                    if (isset($arr['source'])) {
                         $datas->put('type', $arr['source']['type']);
                         if ($arr['source']['type'] == 'group') {
-                        	$datas->put('groupId', $arr['source']['groupId']);
+                            $datas->put('groupId', $arr['source']['groupId']);
                             $datas->put('userId', $arr['source']['userId']);
                             $isGroup = 1;
                         } else if ($arr['source']['type'] == 'room') {
-                        	$datas->put('roomId', $arr['source']['roomId']);
+                            $datas->put('roomId', $arr['source']['roomId']);
                             $datas->put('userId', $arr['source']['userId']);
                             $isRoom = 1;
                         } else  if ($arr['source']['type'] == 'user'){
                             $datas->put('userId', $arr['source']['userId']);                           
                         } else {
-    	            		//   $datas->put('userId', $arr['source']['userId']);
+                            //   $datas->put('userId', $arr['source']['userId']);
                         }                       
                     } 
-            		$datas->put('replyToken', $arr['replyToken']);
-    	            $datas->put('sourceType', $arr['source']['type']);
-    	            $datas->put('timestamp', $arr['timestamp']);                             
-        		}
+                    $datas->put('replyToken', $arr['replyToken']);
+                    $datas->put('sourceType', $arr['source']['type']);
+                    $datas->put('timestamp', $arr['timestamp']);                             
+                }
                
                 $lineUserProfile = LineUserProfile::where('mid',$arr['source']['userId'])->first();
                 // if (!is_null($lineUserProfile)) {
@@ -347,79 +335,24 @@ class LineWebHooks extends Model
                 // Comment By Aek 2017-05-29 LH Commit Close Function
                 $checkConfirmation = ShareLocationConfirmation::checkConfirmation($text,$lineUserProfile);
                 $checkCarouselConfirmation = CarouselConfirmation::checkConfirmation($text,$lineUserProfile);
-                $settingBot = SettingBot::first();
-                $checkQA = ConnectBotNoi::setDataQuestionAndAwnser($text);
                 $botTrain = 0;
                 $conf = 0;
                 $botReply = null;
                 $isKeyword = 0;
-                $isTriggerKeyword = 0;
-                $isTriggerKeyword = CoreFunction::checkTriggerKeyword($text,$lineUserProfile);
 
-                if($isGroup == 1 || $isRoom == 1){
-                    $keyword = BotJoinKeyword::where('keyword',$text)->first();
-                }else{
+                // if($isGroup == 1 || $isRoom == 1){
+                //     $keyword = BotJoinKeyword::where('keyword',$text)->first();
+                // }else{
                     $keyword = Keyword::where('keyword',$text)->where('active',1)->first();
-                }
+                // }
+
                 if($keyword){
                     $isKeyword = 1;
                 }
 
-                Log::debug("Setting Bot => ".$settingBot->is_active);
-                // Log::debug("Check QA");
-                // Log::debug($checkQA);
-                if($settingBot->is_active == 1 && $isKeyword != 1){
-                    if($checkQA['result']){
-                        // Log::debug("Train");
-                        $botTrain = 1;
-                        ConnectBotNoi::connectTrainBot($checkQA);
-                        ConnectBotNoi::storeDataBotTrain($checkQA,$datas['userId']);
-                        $messages = array();
-                        $messages[]  = [
-                            "type" =>"text",
-                            "text" =>"ขอบคุณที่ช่วยชี้แนะครับ"
-                        ];
-                        $locationKeywords = collect();
-                        $carouselItemKeywords = collect();                        
-                    }else{
-                        $replyBotnoi = ConnectBotNoi::connectReply(strtolower($text));
-                        // \Log::debug($replyBotnoi);
-                        if($replyBotnoi){
-                            $conf = $replyBotnoi->conf;
-                            $botReply = $replyBotnoi->resp;
-                        }
-                        
-                        \Log::debug('conf => '.$conf.' botreply => '.$botReply);
-                        $locationKeywords = LocationKeyword::where('keyword',$botReply)->groupby('location_id')->distinct()->get();
-                        // $carouselItemKeywords = CarouselItemKeyword::where('keyword',$botReply)->groupby('carousel_id')->distinct()->get();
-                        $carouselItemKeywords = CarouselItemKeyword::where('keyword',$botReply)->groupby('carousel_id')->distinct()->get();
-                        if($isTriggerKeyword == 0 && $botReply == ""){
-                            $isTriggerKeyword = CoreFunction::checkTriggerKeyword($botReply,$lineUserProfile);
-                        }
-                    }                   
-                }else{
-                    $locationKeywords = LocationKeyword::where('keyword',$text)->groupby('location_id')->distinct()->get();
-                    $carouselItemKeywords = CarouselItemKeyword::where('keyword',$text)->groupby('carousel_id')->distinct()->get();
-                    $isTriggerKeyword = CoreFunction::checkTriggerKeyword($text,$lineUserProfile);
-                }
+                $locationKeywords = LocationKeyword::where('keyword',$text)->groupby('location_id')->distinct()->get();
+                $carouselItemKeywords = CarouselItemKeyword::where('keyword',$text)->groupby('carousel_id')->distinct()->get();
 
-                /*if (!is_null($lineUserProfile)) {
-                    RecieveMessage::create([
-                        'keyword'   =>  $arr['message']['text'],
-                        'mid'       =>  $datas['userId'],
-                        'line_biz_con_id'   =>  ($lineUserProfile->lineBizConCustomer)? $lineUserProfile->lineBizConCustomer->id : 0,
-                        'bot_conf'       =>  $conf,
-                        'bot_reply'       =>  $botReply,
-                    ]);                 
-                } else {
-                    RecieveMessage::create([
-                        'keyword'   =>  $arr['message']['text'],
-                        'mid'       =>  $datas['userId'],
-                        'line_biz_con_id'   =>  0,
-                        'bot_conf'       =>  $conf,
-                        'bot_reply'       =>  $botReply,
-                    ]);
-                }*/
 
                 if($isGroup){
                     RecieveMessageGroup::create([
@@ -441,18 +374,11 @@ class LineWebHooks extends Model
                     RecieveMessage::create([
                         'keyword'   =>  $arr['message']['text'],
                         'mid'       =>  $datas['userId'],
-                        'line_biz_con_id'   =>  ($lineUserProfile->lineBizConCustomer)? $lineUserProfile->lineBizConCustomer->id : 0,
+                        'line_biz_con_id'   =>  0,
                         'bot_conf'       =>  $conf,
                         'bot_reply'       =>  $botReply,
                     ]);
                 }
-
-                // Log::debug(' carouselItemKeywords => '. $carouselItemKeywords->count());
-
-                // $locationKeywords = collect();
-                // $checkConfirmation = 0;
-
-                // $keyword = Keyword::where('keyword', 'like', '%'.$text.'%')->where('active',1)->first();
 
                 if($isKeyword == 0 && $botReply != ""){
                     // $keyword = Keyword::where('keyword',$botReply)->where('active',1)->first();
@@ -463,63 +389,26 @@ class LineWebHooks extends Model
                     }
                 }
 
-                // $locationKeywords = LocationKeyword::where('keyword', 'like', '%'.$text.'%')->get();
-                // Log::debug(' keyword => '. $keyword);
-                // Log::debug(' keyword => '. $keyword);
-                // Log::debug(' LocationCount => '. $locationKeywords->count());
-        		if (is_null($keyword) && $locationKeywords->count() == 0 && $checkConfirmation == 0 && $carouselItemKeywords->count() == 0 && $checkCarouselConfirmation == 0 && $botTrain == 0 && $isTriggerKeyword == 0) {
-        			//default
-                    // auto_default:
-                        
-                        // Log::debug($checkQA['result']);
-                        if($conf > $settingBot->conf){
-                            if($checkQA['result'] != 1){
-                                $messages = array();
-                                $messages[]  = [
-                                    "type" =>"text",
-                                    "text" => $replyBotnoi->resp
-                                ];
-                            }                           
-                        }else{
-                            // $messages = array();
-                            // $messages[]  = [
-                            //     "type" =>"text",
-                            //     "text" => "Defalut Keyword"
-                            // ];
-                            // $carouselDefault2 = self::setDefaultCarousel2();
-                            
-                            // $carouselDefault = self::setDefaultCarousel();
-                            // $messages = $carouselDefault;
-
-                            $messages = self::setAutoreplyDefault($lineUserProfile,$isGroup,$isRoom);
-                        }                       
-        		} else if ($carouselItemKeywords->count() > 0 && is_null($keyword) && $checkCarouselConfirmation == 0 && $botTrain == 0) {
+                if (is_null($keyword) && $locationKeywords->count() == 0 && $checkConfirmation == 0 && $carouselItemKeywords->count() == 0 && $checkCarouselConfirmation == 0 && $botTrain == 0) {
+                    $messages = self::setAutoreplyDefault($lineUserProfile,$isGroup,$isRoom);
+                } else if ($carouselItemKeywords->count() > 0 && is_null($keyword) && $checkCarouselConfirmation == 0 && $botTrain == 0) {
                     Log::debug("Carousel");
-                    if($conf > $settingBot->conf || $settingBot->is_active == 0){
-                        $confirmationSettingCarousel = ConfirmationSettingCarousel::first();
-                        if($carouselItemKeywords->count() > 0){
-                            $carouselItemKeywords = $carouselItemKeywords->take($confirmationSettingCarousel->max_display);
-                        }
-                        $carouselKeywordCount = $carouselItemKeywords->count();
-                        if($carouselKeywordCount > 5){
-                            Log::debug("Multiple Carousel");
-                            $createDataConfirmation = CarouselConfirmation::createDataConfirmation($carouselItemKeywords,$lineUserProfile);
-                            $confirmation = self::setDataConfirmation();
-                            $corosel = self::setCarouselLogic($carouselItemKeywords->take(5));
-                            $messages = [$corosel,$confirmation];                           
-                        }else{
-                            Log::debug("Single Carousel");
-                            $corosel = self::setCarouselLogic($carouselItemKeywords->take(5));
-                            $messages = [$corosel];
-                        }                        
+                    $confirmationSettingCarousel = ConfirmationSettingCarousel::first();
+                    if($carouselItemKeywords->count() > 0){
+                        $carouselItemKeywords = $carouselItemKeywords->take($confirmationSettingCarousel->max_display);
+                    }
+                    $carouselKeywordCount = $carouselItemKeywords->count();
+                    if($carouselKeywordCount > 5){
+                        Log::debug("Multiple Carousel");
+                        $createDataConfirmation = CarouselConfirmation::createDataConfirmation($carouselItemKeywords,$lineUserProfile);
+                        $confirmation = self::setDataConfirmation();
+                        $corosel = self::setCarouselLogic($carouselItemKeywords->take(5));
+                        $messages = [$corosel,$confirmation];                           
                     }else{
-                        // \Log::debug('default keyword conf < 0.7');
-                        // $carouselDefault2 = self::setDefaultCarousel2();
-                        
-                        // $carouselDefault = self::setDefaultCarousel();
-                        // $messages = $carouselDefault;
-                        $messages = self::setAutoreplyDefault($lineUserProfile,$isGroup,$isRoom);
-                    }                    
+                        Log::debug("Single Carousel");
+                        $corosel = self::setCarouselLogic($carouselItemKeywords->take(5));
+                        $messages = [$corosel];
+                    }                        
                 } else if ($checkCarouselConfirmation == 1 && $botTrain == 0) {
                     Log::debug('Re Confirmation Carousel');
                     $carouselConfirmation = CarouselConfirmation::where('line_user_id',$lineUserProfile->id)->where('end_time',null)->first();
@@ -573,14 +462,16 @@ class LineWebHooks extends Model
                         $messages = [$corosel];
                     }                 
                 } else if ($botTrain == 1) {
-                } else if ($isTriggerKeyword == 1) {
-                    $triggerKeywordConfirmation = CoreFunction::sendConfirmTrigger();
-                    $messages = [$triggerKeywordConfirmation];
                 } else {
-        			$autoReplyKeyWord  = $keyword->autoReplyKeyWord;
+                    $autoReplyKeyWord  = $keyword->autoReplyKeyWord;
+                    
+                    // \Log::debug($autoReplyKeyWord);
                     if(!is_null($autoReplyKeyWord)) {
+                        \Log::debug('debug message 444');
+                        \Log::debug($autoReplyKeyWord->active);
                         if ($autoReplyKeyWord->active) {
                             $items  = $autoReplyKeyWord->autoReplyKeyWordItems;
+                            
                             // Log::debug($items);
                             $messages = array();
                             if (sizeof($items) > 0) {
@@ -617,6 +508,7 @@ class LineWebHooks extends Model
                                         $messages[] = TemplateMessageCoreFunction::setTemplateMessage($item->template_message_id);                               
                                     }
                                 }
+                                Log::debug($messages);
                             }                              
                         } else {
                             $messages = self::setAutoreplyDefault($lineUserProfile,$isGroup,$isRoom);
@@ -626,17 +518,17 @@ class LineWebHooks extends Model
                         $messages = self::setAutoreplyDefault($lineUserProfile,$isGroup,$isRoom);
                         // goto auto_default;
                     }
-        		}
+                }
                 
                 if (isset($messages) && sizeof($messages) > 0) {
                     $lineSettingBusiness = LineSettingBusiness::where('active', 1)->first();
 
-            		$datas->put('token', 'Bearer '.$lineSettingBusiness->channel_access_token);
-            		
-            		$arrMessage = [
-            			$messages
-        	        ];
-        	        $message = collect($messages);
+                    $datas->put('token', 'Bearer '.$lineSettingBusiness->channel_access_token);
+                    
+                    $arrMessage = [
+                        $messages
+                    ];
+                    $message = collect($messages);
 
                     $now = Carbon::now();
                     $dateNow2 = $now;
@@ -672,15 +564,15 @@ class LineWebHooks extends Model
                             'type' => 'Auto Reply'
                         ]);        
                     }
-                    // Log::debug($data);
+                    Log::debug($data);
 
                     $datas->put('data', $data->toJson());
                     //$datas->put('dateStartNow', $dateStartNow);
                     // Log::debug('Second = > '.$dateNow2.'  =>  diff => '.$dateStartNow->diffInSeconds($dateNow2));
                     // Log::debug('Data =>'. $datas['data']);
-            		self::sent($datas);                
+                    self::sent($datas);                
                 }
-        	}
+            }
 
         } catch(Exception $e) {
             Log::debug('Error '.$e);
@@ -743,7 +635,7 @@ class LineWebHooks extends Model
 
     public static function setImagemap($richMessageID)
     {
-          $richMessageMain = RichMessageMain::find($richMessageID);
+          $richMessageMain = Richmessage::find($richMessageID);
           // $lineSettingBusiness = LineSettingBusiness::where('active', 1)->first();
           // $datas = collect();
           $messages = collect([
@@ -751,334 +643,88 @@ class LineWebHooks extends Model
             "baseUrl" => $richMessageMain->rich_message_url,
             "altText" => $richMessageMain->alt_text,
             "baseSize" => [
-                "height" => "1024",
-                "width" => "1024",
+                "height" => ($richMessageMain->height <= 2040)? $richMessageMain->height : "2040",
+                "width" => "1040",
             ],
           ]);
-          foreach ($richMessageMain->richMessageItems as $richMessageDatas) {
-            if($richMessageDatas->action == 'url'){
-              $dataItems[] = [
-                "type"  => "uri",
-                "linkUri"  => $richMessageDatas->url_protocal.$richMessageDatas->url_value,
-                "area"  => [
-                  "x" => $richMessageDatas->x,
-                  "y" => $richMessageDatas->y,
-                  "width" => $richMessageDatas->width,
-                  "height" => $richMessageDatas->height,
-                ],
-              ];
-            }
-            if($richMessageDatas->action == 'keyword'){
-              $dataItems[] = [
-                "type" => "message",
-                "text" => $richMessageDatas->keyword,
-                "area"  => [
-                  "x" => $richMessageDatas->x,
-                  "y" => $richMessageDatas->y,
-                  "width" => $richMessageDatas->width,
-                  "height" => $richMessageDatas->height,
-                ],
-              ];
-            }
-            if($richMessageDatas->action == 'share_location'){
-              $dataItems[] = [
-                "type"  => "uri",
-                "linkUri"  => "line://nv/location",
-                "area"  => [
-                  "x" => $richMessageDatas->x,
-                  "y" => $richMessageDatas->y,
-                  "width" => $richMessageDatas->width,
-                  "height" => $richMessageDatas->height,
-                ],
-              ];
-            }
-            if($richMessageDatas->action == 'no-action'){
-              $dataItems[] = [
-                "type" => "uri",
-                "linkUri" => "http://#",
-                "area"  => [
-                  "x" => 0,
-                  "y" => 0,
-                  "width" => 1,
-                  "height" => 1,
-                ],
-              ];
+          foreach ($richMessageMain->areas as $area) {
+            $action = $area->action;
+            $bound = $area->bound;
+            $height = ceil($bound->height)*2;
+            $width = ceil($bound->width)*2;
+            $x = ceil($bound->x)*2;
+            $y = ceil($bound->y)*2;
+            if($action){
+                if($action->type == 'url_and_other_action'){
+                  $actionData = str_replace('tel:/', 'tel:', $action->data);
+                  $dataItems[] = [
+                    "type"  => "uri",
+                    "linkUri"  => $actionData,
+                    "area"  => [
+                      "x" => $x,
+                      "y" => $y,
+                      "width" => $width,
+                      "height" => $height,
+                    ],
+                  ];
+                }
+                if($action->type == 'keyword'){
+                  $autoReplyKeyword = AutoReplyKeyword::where('title',$action->data)->first();
+                  if($autoReplyKeyword){
+                      $keywords = $autoReplyKeyword->keywords;
+                      $dataItems[] = [
+                        "type" => "message",
+                        "text" => $keywords->first()->keyword,
+                        "area"  => [
+                          "x" => $x,
+                          "y" => $y,
+                          "width" => $width,
+                          "height" => $height,
+                        ],
+                      ];
+                  }
+                }
+                if($action->type == 'share_location_action'){
+                  $dataItems[] = [
+                    "type"  => "uri",
+                    "linkUri"  => "line://nv/location",
+                    "area"  => [
+                      "x" => $x,
+                      "y" => $y,
+                      "width" => $width,
+                      "height" => $height,
+                    ],
+                  ];
+                }
+                if($action->type == 'no-action' || $action->type == -1){
+                  $dataItems[] = [
+                    "type" => "uri",
+                    "linkUri" => "http://#",
+                    "area"  => [
+                      "x" => 0,
+                      "y" => 0,
+                      "width" => 1,
+                      "height" => 1,
+                    ],
+                  ];
+                }
+                if($action->type == 'post_back'){
+                  $dataItems[] = [
+                    "type" => "message",
+                    "text" => $action->data,
+                    "area"  => [
+                      "x" => $x,
+                      "y" => $y,
+                      "width" => $width,
+                      "height" => $height,
+                    ],
+                  ];
+                }
             }
           }
           $messages->put('actions',$dataItems);
 
           return $messages;
-          // $datas->put('sentUrl', 'https://api.line.me/v2/bot/message/push');
-          // $datas->put('token', 'Bearer '.$lineSettingBusiness->channel_access_token);
-          // $data = collect([
-          //     "to" => "U8c71169f57bfb5c8d484f87ae16c75e4",
-          //     "messages"   => [$messages],
-          // ]);
-          // $datas->put('data', $data->toJson());
-          // LineWebHooks::sent($datas);
-    }
-
-    public static function liveChat($arrDatas)
-    {
-        $replyToken = $arrDatas['events'][0]['replyToken'];
-        $mid = $arrDatas['events'][0]['source']['userId'];
-        $message = $arrDatas['events'][0]['message']['text'];
-        $mainChatSetting = ChatMainSetting::first();
-        $keywordStartChat = ($mainChatSetting && $mainChatSetting->keyword_start_chat != "")? $mainChatSetting->keyword_start_chat : "callcenter" ;
-        $keywordEndChat = ($mainChatSetting && $mainChatSetting->keyword_end_chat != "")? $mainChatSetting->keyword_end_chat : "exit" ;
-        $isOfficeOpen = ($mainChatSetting && $mainChatSetting->is_office_open != "")? $mainChatSetting->is_office_open : 0 ;
-        $botSetting = BotSetting::first();
-        $is_chat_bot_open = $botSetting->is_active;
-        // \Log::debug('keywordendchat =>'.$keywordEndChat);
-        // if($message != 'exit'){
-        if(strtolower($message) != $keywordEndChat){
-            $lineUserProfile = LineUserProfile::where('mid',$mid)->first();
-            $chatMain = ChatMain::where('line_user_id',$lineUserProfile->id)->where('chat_status','<>','finish')->first();
-            // Log::debug($chatMain);
-            $isRead = 0;
-            if($chatMain){
-                if($chatMain->is_handle == 1){
-                    $isRead = 1;
-                }
-            }else{
-                /*$dateNow = Carbon::now()->format('H:i:s');
-                $officeStartTime = ($mainChatSetting)? $mainChatSetting->office_start : "08:30:00";
-                $officeEndTime = ($mainChatSetting)? $mainChatSetting->office_end : "18:00:00";*/
-                $dateNow = Carbon::now();
-                $officeStartTime = Carbon::createFromFormat('H:i:s', $mainChatSetting->office_start);
-                $officeEndTime = Carbon::createFromFormat('H:i:s', $mainChatSetting->office_end);
-                if($isOfficeOpen == 1 && ($dateNow > $officeStartTime && $dateNow < $officeEndTime)){
-
-                    if($is_chat_bot_open){
-                        $chatMain = ChatMain::create([
-                            'agent_id' => 0,
-                            'line_user_id' => $lineUserProfile->id,
-                            'chat_status' => 'active',
-                            'start_time' => \Carbon\Carbon::now()->format('Y-m-d H:i:s'),
-                            'is_handle' => 0,
-                        ]);
-
-                        // ConnectFirebase::waitingMainChat();
-                    }else{
-                        $getAgent = \YellowProject\UserAgent::getAgentAvaliable();
-                        if($getAgent != 0){
-                            ChatMain::create([
-                                'agent_id' => $getAgent,
-                                'line_user_id' => $lineUserProfile->id,
-                                'chat_status' => 'active',
-                                'start_time' => \Carbon\Carbon::now()->format('Y-m-d H:i:s'),
-                                'is_handle' => 0,
-                            ]);
-                            $updateFirebase = ConnectFirebase::mainChatAllUpdate();
-                        }else{
-                            $chatMain = ChatMain::create([
-                                'line_user_id' => $lineUserProfile->id,
-                                'chat_status' => 'waiting',
-                            ]);
-
-                            ConnectFirebase::waitingMainChat();
-                        }
-                    }
-                }else{
-                    // \Log::debug('backoffice xxxx');
-                    // $chatMain = ChatMain::create([
-                    //     'line_user_id' => $lineUserProfile->id,
-                    //     'chat_status' => 'backoffice',
-                    //     'flag_status' => 'backoffice',
-                    // ]);
-                    // ChatMain::sendMessageBackOffice($chatMain);
-                }
-                
-                // $updateFirebase = ConnectFirebase::mainChatAllUpdate();
-            }
-            // Log::debug($chatMain->id);
-            // if($message != 'callcenter'){
-            // if(strtolower($message) != $keywordStartChat){
-
-            if($chatMain->chat_status != "backoffice"){
-                ChatMessage::create([
-                    'main_chat_id' => $chatMain->id,
-                    'type' => 'recieve',
-                    'message' => $message,
-                    'is_read' => $isRead,
-                    'reply_token' => $replyToken,
-                    'message_type' => 'text',
-                ]);
-                if($chatMain->agent_id == 0){
-                    $checkCarouselConfirmation = CarouselConfirmation::checkConfirmation($message,$lineUserProfile);
-                    if($checkCarouselConfirmation){
-                        self::sendMessageCarouselConfirmationData($lineUserProfile,$chatMain);
-                    }
-                    ConnectFirebase::chatBot($chatMain->id);
-                }else{
-                    ChatMain::autoPickUser();
-                }
-            }
-
-            if($chatMain->agent_id != 0){
-                $updateFirebase = ConnectFirebase::mainChatAllUpdate();
-            }
-            
-            if($chatMain->agent_id != null){
-                $updateFirebase = ConnectFirebase::agentHandleChat($chatMain->agent_id,$chatMain->id);
-            }
-            // }
-        }
-        
-        // \YellowProject\GenerateTxt::genCountMainChat();
-        // ChatMain::create();
-    }
-
-    public static function checkLiveChat($arrDatas)
-    {
-        $botSetting = BotSetting::first();
-        $mainChatSetting = ChatMainSetting::first();
-        $keywordStartChat = ($mainChatSetting && $mainChatSetting->keyword_start_chat != "")? $mainChatSetting->keyword_start_chat : "callcenter" ;
-        $keywordEndChat = ($mainChatSetting && $mainChatSetting->keyword_end_chat != "")? $mainChatSetting->keyword_end_chat : "exit" ;
-        $isOfficeOpen = ($mainChatSetting && $mainChatSetting->is_office_open != "")? $mainChatSetting->is_office_open : 0 ;
-        $is_chat_bot_open = $botSetting->is_active;
-        $isLiveChat = 0;
-        $type = $arrDatas['events'][0]['message']['type'];
-        // Log::debug('checkLiveChat =>'.$type);
-        if($type == 'text'){
-            $message = $arrDatas['events'][0]['message']['text'];
-            $mid = $arrDatas['events'][0]['source']['userId'];
-            $lineUserProfile = LineUserProfile::where('mid',$mid)->first();
-            $chatMain = ChatMain::where('line_user_id',$lineUserProfile->id)->where('chat_status','<>','finish')->first();
-            self::checkRating($message,$mid);
-            if(strtolower($message) == $keywordStartChat){
-                $isLiveChat = 1;
-                self::clearDataCarouselConfirmation($lineUserProfile);
-                /*$dateNow = Carbon::now()->format('H:i:s');
-                $officeStartTime = ($mainChatSetting)? $mainChatSetting->office_start : "08:30:00";
-                $officeEndTime = ($mainChatSetting)? $mainChatSetting->office_end : "18:00:00";*/
-                $dateNow = Carbon::now();
-                $officeStartTime = Carbon::createFromFormat('H:i:s', $mainChatSetting->office_start);
-                $officeEndTime = Carbon::createFromFormat('H:i:s', $mainChatSetting->office_end);
-
-                if($isOfficeOpen == 1 && ($dateNow > $officeStartTime && $dateNow < $officeEndTime)){
-                    if($chatMain){
-                        if($chatMain->chat_status == 'backoffice'){
-                            $chatMain->update([
-                                'chat_status' => 'finish',
-                                'end_time'  => \Carbon\Carbon::now()
-                            ]);
-
-                            if($is_chat_bot_open){
-                                $chatMain = ChatMain::create([
-                                    'agent_id' => 0,
-                                    'line_user_id' => $lineUserProfile->id,
-                                    'chat_status' => 'active',
-                                    'start_time' => \Carbon\Carbon::now()->format('Y-m-d H:i:s'),
-                                    'is_handle' => 0,
-                                ]);
-                                $updateFirebase = ConnectFirebase::mainChatAllUpdate();
-                            }else{
-                                $getAgent = \YellowProject\UserAgent::getAgentAvaliable();
-                                ChatMain::create([
-                                    'line_user_id' => $lineUserProfile->id,
-                                    'chat_status' => 'waiting',
-                                ]);
-                                ConnectFirebase::waitingMainChat();
-                                ChatMain::autoPickUser();
-                            }
-                        }
-                        $message = ($mainChatSetting->text_welcome != "")? $mainChatSetting->text_welcome : "สวัสดีครับ วันนี้ให้ FWD ดูแลเรื่องอะไรครับ";
-                        ChatMain::sendMessageStartChat($mid,$message);
-                    }else{
-                        $message = ($mainChatSetting->text_welcome != "")? $mainChatSetting->text_welcome : "สวัสดีครับ วันนี้ให้ FWD ดูแลเรื่องอะไรครับ";
-                        ChatMain::sendMessageStartChat($mid,$message);
-                    }
-                }else{
-                    // \Log::debug('backoffice xxxx');
-                    $chatMainBackOffice = ChatMain::where('line_user_id',$lineUserProfile->id)->where('chat_status','backoffice')->first();
-                    // \Log::debug($chatMainBackOffice);
-                    if($chatMainBackOffice == ""){
-                        $chatMain = ChatMain::create([
-                            'line_user_id' => $lineUserProfile->id,
-                            'chat_status' => 'backoffice',
-                            'flag_status' => 'backoffice',
-                        ]);
-
-                        ChatMessage::create([
-                            'main_chat_id' => $chatMain->id,
-                            'type' => 'recieve',
-                            'message' => $message,
-                            'is_read' => 0,
-                            'reply_token' => null,
-                            'message_type' => 'text',
-                        ]);
-                        ChatMain::sendMessageBackOffice($chatMain);
-                        $updateFirebase = ConnectFirebase::mainChatAllUpdate();
-                    }else{
-                        ChatMain::sendMessageBackOffice($chatMain);
-                    }
-                    $isLiveChat = 1;
-                }
-            }else{
-                // \Log::debug('Other');
-                // $lineUserProfile = LineUserProfile::where('mid',$mid)->first();
-
-                // $chatMain = ChatMain::where('line_user_id',$lineUserProfile->id)->where('chat_status','<>','finish')->where('chat_status','<>','backoffice')->first();
-
-                // $chatMain = ChatMain::where('line_user_id',$lineUserProfile->id)->where('chat_status','<>','finish')->first();
-                if($chatMain){
-                    $chatMainBackOffice = ChatMain::where('line_user_id',$lineUserProfile->id)->where('chat_status','backoffice')->first();
-                    if(strtolower($message) == $keywordEndChat && !$chatMainBackOffice){
-                        self::clearDataCarouselConfirmation($lineUserProfile);
-                        ConnectFirebase::chatBot($chatMain->id);
-                        \YellowProject\ChatMain::sendMessageEndChat($chatMain);
-                        $isLiveChat = 1;
-                        // return redirect()->action('API\v1\OneOnOneChatController@finishEndChat',['main_chat_id' => $chatMain->id])
-                    }else{
-                        if($chatMainBackOffice){
-                            $isLiveChat = 0;
-                        }else{
-                            $isLiveChat = 1;
-                        }
-                    }
-                }
-            }
-        }
-        
-        // if($liveChatStatus){
-        //     $dateNow = \Carbon\Carbon::now();
-        //     if($liveChatStatus->end_time > $dateNow){
-        //         $isLiveChat = 1;
-        //     }
-        // }
-
-        return $isLiveChat;
-    }
-
-    public static function checkRating($text,$mid)
-    {
-        // \Log::debug('check rating');
-        $isRating = 0;
-        if($text == 'คุณให้คะแนนพอใช้' || $text == 'คุณให้คะแนนดี' || $text == 'คุณให้คะแนนควรปรับปรุง' || $text == 'คุณให้คะแนนดีมาก'){
-            $lineUserProfile = LineUserProfile::where('mid',$mid)->first();
-            $chatRating = ChatRating::where('line_user_id',$lineUserProfile->id)->orderBy('created_at','desc')->first();
-            if($chatRating){
-                if($chatRating->is_active != 1){
-                    $score = 0;
-                    if($text == 'คุณให้คะแนนดีมาก'){
-                        $score = 4;
-                    }else if($text == 'คุณให้คะแนนดี'){
-                        $score = 3;
-                    }else if($text == 'คุณให้คะแนนพอใช้'){
-                        $score = 2;
-                    }else{
-                        $score = 1;
-                    }
-                    $chatRating->update([
-                        'rating' => $score,
-                        'is_active' => 1
-                    ]);
-                }
-            }
-        }
-        // \Log::debug('is rating => '.$isRating);
-        return $isRating;
     }
 
     public static function setCoroselLogicShareLocationByConfirmation($confirmation)
@@ -1452,13 +1098,6 @@ class LineWebHooks extends Model
                 ]);
             }
         }
-        $lineBizConCustomer = LineBizConCustomer::where('line_user_profile_id',$lineUserProfile->id)->first();
-        if($lineBizConCustomer == '' && $lineUserProfile->name != ''){
-            LineBizConCustomer::create([
-                'line_user_profile_id' => $lineUserProfile->id,
-                'name' => $lineUserProfile->name,
-            ]);
-        }
 
         return $lineUserProfile;
     }
@@ -1640,101 +1279,6 @@ class LineWebHooks extends Model
         return $actions;
     }
 
-    public static function autoReplyBeacon($mid,$replyToken,$beaconId)
-    {
-        $dateNow = \Carbon\Carbon::now()->format('Y-m-d');
-        $beacon = Beacon::where('is_active',1)->where('identifier',$beaconId)->first();
-        $lineUserProfile = LineUserProfile::where('mid',$mid)->first();
-        $recieveBeacon = RecieveBeacon::where('line_user_id',$lineUserProfile->id)->where('beacon_id',$beacon->id)->whereDate('created_at',$dateNow)->get();
-        // \Log::debug('count => '.$recieveBeacon->count());
-        // dd($beacon && $recieveBeacon->count() < 1);
-        \Log::debug('auto reply beacon');
-        \Log::debug('beaconId => '.$beaconId.' lineuserId => '.$lineUserProfile->name);
-        if($beacon && $recieveBeacon->count() < 1){
-            $autoReplyBeacon = AutoreplyBeacon::where('beacon_id',$beacon->id)->where('is_active',1)->first();
-            if($autoReplyBeacon){
-                \Log::debug('sent message');
-                $autoReplyBeaconItems = $autoReplyBeacon->autoreplyBeaconItems;
-                $lineSettingBusiness = \YellowProject\LineSettingBusiness::where('active',true)->first();
-                $datas = collect();
-                $datas->put('token', 'Bearer '.$lineSettingBusiness->channel_access_token);
-                $messages = array();
-                foreach ($autoReplyBeaconItems as $key => $autoReplyBeaconItem) {
-                    if($autoReplyBeaconItem->type == 'text'){
-                        $messages[$key]  = [
-                            "type" =>"text",
-                            "text" => trim($autoReplyBeaconItem->payload),
-                        ];
-                    }
-
-                    if($autoReplyBeaconItem->type == 'imagemap'){
-                        $richMessageMain = RichMessageMain::find($autoReplyBeaconItem->richmessage_id);
-                        $messages[$key] = [
-                            "type" => "imagemap",
-                            "baseUrl" => $richMessageMain->rich_message_url,
-                            "altText" => $autoReplyBeacon->alt_text,
-                            "baseSize" => [
-                                "height" => "1024",
-                                "width" => "1024",
-                            ],
-                        ];
-                        foreach ($richMessageMain->richMessageItems as $richMessageDatas) {
-                            if($richMessageDatas->action == 'url'){
-                              $dataItems[] = [
-                                "type"  => "uri",
-                                "linkUri"  => $richMessageDatas->url_protocal.$richMessageDatas->url_value,
-                                "area"  => [
-                                  "x" => $richMessageDatas->x,
-                                  "y" => $richMessageDatas->y,
-                                  "width" => $richMessageDatas->width,
-                                  "height" => $richMessageDatas->height,
-                                ],
-                              ];
-                            }
-                            if($richMessageDatas->action == 'keyword'){
-                              $dataItems[] = [
-                                "type" => "message",
-                                "text" => $richMessageDatas->keyword,
-                                "area"  => [
-                                  "x" => $richMessageDatas->x,
-                                  "y" => $richMessageDatas->y,
-                                  "width" => $richMessageDatas->width,
-                                  "height" => $richMessageDatas->height,
-                                ],
-                              ];
-                            }
-                            if($richMessageDatas->action == 'no-action'){
-                              $dataItems[] = [
-                                "type" => "uri",
-                                "linkUri" => "http://#",
-                                "area"  => [
-                                  "x" => 0,
-                                  "y" => 0,
-                                  "width" => 1,
-                                  "height" => 1,
-                                ],
-                              ];
-                            }
-                        }
-                        $messages[$key]['actions'] = $dataItems;
-                    }
-                }
-
-                $message = collect($messages);
-                    
-                $data = collect([
-                    // "to" => $mid,
-                    "replyToken" => $replyToken,
-                    "messages"   => $message
-                ]);
-
-                $datas->put('sentUrl', 'https://api.line.me/v2/bot/message/reply');
-                $datas->put('data', $data->toJson());
-                self::sent($datas);
-            }
-        }
-    }
-
     public static function sendImage($imagePath,$mid)
     {
         $lineSettingBusiness = \YellowProject\LineSettingBusiness::where('active',true)->first();
@@ -1760,20 +1304,6 @@ class LineWebHooks extends Model
         self::sent($datas);
     }
 
-    public static function checkInBeacon($beaconId,$mid)
-    {
-        $beacon = Beacon::where('is_active',1)->where('identifier',$beaconId)->first();
-        if($beacon){
-            $lineUserProfile = LineUserProfile::where('mid',$mid)->first();
-            $datas = [];
-            $datas['beacon_id'] = ($beacon)? $beacon->id : null;
-            $datas['beacon_identifier'] = $beaconId;
-            $datas['line_user_id'] = $lineUserProfile->id;
-            $datas['trigger_event'] = 'enter';
-            RecieveBeacon::create($datas);
-        }
-    }
-
     public static function setAutoreplyDefault($lineUserProfile,$isGroup,$isRoom)
     {
         $autoReplyDefault = AutoReplyDefault::where('active',1)->first();
@@ -1795,55 +1325,7 @@ class LineWebHooks extends Model
                             "stickerId" => ''.$item->sticker->stickerId.'',
                         ];
                     } elseif ($item->messageType->type == 'imagemap'){
-                        $richMessageMain = RichMessageMain::find($item->auto_reply_richmessage_id);
-                        $messages[$key] = [
-                            "type" => "imagemap",
-                            "baseUrl" => $richMessageMain->rich_message_url,
-                            "altText" => $richMessageMain->alt_text,
-                            "baseSize" => [
-                                "height" => "1024",
-                                "width" => "1024",
-                            ],
-                        ];
-                        foreach ($richMessageMain->richMessageItems as $richMessageDatas) {
-                            if($richMessageDatas->action == 'url'){
-                              $dataItems[] = [
-                                "type"  => "uri",
-                                "linkUri"  => $richMessageDatas->url_protocal.$richMessageDatas->url_value,
-                                "area"  => [
-                                  "x" => $richMessageDatas->x,
-                                  "y" => $richMessageDatas->y,
-                                  "width" => $richMessageDatas->width,
-                                  "height" => $richMessageDatas->height,
-                                ],
-                              ];
-                            }
-                            if($richMessageDatas->action == 'keyword'){
-                              $dataItems[] = [
-                                "type" => "message",
-                                "text" => $richMessageDatas->keyword,
-                                "area"  => [
-                                  "x" => $richMessageDatas->x,
-                                  "y" => $richMessageDatas->y,
-                                  "width" => $richMessageDatas->width,
-                                  "height" => $richMessageDatas->height,
-                                ],
-                              ];
-                            }
-                            if($richMessageDatas->action == 'no-action'){
-                              $dataItems[] = [
-                                "type" => "uri",
-                                "linkUri" => "http://#",
-                                "area"  => [
-                                  "x" => 0,
-                                  "y" => 0,
-                                  "width" => 1,
-                                  "height" => 1,
-                                ],
-                              ];
-                            }
-                        }
-                        $messages[$key]['actions'] = $dataItems;
+                        $messages[$key] = self::setImagemap($item->auto_reply_richmessage_id);
                     } elseif ($item->messageType->type == 'image'){
                         $messages[$key] = [
                             "type" => "image",
@@ -1862,7 +1344,6 @@ class LineWebHooks extends Model
                 }
             }
         }
-        \log::debug($messages);
         return $messages;
     }
 
@@ -2006,16 +1487,6 @@ class LineWebHooks extends Model
         ]);
     }
 
-    public static function clearDataSharelocationConfirmation($lineUserProfile)
-    {
-        $datenow = \Carbon\Carbon::now()->format('Y-m-d H:i:s');
-        $shareLocationConfirmation = ShareLocationConfirmation::where('line_user_id',$lineUserProfile->id)->where('end_time',null);
-
-        $shareLocationConfirmation->update([
-            'end_time' => $datenow
-        ]);
-    }
-
     public static function sendMessageCarouselConfirmationData($lineUserProfile,$chatMain)
     {
         $datas = collect();
@@ -2072,5 +1543,142 @@ class LineWebHooks extends Model
         $datas->put('data', $data->toJson());
 
         $sent = LineWebHooks::sent($datas);
+    }
+
+    public static function flexMessage()
+    {
+        // $datas  = [
+        //     "type" => "text",
+        //     "text" => "ทดสอบรับคะแนน"
+        // ];
+            $datas = [];
+  $datas['type'] = "bubble";
+  $datas['styles'] = [];
+  $datas['styles']['footer'] = [];
+  $datas['styles']['footer']['separator'] = true;
+  $datas['body'] = [];
+  $datas['body']['type'] = "box";
+  $datas['body']['layout'] = "vertical";
+  $datas['body']['contents'] = [];
+  $datas['body']['contents'][0] = [
+      "type" => "text",
+      "text" => "ร้าน",
+      "weight" => "bold",
+      "color" => "#1DB446",
+      "size" => "sm"
+  ];
+  $datas['body']['contents'][1] = [
+      "type" => "text",
+      "text" => "([store_name])",
+      "weight" => "bold",
+      "size" => "xl",
+      "margin" => "md"
+  ];
+  $datas['body']['contents'][2] = [
+      "type" => "separator",
+      "margin" => "xxl"
+  ];
+  $datas['body']['contents'][3] = [
+      "type" => "box",
+      "layout" => "vertical",
+      "margin" => "xxl",
+      "spacing" => "sm",
+  ];
+  $datas['body']['contents'][3]['contents'][0] = [
+      "type" => "box",
+      "layout" => "horizontal",
+  ];
+  $datas['body']['contents'][3]['contents'][0]['contents'][] = [
+      "type" => "text",
+      "text" => "คะแนนสะสมยกมา",
+      "size" => "sm",
+      "color" => "#555555",
+      "flex" => 0
+  ];
+  $datas['body']['contents'][3]['contents'][0]['contents'][] = [
+      "type" => "text",
+      "text" => "xxx คะแนน",
+      "size" => "sm",
+      "color" => "#111111",
+      "align" => "end"
+  ];
+  $datas['body']['contents'][3]['contents'][1] = [
+      "type" => "box",
+      "layout" => "horizontal",
+  ];
+  $datas['body']['contents'][3]['contents'][1]['contents'][] = [
+      "type" => "text",
+      "text" => "คะแนนสะสมเดือนกรกฎาคม",
+      "size" => "sm",
+      "color" => "#555555",
+      "flex" => 0
+  ];
+  $datas['body']['contents'][3]['contents'][1]['contents'][] = [
+      "type" => "text",
+      "text" => "xxx คะแนน",
+      "size" => "sm",
+      "color" => "#111111",
+      "align" => "end"
+  ];
+  $datas['body']['contents'][3]['contents'][2] = [
+      "type" => "box",
+      "layout" => "horizontal",
+  ];
+  $datas['body']['contents'][3]['contents'][2]['contents'][] = [
+      "type" => "text",
+      "text" => "คะแนนหัวชั้นประจำไตรมาส",
+      "size" => "sm",
+      "color" => "#555555",
+      "flex" => 0
+  ];
+  $datas['body']['contents'][3]['contents'][2]['contents'][] = [
+      "type" => "text",
+      "text" => "xxx คะแนน",
+      "size" => "sm",
+      "color" => "#111111",
+      "align" => "end"
+  ];
+  $datas['body']['contents'][3]['contents'][2] = [
+      "type" => "box",
+      "layout" => "horizontal",
+  ];
+  $datas['body']['contents'][3]['contents'][2]['contents'][] = [
+      "type" => "text",
+      "text" => "คะแนนพิเศาจากรายการส่งเสริม",
+      "size" => "sm",
+      "color" => "#555555",
+      "flex" => 0
+  ];
+  $datas['body']['contents'][3]['contents'][2]['contents'][] = [
+      "type" => "text",
+      "text" => "xxx คะแนน",
+      "size" => "sm",
+      "color" => "#111111",
+      "align" => "end"
+  ];
+  $datas['body']['contents'][3]['contents'][3] = [
+      "type" => "separator",
+      "margin" => "xxl"
+  ];
+  $datas['body']['contents'][3]['contents'][4] = [
+      "type" => "box",
+      "layout" => "horizontal",
+      "margin" => "xxl",
+  ];
+  $datas['body']['contents'][3]['contents'][4]['contents'][] = [
+      "type" => "text",
+      "text" => "คะแนนรวมสะสม",
+      "size" => "sm",
+      "color" => "#555555"
+  ];
+  $datas['body']['contents'][3]['contents'][4]['contents'][] = [
+      "type" => "text",
+      "text" => "xxx คะแนน",
+      "size" => "sm",
+      "color" => "#111111",
+      "align" => "end"
+  ];
+
+        return $datas;
     }
 }

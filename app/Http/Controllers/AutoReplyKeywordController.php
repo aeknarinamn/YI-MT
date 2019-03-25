@@ -277,6 +277,7 @@ class AutoReplyKeywordController extends Controller
                 'sent_date'         =>  $autoReplyKeyword->sent_date,
                 'last_sent_date'    =>  $autoReplyKeyword->last_sent_date,
                 "active"            =>  $autoReplyKeyword->active,
+                'is_postback'       =>  $autoReplyKeyword->is_postback,
                 'keywords'          =>  $arrKeywords,
                 "items"             =>  $arr
             );

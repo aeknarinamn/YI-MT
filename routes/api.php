@@ -208,6 +208,8 @@ Route::group(['middleware' => 'cors'], function() {
 	Route::post('segment-export', 'API\v1\TESCOLOTUS\Segment\SegmentController@segmentExportdata');
 	Route::get('get-subscriber-all', 'API\v1\TESCOLOTUS\Segment\SegmentController@getSusbcriberAll');
 	Route::get('get-segment-name', 'API\v1\TESCOLOTUS\Segment\SegmentController@getSegmentName');
+	Route::get('segment-get-beacon', 'API\v1\TESCOLOTUS\Segment\SegmentController@getBeacon');
+	Route::get('get-coupon-name', 'API\v1\TESCOLOTUS\Segment\SegmentController@getCouponName');
 
 	Route::resource('setting-quick-segment', 'API\v1\TESCOLOTUS\Segment\QuickSegmentController');
 	Route::post('setting-quick-segment-upload/{id}', 'API\v1\TESCOLOTUS\Segment\QuickSegmentController@uploadQuickSegment');

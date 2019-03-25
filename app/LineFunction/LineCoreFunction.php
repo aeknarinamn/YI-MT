@@ -9,6 +9,7 @@ use YellowProject\GreetingMessage;
 use YellowProject\LineUserProfile;
 use YellowProject\ChatMain;
 use YellowProject\GeneralFunction\CoreFunction;
+use YellowProject\MT\Customer\Customer;
 use Carbon\Carbon;
 
 class LineCoreFunction extends Model
@@ -109,11 +110,20 @@ class LineCoreFunction extends Model
 	                if($event != "livechat" && $type == 'message'){
 	                	$messageTypeText = $body['events'][0]['message']['type'];
 	                    if($messageTypeText == 'text'){
+	                    	$shop = "";
 	                        $text = $body['events'][0]['message']['text'];
 	                        $checkURL = CoreFunction::checkURL($text);
 	                        if($checkURL){
 	                            $event = 'url';
 	                            LineWebHooks::sentMessageDefaultURL($body, $dateNowStart);
+	                        }else{
+	                        	if($text == 'เปลี่ยนร้านเป็น TOPS'){
+	                        		$shop = "TOPS";
+	                        		$event = "change shop";
+	                        	}else if($text == 'เปลี่ยนร้านเป็น WATSONS'){
+	                        		$shop = "WATSONS";
+	                        		$event = "change shop";
+	                        	}
 	                        }
 	                    }
 	                }
@@ -181,6 +191,9 @@ class LineCoreFunction extends Model
 	                        break;
 	                    case 'postback':
 	                    		
+	                        break;
+	                    case 'change shop':
+	                    		Customer::changeShop($lineUserProfile,$shop);
 	                        break;
 	                    default:
 	                        Log::debug('default Message Event Not Match');

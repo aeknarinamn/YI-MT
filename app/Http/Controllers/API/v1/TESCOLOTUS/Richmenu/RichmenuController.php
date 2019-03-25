@@ -175,13 +175,15 @@ class RichmenuController extends Controller
             }
         }
 
-        if($switch == 1){
-            if($status == 'Active'){
-                CoreFunction::setLinkRichmenu($richmenu);
-            }else{
-                CoreFunction::setUnLinkRichmenu($richmenu);
-            }
+        if($request->selected == 1){
+            CoreFunction::deleteRichmenu($richmenu);
+            CoreFunction::richMessageCreate($richmenu);
+            CoreFunction::setLinkRichmenu($richmenu);
+        }else{
+            CoreFunction::setUnLinkRichmenu($richmenu);
         }
+
+
 
 
         return response()->json([

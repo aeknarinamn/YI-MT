@@ -10,6 +10,9 @@ use YellowProject\MT\Center\Center;
 use YellowProject\MT\Customer\Customer;
 use YellowProject\Subscriber\SubscriberItemData;
 use YellowProject\Http\Controllers\MainController;
+use YellowProject\MT\Shop\Shop;
+use YellowProject\Richmenu\Richmenu;
+use YellowProject\Richmenu\CoreFunction;
 
 class QuestionController extends MainController
 {
@@ -77,6 +80,11 @@ class QuestionController extends MainController
         if ($SubscriberItemData) {
             return redirect()->action($this->ControllerAddCoupon)->with('line_user_id',$lineUserProfile->id);
         }
+
+        $shop = Shop::find(1);
+        $richmenu = Richmenu::find($shop->richmenu_id);
+        CoreFunction::linkRichmenu($richmenu,$lineUserProfile->mid);
+        
     	return view($this->viewPage1)
             ->with('fieldItems',$fieldItems)
             ->with('question2Items',$question2Items)

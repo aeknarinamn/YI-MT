@@ -34,7 +34,8 @@ class AutoReplyKeyword extends Model
         'sent_date',
 		'last_sent_date',
 		'folder_id',
-		'report_tag_id'
+		'report_tag_id',
+        'is_postback'
     ];
 
 

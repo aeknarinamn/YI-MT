@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use YellowProject\MT\Shop\Shop;
 use YellowProject\MT\Customer\Customer;
 use YellowProject\Http\Controllers\MainController;
+use YellowProject\Richmenu\Richmenu;
+use YellowProject\Richmenu\CoreFunction;
 
 class PromotionController extends MainController
 {
@@ -57,6 +59,9 @@ class PromotionController extends MainController
             if (!$UserProfile->activeShop()) {
                 return $this->errorLineLogin();
             }
+
+            $richmenu = Richmenu::find($shop->richmenu_id);
+            CoreFunction::linkRichmenu($richmenu,$lineUserProfile->mid);
 
             return view('mt.promotions.TOPS.first')
             ->with('UserProfile',$UserProfile)

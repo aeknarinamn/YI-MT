@@ -466,4 +466,22 @@ class SegmentController extends Controller
             'datas' => $datas,
         ]);
     }
+
+    public function getBeacon(Request $request)
+    {
+        $datas = Collect();
+
+        return response()->json([
+            'datas' => $datas,
+        ]);
+    }
+
+    public function getCouponName(Request $request)
+    {
+        $datas = Collect();
+
+        return response()->json([
+            'datas' => $datas,
+        ]);
+    }
 }

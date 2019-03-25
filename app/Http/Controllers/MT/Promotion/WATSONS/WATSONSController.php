@@ -11,6 +11,9 @@ use YellowProject\SubscriberLine;
 use YellowProject\SubscriberItem;
 use YellowProject\Subscriber\SubscriberCategory;
 use YellowProject\Subscriber\SubscriberItemData;
+use YellowProject\MT\Shop\Shop;
+use YellowProject\Richmenu\Richmenu;
+use YellowProject\Richmenu\CoreFunction;
 
 class WATSONSController extends Controller
 {
@@ -52,6 +55,10 @@ class WATSONSController extends Controller
     			'line_user_id' => $lineUserProfile->id
     		]);
     	}
+
+        $shop = Shop::find(2);
+        $richmenu = Richmenu::find($shop->richmenu_id);
+        CoreFunction::linkRichmenu($richmenu,$lineUserProfile->mid);
 
     	return view('mt.promotions.WATSONS.question-lotion')
     		->with('subscriber',$subscriber)
@@ -142,6 +149,10 @@ class WATSONSController extends Controller
     		]);
     	}
 
+        $shop = Shop::find(2);
+        $richmenu = Richmenu::find($shop->richmenu_id);
+        CoreFunction::linkRichmenu($richmenu,$lineUserProfile->mid);
+
     	return view('mt.promotions.WATSONS.question-shampoo')
     		->with('subscriber',$subscriber)
     		->with('lineUserId',$lineUserProfile->id);
@@ -224,6 +235,10 @@ class WATSONSController extends Controller
                     ->with('lineUserId',$lineUserProfile->id);
             }
         }
+
+        $shop = Shop::find(2);
+        $richmenu = Richmenu::find($shop->richmenu_id);
+        CoreFunction::linkRichmenu($richmenu,$lineUserProfile->mid);
 
     	return view('mt.promotions.WATSONS.search');
     }

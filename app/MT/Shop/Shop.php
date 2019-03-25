@@ -23,6 +23,7 @@ class Shop extends Model
      */
     protected $fillable = [
     	'name',
+        'richmenu_id'
     ];
 
     public function customers()

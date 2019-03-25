@@ -7,6 +7,8 @@ use YellowProject\MT\Customer\Customer;
 use YellowProject\MT\Customer\CustomerEstamp;
 use YellowProject\Http\Controllers\MainController;
 use YellowProject\MT\Shop\Shop;
+use YellowProject\Richmenu\Richmenu;
+use YellowProject\Richmenu\CoreFunction;
 
 class CustomerEstampController extends MainController
 {
@@ -50,7 +52,7 @@ class CustomerEstampController extends MainController
      public function addStamp()
     {
         $lineUserProfile = \Session::get('line-login', "");
-        $shop = Shop::where('is_active',1)->first();
+        $shop = Shop::find(1);
 
         $UserProfileCheck = Customer::where('line_user_id',$lineUserProfile->id)
             ->where('is_active','1')
@@ -91,6 +93,9 @@ class CustomerEstampController extends MainController
         // ]);
 
         $Customer_Estamp = CustomerEstamp::create($data);
+
+        $richmenu = Richmenu::find($shop->richmenu_id);
+        CoreFunction::linkRichmenu($richmenu,$lineUserProfile->mid);
 
         return redirect()->action($this->PromotionControllerFirst);
         
