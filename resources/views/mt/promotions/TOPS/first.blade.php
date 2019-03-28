@@ -104,13 +104,15 @@
 	</div>
 	
 @endsection
-
+<script src="https://d.line-scdn.net/liff/1.0/sdk.js"></script>
 <script type="text/javascript">
 	function clickProduct(){
 		$('#productModal').modal('show');
 	}
 	function openCamera() {
-        window.location = "line://nv/addFriends";
+		liff.closeWindow();
+		location.replace("line://nv/addFriends");
+        // window.location = "line://nv/addFriends";
     }
 </script>
 
